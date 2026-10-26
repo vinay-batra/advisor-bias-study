@@ -260,21 +260,35 @@ and \texttt{one\_sentence\_reason}. Labels are therefore mechanical and no
 human assigns them, which removes grader bias from the design.
 
 Two schema limits are worth recording for anyone reproducing this. The API
-rejects \texttt{minimum} and \texttt{maximum} on an integer field with an
-HTTP 400, so the stated 0 to 100 bounds are enforced at collection rather
-than by the schema, and an out of range value is flagged and kept rather than
-clamped. The categorical and continuous measures can also disagree, for
-instance \texttt{HOLD} with a non-zero percentage. Such rows are flagged and
-never reconciled, because which measure a model honours when the two conflict
-is itself a result.
+rejects \texttt{minimum} and \texttt{maximum} on a numeric field with an
+HTTP 400, so the stated 0 to 100 bounds are advisory and are checked at
+collection rather than by the schema. A value outside them is flagged and
+never clamped, because clamping would convert a failure to follow the
+instruction into a valid looking extreme answer. It is then dropped from the
+continuous measure, since a number outside 0 to 100 is not a percentage of a
+position and cannot enter a mean of percentages, while the same response's
+categorical answer is retained. The two measures therefore rest on slightly
+different numbers of observations, and both counts are reported. The
+categorical and continuous measures can also disagree, for instance
+\texttt{HOLD} with a non-zero percentage. Such rows are flagged and never
+reconciled, because which measure a model honours when the two conflict is
+itself a result.
 
 \subsection{Statistical analysis}
 The unit of analysis is the matched pair. Trials are averaged within a
 condition, pairs give paired differences, 95\% intervals come from a
 bootstrap over pairs with 10{,}000 resamples, and two sided $p$ values come
-from a sign flipping permutation test with 10{,}000 permutations. Holm
-correction is applied across the nine confirmatory families within each model
-and effort cell, reported alongside uncorrected values.
+from a sign flipping permutation test with 10{,}000 permutations. Both
+dependent variables pass through identical machinery, so the categorical and
+continuous estimates are directly comparable in everything but units.
+
+Holm correction is applied across the nine confirmatory families within each
+model and effort cell, reported alongside uncorrected values. It is applied
+separately to each measure. Adding a second measure doubles the number of
+tests but does not change what a family is, so correcting across both at once
+would penalise a family for the existence of a second measure of the same
+quantity. Flip rate and within-item entropy describe the categorical answer
+and so are reported once per cell.
 
 \section{Results}
 % 1.5-2 pages. Numbers and figures only. No interpretation here.
@@ -300,6 +314,27 @@ and effort cell, reported alongside uncorrected values.
   \includegraphics[width=\linewidth]{../figures/fig2_effort.pdf}
   \caption{Absolute effect against reasoning effort.}
   \label{fig:effort}
+\end{figure}
+
+\subsection{The continuous measure}
+% Same two plots on pct_of_position_to_sell. The question these answer is
+% whether the graded measure moves where the four level one cannot, which is
+% the whole reason Amendment 3 added it.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../figures/fig4_forest_pct.pdf}
+  \caption{Matched pair effects on the continuous co-primary measure, the
+  percentage of the position the model would sell, with 95\% bootstrap
+  intervals.}
+  \label{fig:forestpct}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../figures/fig5_effort_pct.pdf}
+  \caption{Absolute effect on the continuous measure against reasoning
+  effort.}
+  \label{fig:effortpct}
 \end{figure}
 
 \subsection{Response variability}
