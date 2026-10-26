@@ -158,11 +158,41 @@ def entropy(counts):
 
 
 def load_rows():
-    rows = []
+    """Rows on disk, one per custom_id.
+
+    Responses can reach the file by two routes, the batch collector and the
+    live fallback runner, and a cancelled batch can deposit a placeholder row
+    for a request the live runner then answers properly. Both write append
+    only, so the same custom_id can appear more than once. One response per
+    request is what the design assumes and what the pair means are computed
+    from, so duplicates are resolved here rather than trusted not to happen: a
+    usable row wins over an unusable one, and the later of two equals wins.
+    The count is printed, because a duplicate is worth knowing about even when
+    it is harmless.
+    """
+    best, loose, dupes = {}, [], 0
     with open(config.RESPONSES_PATH) as f:
         for line in f:
-            rows.append(json.loads(line))
-    return rows
+            r = json.loads(line)
+            cid = r.get("custom_id")
+            if cid is None:
+                # Nothing to deduplicate against. Kept rather than dropped,
+                # because discarding data over a missing bookkeeping field
+                # would be a worse failure than counting it twice.
+                loose.append(r)
+                continue
+            prev = best.get(cid)
+            if prev is not None:
+                dupes += 1
+                if prev.get("status") == "ok" and r.get("status") != "ok":
+                    continue
+            best[cid] = r
+    if dupes:
+        print(f"  {dupes:,} duplicate custom_ids resolved, "
+              f"usable row preferred")
+    if loose:
+        print(f"  {len(loose):,} rows carry no custom_id, kept as is")
+    return list(best.values()) + loose
 
 
 EFFORT_ORDER = {"low": 0, "medium": 1, "high": 2, "xhigh": 3, "max": 4}
