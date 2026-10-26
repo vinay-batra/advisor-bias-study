@@ -116,6 +116,29 @@ the competing hypothesis.
   effect is bias 30. Reports disposition effect and status-quo bias as the only
   two with a strong negative average, meaning these models preferred change.
   No cost basis, no advisory frame, no reasoning control, no repeated sampling.
+  Appendix B.30 read in full 2026-10-26, and it matters more than the summary
+  above suggests. Their instrument presents two owned assets, one up and one
+  down by a percentage drawn uniformly from [10, 50], asks which the model
+  would rather sell while keeping the other, and **swaps which asset has
+  gained between the control and treatment arms**, scoring a disposition
+  effect only when the preference for selling the winner survives the swap.
+  The response is a 7-point Likert scale, not a binary pick.
+  Two consequences for this paper. First, that swap is exactly the control
+  this paper's rejected two-asset format lacked: a model that names the same
+  position in both arms scores near zero under their design rather than
+  presenting as biased, so the pilot's 24-of-24 artifact is not a fault in
+  their result and must not be written up as one. Second, their strong
+  negative average is therefore not an option-preference artifact either,
+  which makes it real independent support for the sign reversal.
+  What their format cannot do is attach a cost basis to a single position and
+  ask whether to act on it. A relative preference between two assets is not a
+  realisation decision, and the realisation decision is what Shefrin and
+  Statman and Odean measure in humans. That is the gap this design fills, and
+  it is now stated in the paper's rejected-format subsection.
+  Verbatim, p. 8: "Only two of the 30 tested biases, Status-Quo Bias and
+  Disposition Effect, were measured with strong negative direction, on
+  average. On both biases, negative scores express a model's preference for
+  change."
 - `yee2026calibrating`, Yee and Koh, arXiv 2602.01022, revised May 2026. Four
   models, 24,000 agent-scenario pairs, eight behavioural parameters. Finds
   near-zero disposition effect at baseline and shifts it with profile-based
@@ -181,8 +204,8 @@ the competing hypothesis.
 - `bini2026behavioral` Table 1, the full list of sixteen questions, to confirm
   no overlap item by item. The extracted text is at hand; the table did not
   extract cleanly.
-- `malberg2025comprehensive` Appendix B.30, the exact disposition effect
-  prompt, to state precisely how this paper's version differs.
+- ~~`malberg2025comprehensive` Appendix B.30, the exact disposition effect
+  prompt.~~ Closed 2026-10-26, read in full. See the expanded entry above.
 - ~~arXiv 2609.15727 in full, for the hold-over-sell baseline.~~ Closed
   2026-10-26: the paper does not contain that result. See the corrected entry
   above.
