@@ -43,22 +43,38 @@ we give a distributional protocol in its place.
 \end{abstract}
 
 \section{Introduction}
-% ~1 page. Funnel structure. Keep the funnel; the framing below is settled.
-% 1. Broad context: LLMs now sit inside consumer financial tools.
-% 2. Established: these models carry measurable behavioural bias. CITE
-%    hagendorff2023intuitive, malberg2025comprehensive, bini2026behavioral.
-%    Do NOT claim to discover this. It is the premise, not the finding.
-% 3. The live question: can deliberation remove it? The literature disagrees.
-%    takenami2025anchoring says reasoning models anchor less.
-%    kim2025biasmedqa says reasoning does not protect and sometimes worsens.
-%    hu2026effort says effort is a ceiling on generation, not a dial.
-%    bini2026behavioral says self-reported analytical reasoning raises
-%    rational responses by about 40 percent.
-% 4. The gap, stated precisely: every one of those either compares different
-%    models or uses the model's own account of its reasoning. The reasoning
-%    budget itself has not been manipulated against a behavioural finance
-%    bias. That is this paper.
-% 5. One line previewing the headline number.
+Language models now sit inside the tools through which ordinary people make
+financial decisions, and they are increasingly asked not for a price or a
+definition but for a recommendation about a position someone already holds.
+
+That these models carry measurable behavioural bias is established, and this
+paper takes it as the premise rather than the finding.
+\citet{hagendorff2023intuitive} show the intuitive failures that
+characterise human dual-process reasoning reproduced in language models,
+\citet{malberg2025comprehensive} find evidence of thirty cognitive biases
+across twenty models, and \citet{bini2026behavioral} report that responses
+to preference-based questions become less rational, not more, as models grow
+more advanced.
+
+The live question is whether deliberation removes any of it, and the
+literature disagrees. \citet{takenami2025anchoring} find reasoning models
+less prone to anchoring. \citet{kim2025biasmedqa} find that reasoning does
+not protect against bias in clinical vignettes and in one model made it
+worse. \citet{hu2026effort} find that the effort parameter sets a ceiling on
+generation rather than driving how reasoning is allocated, and report Bayes
+factors favouring the null. \citet{piya2026overthinking} find accuracy
+falling at medium effort, worst on the items where human annotators
+disagreed. And \citet{bini2026behavioral} report that an indicator for
+analytical reasoning raises rational responses by 40\%.
+
+Every one of those either compares different models, so that capability and
+deliberation move together, or measures something other than a decision, or
+relies on the model's own account of its reasoning. The reasoning budget has
+not been manipulated as a treatment against a behavioural finance bias. That
+is this paper.
+
+% OPEN: one line previewing the headline number goes here once the
+% confirmatory run is complete.
 
 The identification problem in prior work is worth stating precisely.
 \citet{bini2026behavioral} report that an indicator for self-reported
@@ -91,8 +107,12 @@ Our contributions are:
 
 \section{Related Work}
 % ~1 page, three subsections. Every paragraph ends on why that work does not
-% answer this question. LITERATURE.md has the full search record; the four
-% items listed at the end of it must be read before this section is final.
+% answer this question. LITERATURE.md has the full search record. Of the four
+% items it listed as unread, three are now closed: Bini Table 1 and Malberg
+% B.30 were read in full on 2026-10-26 and the SSRN sweep was run. Two full
+% texts remain unobtainable, piya2026overthinking behind SSRN bot detection
+% and chon2025variability behind a paywall, and no finding of either is
+% relied on here.
 
 \subsection{Behavioural biases in human investors}
 The biases this paper tests are not hypotheses about language models. They
