@@ -81,9 +81,21 @@ one that is.
    faults including an arithmetic error that would have invalidated H1. See
    Amendment 2. Re-read them whenever the generator changes:
    `python battery/build.py` then compare the two arms of each pair.
-4. Run the self test.
-5. Run the pilot on one bias. Confirm the effect is visible or absent.
-6. Only then submit the full batch.
+4. Run the self test. Done, passes, and it recovers planted effects.
+5. Run the pilot on one bias. Confirm the effect is visible or absent. Done,
+   and it is the reason this study exists in its current form. The pilot found
+   that 93% of responses were `HOLD`, so the dependent variable had no
+   variance and nothing could be measured. Diagnosing that took four rounds of
+   cheap probing and cost about $4. See Amendment 3.
+6. Screen every family at `low` effort before committing to the full grid.
+   Bias is largest where effort is lowest, so a family that shows nothing in
+   the screen will show nothing at `high`. Done, $1.53, and it found one
+   substantial effect out of nine.
+7. Only then submit the full batch.
+
+If the pilot comes back flat, do not conclude there is no bias. Check first
+that the dependent variable can move at all. A measure that never changes
+looks exactly like a model that is never biased.
 
 ## State
 
@@ -94,10 +106,33 @@ one that is.
 | Every citation verified by DOI against Crossref | done, 2 were wrong |
 | Prompt battery built and hand-checked | done, 6 faults fixed |
 | Analysis validated against planted effects | done, passes |
-| Cost estimated without a key | done, about $56 at batch pricing |
-| API key in `.env` | **blocked, needs you** |
-| Pilot, estimate, submit, collect, analyse | waiting on the key |
+| API key in `.env` | done, chmod 600, gitignored |
+| Pilot | done, found the dependent variable was at ceiling |
+| Stimulus redesign, decision pressure added | done, Amendment 3 |
+| Screening run, all nine families at low effort | done, $1.53 |
+| Cost re-estimated from measured tokens | done, $23.56 batch, not $56 |
+| Confirmatory batch submitted, 9,720 requests | done, 9 batches |
+| Collect, analyse, figures | running |
 | Four follow-up reads listed at the end of `LITERATURE.md` | not started |
+| Rotate the API key | **do this when the run is finished** |
+
+### What the pilot and the screen found
+
+The dependent variable had to be rebuilt before anything could be measured.
+With decision pressure in place, one family of nine shows a substantial
+effect, and it has the opposite sign to the human literature: the model is
+markedly more willing to sell at a loss, not less. On that family the effect
+shrinks as reasoning effort rises, steeply in the weakest model and not at
+all in the strongest, which is the paper's headline.
+
+| disposition, continuous measure | low | medium | high |
+|---|---|---|---|
+| `claude-opus-5-5` | -1.2 | +1.5 | +0.6 |
+| `claude-sonnet-5-5` | +15.8 | +17.9 | +9.2 |
+| `claude-haiku-5-5` | +39.2 | +19.8 | +7.1 |
+
+These are pilot numbers on 24 items at 2 trials. They are held in
+`data/pilot/` and are never pooled with the confirmatory run.
 
 ## Building the paper
 

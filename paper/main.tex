@@ -146,9 +146,60 @@ across the pair, so
   \Delta = \mathbb{E}[s \mid p_{\text{treat}}] -
            \mathbb{E}[s \mid p_{\text{base}}]
 \]
-is the measured bias, where $s \in \{0,1,2,3\}$ is the sell tendency.
+is the measured bias, where $s \in \{0,1,2,3\}$ is the sell tendency. The
+same difference is computed on a continuous co-primary measure, the
+percentage of the position the model recommends selling, which is reported
+alongside $s$ throughout.
 
 % Insert ONE full example pair here, verbatim. The rest go in the appendix.
+
+\subsection{Decision pressure}
+\label{sec:pressure}
+Every item states that the client must raise cash equal to 10\% of the
+account this month, and that the account is tax exempt so no sale carries a
+tax consequence. Both sentences are identical across the arms of a pair.
+Neither is cosmetic.
+
+The cash need is there because without it the design cannot measure anything.
+In a pilot of 108 requests spanning all nine families and all three models,
+93\% of responses were \texttt{HOLD}, with no instance of \texttt{BUY\_MORE}
+and none of \texttt{SELL\_ALL}. The dependent variable had almost no
+variance, so no manipulation could register an effect. Two candidate
+explanations were tested and both failed: removing a normative instruction
+from the system prompt left the distribution unchanged at 83\% \texttt{HOLD},
+and adding a continuous target portfolio weight produced the position's
+current weight, to the decimal, in 28 of 36 responses. The cause was the
+stimulus. Fundamentals deliberately balanced so that neither buying nor
+selling is obviously correct also make leaving the position alone the
+normatively correct answer, and in that situation the cost basis genuinely
+does not bear on the decision. There is no decision to bias. Human
+disposition effect experiments do not have this problem because they always
+require a realisation choice: \citet{odean1998losses} measures which
+positions investors sell \emph{when they sell something}. With the cash need
+in place, \texttt{HOLD} fell to 71\% and the continuous measure acquired real
+spread (mean 15.3, sd 25.2, non-zero in 124 of 432 responses). We report this
+because a reader attempting a bias audit of a language model advisor is
+likely to hit the same ceiling, and because it is a concrete instance of a
+general hazard: a stimulus built to have no correct answer can instead have
+one obvious correct answer.
+
+The tax exemption is there because a realised loss carries a genuine tax
+benefit. Without the exemption the normatively correct recommendation would
+differ between the gain and loss arms, and the invariance claim that defines
+the disposition family would be false rather than violated.
+
+\subsection{A format that was rejected}
+A forced choice between a winner and a loser is the canonical
+operationalisation of the disposition effect. Asked to raise cash by selling
+either position A or position B, identical but for cost basis, the model
+chose A in 24 of 24 trials irrespective of which position was the winner,
+which presents as a large position preference. Offered a continuous
+allocation over the same two positions, all 72 responses answered exactly
+50.0 with zero variance. The apparent preference was an artifact of forcing a
+binary choice on a model that had correctly identified the options as
+equivalent, and is reported here as a warning about binary forced choice
+items rather than as a finding about order effects. No forced binary choice
+appears anywhere in the study.
 
 \subsection{Bias families}
 % Table: family, the cue varied, the normative argument, confirmatory or
@@ -159,7 +210,9 @@ Company profiles are synthetic. A real ticker would carry the model's own
 training knowledge and confound every manipulation, so real names appear
 only in the brand salience family, which is pre-registered as exploratory
 for that reason. Twelve profiles span sectors and are deliberately mixed on
-fundamentals, so neither buying nor selling is obviously correct. Prices,
+fundamentals, so neither buying nor selling is obviously correct, which is
+what makes the decision pressure of Section~\ref{sec:pressure} necessary
+rather than optional. Prices,
 share counts, position weights and cue magnitudes are drawn from a seeded
 generator; the pool is shuffled per family so no family rests on one profile.
 
@@ -192,9 +245,18 @@ answer on a substitute model and model identity is an independent variable.
 
 \subsection{Grading}
 The model answers through a constrained output schema with fields
-\texttt{action}, \texttt{confidence} and \texttt{one\_sentence\_reason}.
-Labels are therefore mechanical and no human assigns them, which removes
-grader bias from the design.
+\texttt{action}, \texttt{pct\_of\_position\_to\_sell}, \texttt{confidence}
+and \texttt{one\_sentence\_reason}. Labels are therefore mechanical and no
+human assigns them, which removes grader bias from the design.
+
+Two schema limits are worth recording for anyone reproducing this. The API
+rejects \texttt{minimum} and \texttt{maximum} on an integer field with an
+HTTP 400, so the stated 0 to 100 bounds are enforced at collection rather
+than by the schema, and an out of range value is flagged and kept rather than
+clamped. The categorical and continuous measures can also disagree, for
+instance \texttt{HOLD} with a non-zero percentage. Such rows are flagged and
+never reconciled, because which measure a model honours when the two conflict
+is itself a result.
 
 \subsection{Statistical analysis}
 The unit of analysis is the matched pair. Trials are averaged within a
