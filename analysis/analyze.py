@@ -30,6 +30,21 @@ N_BOOT = 10000
 N_PERM = 10000
 SEED = 7
 
+# Floating point noise is not a small problem here, because the decision rule
+# is whether an interval excludes zero. The paired differences are means of
+# small integers over trials, and values like 0.2 have no exact binary
+# representation, so sums that should cancel to zero land on 3.7e-17 instead.
+# An interval bound of 3.7e-17 excludes zero arithmetically and would be read
+# as a non-zero effect. Anything this small is zero: the smallest difference
+# the instrument can produce is one scale point divided by the trial count,
+# which is seven orders of magnitude larger.
+ZERO_TOL = 1e-9
+
+
+def snap(x):
+    """Collapse floating point noise around zero to exactly zero."""
+    return 0.0 if abs(x) < ZERO_TOL else x
+
 try:
     import numpy as _np
 except ImportError:
@@ -42,6 +57,24 @@ def mean(xs):
     return sum(xs) / len(xs) if xs else float("nan")
 
 
+def _percentile(ordered, q):
+    """Empirical quantile of a sorted sequence, without interpolation.
+
+    Interpolating between order statistics is wrong for this data. The paired
+    differences are discrete, so the bootstrap distribution of their mean has
+    heavy ties, often at exactly zero. Linear interpolation between a zero
+    order statistic and the next one up returns a strictly positive bound,
+    and since an effect is called non-zero when the interval excludes zero,
+    that turns an interpolation artifact into a significance claim. Taking
+    the order statistic itself reports the bound the resamples actually
+    support. Both code paths below use this, so the numpy and pure Python
+    branches return identical intervals rather than merely similar ones.
+    """
+    k = len(ordered)
+    i = min(k - 1, max(0, math.ceil(q * k) - 1))
+    return snap(float(ordered[i]))
+
+
 def bootstrap_ci(diffs, n=N_BOOT, alpha=0.05):
     """Percentile bootstrap over the matched pairs."""
     if not diffs:
@@ -50,12 +83,12 @@ def bootstrap_ci(diffs, n=N_BOOT, alpha=0.05):
     if _np is not None:
         rng = _np.random.default_rng(SEED)
         d = _np.asarray(diffs, dtype=float)
-        means = d[rng.integers(0, k, size=(n, k))].mean(axis=1)
-        return (float(_np.quantile(means, alpha / 2)),
-                float(_np.quantile(means, 1 - alpha / 2)))
-    means = sorted(mean([diffs[RNG.randrange(k)] for _ in range(k)])
-                   for _ in range(n))
-    return (means[int(alpha / 2 * n)], means[int((1 - alpha / 2) * n)])
+        means = _np.sort(d[rng.integers(0, k, size=(n, k))].mean(axis=1))
+    else:
+        means = sorted(mean([diffs[RNG.randrange(k)] for _ in range(k)])
+                       for _ in range(n))
+    return (_percentile(means, alpha / 2),
+            _percentile(means, 1 - alpha / 2))
 
 
 def permutation_p(diffs, n=N_PERM):
@@ -245,20 +278,22 @@ def main():
                     if not diffs:
                         continue
                     lo, hi = bootstrap_ci(diffs)
+                    eff = snap(mean(diffs))
+                    nz = sum(1 for d in diffs if abs(d) >= ZERO_TOL)
                     results.append(dict(
                         measure=mname,
                         model=model, effort=effort, bias=bias,
                         baseline=base_c, treatment=treat_c, predicted=pred,
-                        n_pairs=len(diffs),
-                        effect=mean(diffs), ci_low=lo, ci_high=hi,
+                        n_pairs=len(diffs), n_nonzero=nz,
+                        effect=eff, ci_low=lo, ci_high=hi,
                         p_value=permutation_p(diffs),
                         flip_rate=mean(flips),
                         mean_entropy=mean(ents),
                         significant=not (lo <= 0 <= hi),
                         matches_prediction=(
                             pred == "?" or
-                            (pred == "+" and mean(diffs) > 0) or
-                            (pred == "-" and mean(diffs) < 0)),
+                            (pred == "+" and eff > 0) or
+                            (pred == "-" and eff < 0)),
                     ))
 
     # Holm within each model and effort cell, across the bias families, and
@@ -283,16 +318,26 @@ def main():
         print(f"\n== {mname} "
               f"({'pre-registered primary' if mname == 'sell_tendency' else 'continuous co-primary, Amendment 3'})")
         print(f"{'model':18s} {'effort':7s} {'bias':20s} {'effect':>8s} "
-              f"{'95% CI':>18s} {'p':>7s} {'p_holm':>7s} {'flip':>6s} "
-              f"{'ci':>3s} {'holm':>4s}")
+              f"{'95% CI':>20s} {'p':>7s} {'p_holm':>7s} {'nz':>4s} "
+              f"{'flip':>6s} {'ci':>3s} {'holm':>4s}")
         for r in sub:
             print(f"{r['model'].replace('claude-',''):18s} {r['effort']:7s} "
                   f"{r['bias']:20s} {r['effect']:+8.3f} "
-                  f"[{r['ci_low']:+7.2f},{r['ci_high']:+7.2f}] "
+                  f"[{r['ci_low']:+8.3f},{r['ci_high']:+8.3f}] "
                   f"{r['p_value']:7.4f} {r['p_holm']:7.4f} "
+                  f"{r['n_nonzero']:2d}/{r['n_pairs']:<2d} "
                   f"{r['flip_rate']:6.2f} "
                   f"{('yes' if r['significant'] else ''):>3s} "
                   f"{('yes' if r['significant_holm'] else ''):>4s}")
+        # The sign flipping test can only take as many distinct values as the
+        # non-zero pairs allow. One moving pair gives p = 1 whatever the
+        # effect size, because flipping its sign leaves the absolute mean
+        # unchanged. Said out loud so the granularity is not read as a bug.
+        thin = [r for r in sub if r["n_nonzero"] <= 2]
+        if thin:
+            print(f"  note: {len(thin)} of {len(sub)} cells have 2 or fewer "
+                  f"pairs with a non-zero difference, so their permutation "
+                  f"p values are coarse by construction")
 
     print("\nH10. Does more reasoning reduce bias? |effect| by effort.")
     print("Sign agnostic by construction: H10 is a claim about magnitude.")

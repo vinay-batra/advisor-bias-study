@@ -334,3 +334,40 @@ Both rules were tested on synthetic data with planted effects before the
 confirmatory data arrived: a known effect is recovered on both measures, a
 null family stays null after correction, and an out of range value is kept out
 of the continuous mean while its categorical answer is retained.
+
+**3. The interval bound convention, and what counts as zero.** The registered
+decision rule is that an effect is called non-zero when the 95% bootstrap
+interval excludes zero. Running the analysis on the first cells to land showed
+that the rule was being decided by arithmetic rather than by data, in two
+ways, and both are fixed before the full dataset is read.
+
+First, `numpy.quantile` interpolates linearly between order statistics. The
+paired differences are discrete, so the bootstrap distribution of their mean
+has heavy ties at exactly zero, and interpolating between a zero order
+statistic and the next one up returns a strictly positive lower bound. The
+bootstrap now takes the order statistic itself, with no interpolation, which
+is also what the pure Python fallback path does, so the two paths agree by
+construction rather than by coincidence.
+
+Second, the differences are means of small integers and 0.2 has no exact
+binary representation, so sums that should cancel to zero land on values like
+3.7e-17. On the categorical measure at `high` effort, the disposition family's
+lower bound was exactly that, and the effect was being called non-zero on the
+strength of floating point error. Bounds and effects within 1e-9 of zero are
+now snapped to zero. The smallest difference the instrument can produce is one
+scale point divided by the trial count, about 0.017, so the tolerance cannot
+absorb a real effect.
+
+The second fix changes a headline call: on the categorical measure the
+disposition effect is non-zero at `low` and `medium` and not at `high`, where
+the interval runs from exactly zero. The continuous measure still detects a
+smaller effect at `high`. That divergence is reported, not reconciled, and it
+is the clearest case for why Amendment 3 added a graded measure: the four
+level scale stops resolving an effect that the percentage still sees.
+
+**4. Non-zero pair counts are reported.** The sign flipping test can take only
+as many distinct values as the pairs that moved allow. A family where one pair
+has a non-zero difference returns p = 1 whatever the effect size, because
+flipping that pair's sign leaves the absolute mean unchanged. `n_nonzero` is
+recorded on every row so the granularity of a p value is auditable, and the
+registered decision rule remains the interval, not the p value.
