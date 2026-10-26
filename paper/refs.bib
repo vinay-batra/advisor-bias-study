@@ -173,15 +173,29 @@
 }
 
 % ------------------------------------- behavioural bias in current models
-@unpublished{bini2026behavioral,
+@techreport{bini2026behavioral,
   % The closest prior work to this paper, and the one it is positioned
-  % against. Working paper, first draft January 2025, this draft January 2026.
-  % Authors are at Boston University Questrom, Cornell SC Johnson and NBER.
-  author = {Bini, Pietro and Cong, Lin William and Huang, Xing and
-            Jin, Lawrence J.},
-  title  = {Behavioral Economics of {AI}: {LLM} Biases and Corrections},
-  note   = {Working paper, January 2026},
-  year   = {2026},
+  % against. Was an @unpublished entry with no locator, which a reviewer
+  % could not have followed.
+  author      = {Bini, Pietro and Cong, Lin William and Huang, Xing and
+                 Jin, Lawrence J.},
+  title       = {Behavioral Economics of {AI}: {LLM} Biases and Corrections},
+  institution = {National Bureau of Economic Research},
+  type        = {Working Paper},
+  number      = {34745},
+  year        = {2026},
+  month       = jan,
+  doi         = {10.3386/w34745},
+  eprint      = {2602.09362},
+  archivePrefix = {arXiv},
+  note        = {Verified 2026-10-26. NBER Working Paper 34745, issued
+                 January 2026, also arXiv:2602.09362 submitted 10 February
+                 2026, with an earlier version listed at NeurIPS 2025 and a
+                 first draft in January 2025. Not peer reviewed, per the NBER
+                 working paper notice. Reports that bias corrections work by
+                 prompting, with an expected utility framing most effective,
+                 which is a prompt level intervention and not the parameter
+                 level manipulation studied here.},
 }
 
 @inproceedings{takenami2025anchoring,
@@ -214,6 +228,12 @@
   journal = {arXiv preprint arXiv:2602.01022},
   year    = {2026},
   doi     = {10.48550/arXiv.2602.01022},
+  note    = {Verified against the arXiv abstract page 2026-10-26. Submitted
+             1 February 2026, current version v3 revised 8 May 2026, with a
+             withdrawn v2. Treats language models as measurement instruments
+             for loss aversion, herding and extrapolation, and reports
+             near-zero disposition effects relative to human benchmarks,
+             which is independent support for the sign reversal found here.},
 }
 
 @article{hu2026effort,
@@ -225,6 +245,14 @@
   journal = {arXiv preprint arXiv:2605.16938},
   year    = {2026},
   doi     = {10.48550/arXiv.2605.16938},
+  note    = {Verified against the arXiv abstract page 2026-10-26. Submitted
+             to cs.CL on 16 May 2026. Tests GPT-OSS-20B and GPT-OSS-120B at
+             three effort levels on six reasoning tasks, so it shares this
+             paper's manipulation but not its models or its domain, and it
+             measures alignment between generation length and human reaction
+             times rather than the content of a decision. Its manipulation
+             check concludes that effort caps how much a model can generate
+             rather than how it allocates reasoning.},
 }
 
 @article{kim2025biasmedqa,
@@ -238,19 +266,7 @@
   doi     = {10.1101/2025.06.22.25330078},
 }
 
-@inproceedings{lee2025aiview,
-  author    = {Lee, Hoyoung and Seo, Junhyuk and Park, Suhwan and Lee, Junhyeong
-               and Ahn, Wonbin and Choi, Chanyeol and
-               Lopez-Lira, Alejandro and Lee, Yongjae},
-  title     = {Your {AI}, Not Your View: The Bias of {LLMs} in Investment
-               Analysis},
-  booktitle = {Proceedings of the 6th ACM International Conference on AI in
-               Finance (ICAIF)},
-  year      = {2025},
-  doi       = {10.48550/arXiv.2507.20957},
-}
-
-@misc{lee2025yourai,
+@inproceedings{lee2025yourai,
   author       = {Lee, Hoyoung and Seo, Junhyuk and Park, Suhwan and Lee,
                   Junhyeong and Ahn, Wonbin and Choi, Chanyeol and
                   Lopez-Lira, Alejandro and Lee, Yongjae},
@@ -260,8 +276,16 @@
   eprint       = {2507.20957},
   archivePrefix= {arXiv},
   primaryClass = {q-fin.PM},
+  booktitle    = {Proceedings of the ACM International Conference on AI in
+                  Finance (ICAIF)},
   note         = {Verified against the arXiv abstract page 2026-10-26.
-                  Submitted 28 July 2025. Six models, 427 S\&P 500 stocks,
-                  10 repetitions at temperature 0.6. Its own limitations
-                  section states the design is weak for reasoning models.},
+                  Submitted 28 July 2025. The Comments line reads
+                  ``Accepted at ACM International Conference on AI in Finance
+                  (ICAIF)''; the page carries no journal reference and no
+                  venue DOI, so no volume, ordinal or page range is claimed
+                  here. Six models, 427 S\&P 500 stocks, 10 repetitions at
+                  temperature 0.6. Its own limitations section states the
+                  design is weak for reasoning models. Previously duplicated
+                  in this file as lee2025aiview, which asserted a sixth ICAIF
+                  and a venue DOI that the record does not support.},
 }
