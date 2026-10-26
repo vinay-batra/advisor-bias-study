@@ -120,6 +120,13 @@ Our contributions are:
 % stated cost basis, no advisory frame, and no control over reasoning.
 
 \subsection{Deliberation and debiasing}
+% The strongest version of the motivation is that a 2025 paper measuring bias
+% in LLM investment analysis states in its own limitations that its design is
+% weak for reasoning models. Quote or paraphrase that admission here: the gap
+% this paper fills is one the adjacent literature has already named.
+% \citet{lee2025yourai} measure sector, size, momentum and confirmation bias
+% across six models at temperature 0.6, with a buy-or-sell action set and no
+% effort manipulation.
 % The disagreement this paper addresses, laid out as a disagreement.
 % takenami2025anchoring: reasoning models less prone to anchoring, attributed
 % to long chain of thought; compares models, does not vary effort.
@@ -227,7 +234,8 @@ measurement protocol used throughout this literature.
 \citet{bini2026behavioral} set temperature to 0.5, top-$k$ to 50 and top-$p$
 to 0.9, and devote a methodological footnote to how temperature reshapes the
 token distribution; \citet{malberg2025comprehensive} run at temperature 0.0
-with a single sample per test case. Neither protocol can be executed on the
+with a single sample per test case; \citet{lee2025yourai} run ten repetitions
+per stock at temperature 0.6. None of these protocols can be executed on the
 models now in deployment.
 
 Determinism therefore cannot be pinned, and single-sample designs are no
@@ -238,7 +246,9 @@ distribution with a percentile bootstrap interval over matched pairs. We
 treat the within-item Shannon entropy across repeated identical prompts as a
 result in its own right rather than as noise to be suppressed, because it
 distinguishes a model that has become less biased from one that has become
-more confident in the same recommendation.
+more confident in the same recommendation. \citet{lee2025yourai} likewise
+report response entropy, though for two models and without an effort
+manipulation.
 
 Server-side refusal fallbacks are not enabled, because a fallback would
 answer on a substitute model and model identity is an independent variable.

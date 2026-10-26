@@ -142,10 +142,35 @@ the competing hypothesis.
   modulate in-context reasoning. Multi-turn, no finance, no effort control.
 - arXiv 2602.14233, evaluating LLMs in finance. Argues finance-specific biases
   contaminate benchmarks. Useful for the limitations section, not a competitor.
-- arXiv 2609.15727, LLMs as financial user simulators. Reports that models
-  systematically overpredict hold and underpredict sell. Directly relevant to
-  the action bias family and to interpreting the baseline sell tendency; find
-  and read the full version before writing Results.
+- arXiv 2609.15727, He, Hong, Chen, Ni and Liu, "Are LLMs Good Financial User
+  Simulators? Multi-view Investor Logic Alignment", 14 Sep 2026. **Corrected
+  2026-10-26.** An earlier version of this file recorded that this paper
+  reports models overpredicting hold and underpredicting sell. It does not.
+  It predicts individual users' next-day trades in an 80-participant paper
+  trading study, 1,239 aligned user-days, and has no hold category at all.
+  Its finding is that no evaluated model beat a recent-activity persistence
+  baseline. Not a competitor and not a source for the hold baseline. The
+  mistake is kept visible here because the claim had already been used in
+  conversation before it was checked.
+- arXiv 2507.20957, Lee, Seo, Park, Lee, Ahn, Choi, Lopez-Lira and Lee, "Your
+  AI, Not Your View: The Bias of LLMs in Investment Analysis", 28 Jul 2025.
+  The closest neighbour found so far. Six models, 427 S&P 500 stocks, 3,416
+  evidence items, 10 repetitions per stock at temperature 0.6. Measures sector
+  preference, market-cap preference, momentum versus contrarian preference,
+  and confirmation bias as a flip rate under counter-evidence. Three reasons
+  it does not overlap:
+  1. It does not manipulate reasoning effort, thinking budget or deliberation
+     anywhere, and its own limitations section says the design is weak for
+     reasoning models. That is the gap this paper fills, stated by a recent
+     paper in the same area, which is worth quoting in the introduction.
+  2. It tests neither the disposition effect nor cost basis.
+  3. Its action set is buy or sell with no hold, so it cannot observe the
+     ceiling documented in Amendment 3.
+  Two further uses. It is a third named instance of the now-unexecutable
+  fixed-temperature protocol, alongside Bini et al. at 0.5 and Malberg et al.
+  at 0.0, which strengthens the methodological contribution. And it reports
+  response entropy for two models, so it is the right citation for the
+  within-item entropy measure.
 - arXiv 2503.08750, product bias in LLM investment recommendation. Reports
   persistent preferences for specific tickers such as AAPL and MSFT. This is
   the published justification for using synthetic companies in the
@@ -158,6 +183,30 @@ the competing hypothesis.
   extract cleanly.
 - `malberg2025comprehensive` Appendix B.30, the exact disposition effect
   prompt, to state precisely how this paper's version differs.
-- arXiv 2609.15727 in full, for the hold-over-sell baseline.
+- ~~arXiv 2609.15727 in full, for the hold-over-sell baseline.~~ Closed
+  2026-10-26: the paper does not contain that result. See the corrected entry
+  above.
+- Finance Research Letters, "Multifaceted variability in LLM-driven stock
+  recommendations", doi prefix S1544612325021762 on ScienceDirect. Paywalled,
+  HTTP 403. Relevant to the repeated-sampling argument. Get it through a
+  library or find the preprint.
 - A targeted SSRN sweep for working papers from the last four months. Scholar
   and arXiv do not index SSRN reliably and finance work appears there first.
+
+## The hold ceiling appears to be unreported
+
+A targeted search for prior work documenting a hold default, an inaction bias,
+or a degenerate recommendation distribution in language model investment advice
+returned nothing that measures it. The nearest results are a large-cap tilt, a
+product preference for specific tickers (arXiv 2503.08750), recommendation
+variability across identical prompts, and confirmation bias. None of them
+reports the distribution of buy, hold and sell recommendations, and the two
+closest papers (arXiv 2507.20957 and the forced-choice portion of this study's
+own pilot) restrict the action set to buy or sell, which makes the ceiling
+unobservable by construction.
+
+So the finding in Amendment 3, that 93% of advisory recommendations are hold
+when the scenario carries no decision pressure, and that this floors any
+matched-pair bias measurement, is original rather than a replication. It
+belongs in the paper as a methodological result, not as a footnote. The search
+is recorded here so the claim of novelty is auditable.
