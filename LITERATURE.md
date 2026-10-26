@@ -101,13 +101,28 @@ has tested it with the reasoning budget as the treatment.
 | `bini2026behavioral` | self-reported reasoning type as mediator | analytical self-report, +40% rational |
 | `kim2025biasmedqa` | reasoning models on clinical vignettes | reasoning does not protect, sometimes worse |
 | `hu2026effort` | three effort levels, GPT-OSS 20B and 120B | effort is a ceiling on generation, not a dial; Bayes factors favour the null |
+| `piya2026overthinking` | three effort levels, three models, subjective classification | accuracy falls at medium effort, worst where annotators disagreed |
 | arXiv 2505.15392 | anchoring mitigations | conventional mitigation fails, reasoning helps somewhat |
 
 The first two compare different models, or compare a model to its own account
-of itself. Only `hu2026effort` manipulates effort directly, and it finds
-nothing, on reasoning-time alignment rather than on bias. H10 is therefore a
-real test with a real chance of a null, and `hu2026effort` is pre-registered as
-the competing hypothesis.
+of itself. Two papers manipulate effort directly, and the claim that
+`hu2026effort` was the only one was wrong: an SSRN sweep on 2026-10-26 turned
+up `piya2026overthinking` as well. Both measure something other than bias,
+`hu2026effort` on reasoning-time alignment and `piya2026overthinking` on
+classification accuracy, so H10 remains a real test with a real chance of a
+null, and `hu2026effort` stays the pre-registered competing hypothesis.
+
+`piya2026overthinking` is worth more attention than its domain suggests,
+because its result is a third possible shape and not a second. It reports
+accuracy falling at **medium** effort rather than monotonically, and the fall
+being worst on the items where the three human annotators disagreed most.
+This design's stimuli are built so that neither buying nor selling is
+obviously correct, which is the same condition, and the pilot's Sonnet cells
+already peak at medium on both measures rather than falling monotonically.
+That observation predates this find, so it is not a post hoc reading of the
+confirmatory data, and H10 is left exactly as registered: it predicts only
+that the absolute effect at `high` is smaller than at `low`, which a bump at
+medium does not contradict. The full effort profile gets reported either way.
 
 ## Everything else found, and why it does not overlap
 
@@ -201,6 +216,15 @@ the competing hypothesis.
 
 ## Still to read before Related Work is final
 
+- `piya2026overthinking`, SSRN 7331298, in full. Found 2026-10-26 in the SSRN
+  sweep, and only its listing and abstract have been read, because SSRN is
+  behind bot detection and that is not something to work around. It matters
+  because it is the second paper to manipulate effort exogenously at three
+  levels and it reports a non-monotonic result, a medium-effort dip that is
+  worst on ambiguous items. Nothing in the paper relies on its numbers. Get
+  the full text through a library before the non-monotonicity discussion in
+  Results is written.
+
 - ~~`bini2026behavioral` Table 1, the full list of sixteen questions, to
   confirm no overlap item by item.~~ Closed 2026-10-26, read in full. Their
   sixteen, verbatim from Table 1. Panel A, preferences: prospect theory
@@ -252,9 +276,20 @@ the competing hypothesis.
   2026-10-26: the paper does not contain that result. See the corrected entry
   above.
 - Finance Research Letters, "Multifaceted variability in LLM-driven stock
-  recommendations", doi prefix S1544612325021762 on ScienceDirect. Paywalled,
-  HTTP 403. Relevant to the repeated-sampling argument. Get it through a
-  library or find the preprint.
+  recommendations". Partly closed 2026-10-26, and it should stay open.
+  The record is now verified against Crossref: Chon, Kim and Kim, Finance
+  Research Letters 86, 108923, December 2025, doi 10.1016/j.frl.2025.108923,
+  with an SSRN preprint at doi 10.2139/ssrn.5350936 posted 14 Jul 2025. It is
+  in `refs.bib` as `chon2025variability`.
+  The full text is still not in hand. ScienceDirect returns HTTP 403 and
+  SSRN sits behind bot detection, which is not something to work around. A
+  web search reports that they separate variability from repeated identical
+  queries, from rephrased queries and from system prompt changes, and find
+  repetition produces the largest differences in selected stocks. That would
+  be direct support for the repeated-sampling argument, but it is secondhand
+  from an abstract, so the paper cites this entry only for the existence of
+  the question and relies on none of its findings. Get the full text through
+  a library before any claim of theirs enters the text.
 - A targeted SSRN sweep for working papers from the last four months. Scholar
   and arXiv do not index SSRN reliably and finance work appears there first.
 

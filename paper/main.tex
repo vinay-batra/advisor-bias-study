@@ -192,15 +192,23 @@ removes that identification problem. The treatment is assigned rather than
 reported, it is graded rather than binary, and it is invisible to the model's
 own account of itself.
 
-\citet{hu2026effort} are the only prior work found that manipulates the
-effort parameter itself, at three levels on GPT-OSS-20B and GPT-OSS-120B, and
-they conclude it sets an upper budget on generation rather than driving how
-reasoning is allocated, with alignment invariant across levels and Bayes
-factors favouring the null. Their outcome is the alignment between generation
-length and human reaction times over six reasoning tasks, not whether a
-decision changes, so their finding and this paper's question are compatible:
-their result is pre-registered here as the competing hypothesis H10-null
-precisely because it is the best available reason to expect no effect.
+Two papers manipulate the effort setting itself, and neither measures a
+financial decision. \citet{hu2026effort} run three effort levels on
+GPT-OSS-20B and GPT-OSS-120B and conclude that the parameter sets an upper
+budget on generation rather than driving how reasoning is allocated, with
+alignment invariant across levels and Bayes factors favouring the null. Their
+outcome is the alignment between generation length and human reaction times
+over six reasoning tasks, not whether a decision changes, so their finding
+and this paper's question are compatible: their result is pre-registered here
+as the competing hypothesis H10-null precisely because it is the best
+available reason to expect no effect. \citet{piya2026overthinking} run the
+same three levels on three models for subjective text classification and
+report a third pattern, in which accuracy falls at medium effort and the fall
+is worst on the items where human annotators disagreed most. That last point
+bears directly on this design, whose stimuli are deliberately constructed so
+that neither buying nor selling is obviously correct, and it is a reason to
+report the full effort profile rather than only the comparison between
+\texttt{low} and \texttt{high}.
 
 The gap is the crossing. \citet{lee2025yourai}, the closest work in this
 domain, measure sector, size and momentum preferences and confirmation bias
@@ -322,7 +330,9 @@ to 0.9, and devote a methodological footnote to how temperature reshapes the
 token distribution; \citet{malberg2025comprehensive} run at temperature 0.0
 with a single sample per test case; \citet{lee2025yourai} run ten repetitions
 per stock at temperature 0.6. None of these protocols can be executed on the
-models now in deployment.
+models now in deployment. The variability those settings were meant to
+control is not a side issue either: it is itself a subject of study in the
+finance literature \citep{chon2025variability}.
 
 Determinism therefore cannot be pinned, and single-sample designs are no
 longer defensible: a lone draw from an unpinnable distribution is one
