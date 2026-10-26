@@ -300,3 +300,37 @@ on H10 from a null on the parameter itself.
 
 **Cost.** Measured token counts price the confirmatory run at $23.56 at batch
 pricing, against the $55.63 projected offline before the prompts lengthened.
+
+### Amendment 3a, 2026-10-26, analysis code written before the data landed
+
+Amendment 3 committed the paper to reporting a continuous co-primary measure.
+Writing that into `analysis/analyze.py` forced two decisions that the original
+analysis plan did not cover. Both are recorded here while the confirmatory
+batches are still in flight and before any confirmatory response has been
+read, which is the only time they can honestly be made.
+
+**1. An invalid percentage is excluded from the continuous measure only.** The
+API rejects `minimum` and `maximum` on a numeric schema field, so the 0 to 100
+bound on `pct_of_position_to_sell` is advisory and a model can return a value
+outside it. A number outside 0 to 100 is not a percentage of a position, so it
+cannot enter a mean of percentages and is dropped from the continuous measure
+and counted. The same response's categorical answer is unaffected and stays in
+the categorical measure. This is a validity rule for one measure, not a new
+response level exclusion, so the two measures may legitimately rest on
+different numbers of observations and the script prints both counts. The
+alternative, clamping to the bound, was rejected: it would silently convert a
+failure to follow the instruction into a valid looking extreme answer.
+
+**2. Holm is applied within each model and effort cell, separately for each
+measure.** The registered unit of correction is the nine confirmatory families
+within a cell. Adding a second measure doubles the number of tests but does
+not change what a family is, so correcting across both measures at once would
+penalise each family for the existence of the other measure of the same
+quantity. Each measure is corrected across its own nine families. Uncorrected
+values are printed and stored next to the corrected ones, as registered, and
+`data/results.json` carries `p_value`, `p_holm` and `n_family` on every row.
+
+Both rules were tested on synthetic data with planted effects before the
+confirmatory data arrived: a known effect is recovered on both measures, a
+null family stays null after correction, and an out of range value is kept out
+of the continuous mean while its categorical answer is retained.

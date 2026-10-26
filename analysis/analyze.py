@@ -76,6 +76,24 @@ def permutation_p(diffs, n=N_PERM):
     return (hits + 1) / (n + 1)
 
 
+def holm(ps):
+    """Holm step down adjusted p values, in the order given.
+
+    Registered as a correction within each model and effort cell across the
+    nine bias families. Monotonicity is enforced, so an adjusted value is
+    never smaller than one earlier in the sorted sequence, and values are
+    capped at 1.
+    """
+    m = len(ps)
+    order = sorted(range(m), key=lambda i: ps[i])
+    out = [float("nan")] * m
+    running = 0.0
+    for rank, i in enumerate(order):
+        running = max(running, (m - rank) * ps[i])
+        out[i] = min(1.0, running)
+    return out
+
+
 def entropy(counts):
     total = sum(counts.values())
     if total == 0:
@@ -96,6 +114,37 @@ def load_rows():
     return rows
 
 
+EFFORT_ORDER = {"low": 0, "medium": 1, "high": 2, "xhigh": 3, "max": 4}
+
+# What counts as a change in the absolute effect, per measure. The
+# categorical scale spans 3 points, the continuous one 100, so a single
+# threshold would read as noise on one and as a wall on the other.
+GRADIENT_TOL = {"sell_tendency": 0.02, "pct_to_sell": 0.5}
+
+
+def print_gradient(results, measure):
+    """Absolute effect against effort, for one dependent variable."""
+    sub = [r for r in results if r["measure"] == measure]
+    if not sub:
+        return
+    print(f"\n== {measure}")
+    for model in sorted({r["model"] for r in sub}):
+        print(f"\n  {model}")
+        for bias in DIRECTIONS:
+            cells = sorted([r for r in sub if r["model"] == model
+                            and r["bias"] == bias],
+                           key=lambda r: EFFORT_ORDER.get(r["effort"], 9))
+            if len(cells) < 2:
+                continue
+            shown = "  ".join(f"{c['effort'][:3]} {abs(c['effect']):6.2f}"
+                              for c in cells)
+            delta = abs(cells[-1]["effect"]) - abs(cells[0]["effect"])
+            tol = GRADIENT_TOL[measure]
+            arrow = ("down" if delta < -tol
+                     else ("up" if delta > tol else "flat"))
+            print(f"    {bias:20s} {shown}   -> {arrow} ({delta:+.2f})")
+
+
 def main():
     rows = load_rows()
     ok = [r for r in rows if r.get("status") == "ok"]
@@ -107,76 +156,148 @@ def main():
     for k, v in dropped.most_common():
         print(f"  dropped {v:,} as {k}")
 
-    # scores[(model, effort, bias, pair_id, condition)] -> [sell tendency, ...]
-    scores = collections.defaultdict(list)
+    # Data quality flags carried through from collection. Reported, never
+    # silently dropped: a model ignoring a stated bound, or contradicting its
+    # own categorical answer with its numeric one, is a result about
+    # instruction following rather than noise.
+    FLAG_NOTE = {
+        "pct_out_of_range":
+            "percentage outside 0 to 100, excluded from the continuous "
+            "measure, categorical answer kept",
+        "action_pct_inconsistent":
+            "the two measures disagree, both kept, never reconciled",
+        "confidence_out_of_range":
+            "confidence outside 0 to 100, reported, never a dependent "
+            "variable",
+    }
+    flags = collections.Counter()
+    for r in ok:
+        for f in FLAG_NOTE:
+            if r.get(f):
+                flags[f] += 1
+    for k, v in flags.most_common():
+        print(f"  flagged {v:,} as {k}: {FLAG_NOTE[k]}")
+
+    # Two dependent variables, analysed identically. The categorical scale is
+    # the pre-registered primary; the continuous measure was added in
+    # Amendment 3 because the categorical one proved to be at ceiling.
+    #
+    # A percentage outside 0 to 100 is not a percentage of a position, so it
+    # cannot enter a mean of percentages: it is excluded from the continuous
+    # measure and counted. The same response's categorical answer is still a
+    # valid answer and stays in the categorical measure. This is a per measure
+    # validity rule, not a response level exclusion, so the two measures can
+    # legitimately rest on different numbers of observations.
+    def pct_of(r):
+        v = r.get("pct_of_position_to_sell")
+        if r.get("pct_out_of_range") or not isinstance(v, (int, float)):
+            return None
+        return v if 0 <= v <= 100 else None
+
+    MEASURES = {
+        "sell_tendency": lambda r: config.ACTION_SCORE[r["action"]],
+        "pct_to_sell": pct_of,
+    }
+
+    # vals[(measure, model, effort, bias, pair_id, condition)] -> [value, ...]
+    vals = collections.defaultdict(list)
     actions = collections.defaultdict(collections.Counter)
+    kept = collections.Counter()
     for r in ok:
         key = (r["model"], r["effort"], r["bias"], r["pair_id"], r["condition"])
-        scores[key].append(config.ACTION_SCORE[r["action"]])
         actions[key][r["action"]] += 1
+        for mname, get in MEASURES.items():
+            v = get(r)
+            if isinstance(v, (int, float)):
+                vals[(mname,) + key].append(float(v))
+                kept[mname] += 1
+    for mname in MEASURES:
+        n = kept[mname]
+        print(f"  {mname}: {n:,} of {len(ok):,} usable responses carry a "
+              f"valid value ({100 * n / max(len(ok), 1):.1f}%)")
 
     results = []
     for model in sorted({r["model"] for r in ok}):
         for effort in sorted({r["effort"] for r in ok}):
             for bias, (base_c, treat_c, pred) in DIRECTIONS.items():
-                diffs, flips, ents = [], [], []
-                for pair_id in sorted({r["pair_id"] for r in ok
-                                       if r["bias"] == bias}):
-                    b = scores.get((model, effort, bias, pair_id, base_c))
-                    t = scores.get((model, effort, bias, pair_id, treat_c))
-                    if not b or not t:
+                pair_ids = sorted({r["pair_id"] for r in ok
+                                   if r["bias"] == bias})
+                # Flip rate and entropy describe the categorical answer and so
+                # are the same for both measures. Computed once per cell.
+                flips, ents = [], []
+                for pair_id in pair_ids:
+                    ab = actions.get((model, effort, bias, pair_id, base_c))
+                    at = actions.get((model, effort, bias, pair_id, treat_c))
+                    if not ab or not at:
                         continue
-                    diffs.append(mean(t) - mean(b))
-                    mb = actions[(model, effort, bias, pair_id, base_c)].most_common(1)[0][0]
-                    mt = actions[(model, effort, bias, pair_id, treat_c)].most_common(1)[0][0]
-                    flips.append(1 if mb != mt else 0)
-                    ents.append(entropy(actions[(model, effort, bias, pair_id, base_c)]))
-                    ents.append(entropy(actions[(model, effort, bias, pair_id, treat_c)]))
-                if not diffs:
-                    continue
-                lo, hi = bootstrap_ci(diffs)
-                results.append(dict(
-                    model=model, effort=effort, bias=bias,
-                    baseline=base_c, treatment=treat_c, predicted=pred,
-                    n_pairs=len(diffs),
-                    effect=mean(diffs), ci_low=lo, ci_high=hi,
-                    p_value=permutation_p(diffs),
-                    flip_rate=mean(flips),
-                    mean_entropy=mean(ents),
-                    significant=not (lo <= 0 <= hi),
-                    matches_prediction=(
-                        pred == "?" or
-                        (pred == "+" and mean(diffs) > 0) or
-                        (pred == "-" and mean(diffs) < 0)),
-                ))
+                    flips.append(1 if ab.most_common(1)[0][0]
+                                 != at.most_common(1)[0][0] else 0)
+                    ents.append(entropy(ab))
+                    ents.append(entropy(at))
+                for mname in MEASURES:
+                    diffs = []
+                    for pair_id in pair_ids:
+                        b = vals.get((mname, model, effort, bias, pair_id, base_c))
+                        t = vals.get((mname, model, effort, bias, pair_id, treat_c))
+                        if not b or not t:
+                            continue
+                        diffs.append(mean(t) - mean(b))
+                    if not diffs:
+                        continue
+                    lo, hi = bootstrap_ci(diffs)
+                    results.append(dict(
+                        measure=mname,
+                        model=model, effort=effort, bias=bias,
+                        baseline=base_c, treatment=treat_c, predicted=pred,
+                        n_pairs=len(diffs),
+                        effect=mean(diffs), ci_low=lo, ci_high=hi,
+                        p_value=permutation_p(diffs),
+                        flip_rate=mean(flips),
+                        mean_entropy=mean(ents),
+                        significant=not (lo <= 0 <= hi),
+                        matches_prediction=(
+                            pred == "?" or
+                            (pred == "+" and mean(diffs) > 0) or
+                            (pred == "-" and mean(diffs) < 0)),
+                    ))
+
+    # Holm within each model and effort cell, across the bias families, and
+    # separately per measure. Reported alongside the uncorrected values.
+    cells = collections.defaultdict(list)
+    for r in results:
+        cells[(r["measure"], r["model"], r["effort"])].append(r)
+    for group in cells.values():
+        adj = holm([g["p_value"] for g in group])
+        for g, a in zip(group, adj):
+            g["p_holm"] = a
+            g["n_family"] = len(group)
+            g["significant_holm"] = a < 0.05
 
     with open("data/results.json", "w") as f:
         json.dump(dict(results=results, rationale=RATIONALE), f, indent=2)
 
-    print(f"\n{'model':18s} {'effort':7s} {'bias':20s} {'effect':>7s} "
-          f"{'95% CI':>16s} {'p':>7s} {'flip':>6s} {'sig':>4s}")
-    for r in results:
-        star = "yes" if r["significant"] else ""
-        print(f"{r['model'].replace('claude-',''):18s} {r['effort']:7s} "
-              f"{r['bias']:20s} {r['effect']:+7.3f} "
-              f"[{r['ci_low']:+.2f},{r['ci_high']:+.2f}] {r['p_value']:7.4f} "
-              f"{r['flip_rate']:6.2f} {star:>4s}")
+    for mname in MEASURES:
+        sub = [r for r in results if r["measure"] == mname]
+        if not sub:
+            continue
+        print(f"\n== {mname} "
+              f"({'pre-registered primary' if mname == 'sell_tendency' else 'continuous co-primary, Amendment 3'})")
+        print(f"{'model':18s} {'effort':7s} {'bias':20s} {'effect':>8s} "
+              f"{'95% CI':>18s} {'p':>7s} {'p_holm':>7s} {'flip':>6s} "
+              f"{'ci':>3s} {'holm':>4s}")
+        for r in sub:
+            print(f"{r['model'].replace('claude-',''):18s} {r['effort']:7s} "
+                  f"{r['bias']:20s} {r['effect']:+8.3f} "
+                  f"[{r['ci_low']:+7.2f},{r['ci_high']:+7.2f}] "
+                  f"{r['p_value']:7.4f} {r['p_holm']:7.4f} "
+                  f"{r['flip_rate']:6.2f} "
+                  f"{('yes' if r['significant'] else ''):>3s} "
+                  f"{('yes' if r['significant_holm'] else ''):>4s}")
 
-    print("\nDoes more reasoning reduce bias? |effect| by effort:")
-    order = {"low": 0, "medium": 1, "high": 2, "xhigh": 3, "max": 4}
-    for model in sorted({r["model"] for r in results}):
-        print(f"\n  {model}")
-        for bias in DIRECTIONS:
-            cells = sorted([r for r in results
-                            if r["model"] == model and r["bias"] == bias],
-                           key=lambda r: order.get(r["effort"], 9))
-            if len(cells) < 2:
-                continue
-            vals = "  ".join(f"{c['effort'][:3]} {abs(c['effect']):.2f}"
-                             for c in cells)
-            delta = abs(cells[-1]["effect"]) - abs(cells[0]["effect"])
-            arrow = "down" if delta < -0.02 else ("up" if delta > 0.02 else "flat")
-            print(f"    {bias:20s} {vals}   -> {arrow} ({delta:+.2f})")
+    print("\nH10. Does more reasoning reduce bias? |effect| by effort.")
+    print("Sign agnostic by construction: H10 is a claim about magnitude.")
+    for mname in MEASURES:
+        print_gradient(results, mname)
 
     print(f"\nwrote data/results.json")
 
