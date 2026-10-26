@@ -371,3 +371,33 @@ has a non-zero difference returns p = 1 whatever the effect size, because
 flipping that pair's sign leaves the absolute mean unchanged. `n_nonzero` is
 recorded on every row so the granularity of a p value is auditable, and the
 registered decision rule remains the interval, not the p value.
+
+**5. The registered permutation test cannot reach 0.05 in most cells, and the
+registered decision rule is the interval.** Recorded here as a discovered
+property of the registered design, before the full dataset was read. The test
+is not changed.
+
+A sign flipping test draws its resolution from the pairs that moved. Flipping
+the sign of a pair whose difference is zero changes nothing, so with `nz`
+moving pairs the smallest attainable two sided p is about 2 / 2**nz. At twelve
+pairs per family, a family where five pairs move has a floor of 0.0625, and no
+effect size can push its p below that. In the first three cells to land, 22 of
+27 categorical families had too few moving pairs for any p under 0.05 to be
+attainable, and the strongest effects in the data sit exactly at their floor.
+Holm correction across nine families then cannot be cleared by construction.
+
+This does not invalidate the analysis, because the registered rule for calling
+an effect non-zero is that the 95% bootstrap interval excludes zero, and the
+interval is unaffected by the tie structure that bounds the permutation test.
+The p values and their Holm adjusted versions are reported as registered,
+each alongside its floor and its count of moving pairs, so a reader can see
+which are weak evidence and which are at the instrument's resolution. Every
+row in `data/results.json` carries `p_value`, `p_holm`, `p_floor`, `n_nonzero`
+and `n_pairs`.
+
+The design lesson for a replication is to buy pairs rather than trials. Twelve
+pairs per family was chosen to fit nine families, three models and three
+effort levels inside the budget, and the trials within a pair reduce response
+noise without adding resolution to the paired test. Fewer families with more
+pairs each would have produced a test capable of supporting the significance
+claims the analysis plan anticipated.

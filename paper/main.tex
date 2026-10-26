@@ -282,6 +282,21 @@ from a sign flipping permutation test with 10{,}000 permutations. Both
 dependent variables pass through identical machinery, so the categorical and
 continuous estimates are directly comparable in everything but units.
 
+An effect is called non-zero when the 95\% interval excludes zero. That rule,
+and not the $p$ value, is the pre-registered decision rule, which matters here
+for a reason worth stating plainly. A sign flipping test draws its resolution
+from the pairs that moved: flipping the sign of a pair whose difference is
+zero changes nothing, so with $n_z$ moving pairs the smallest attainable two
+sided $p$ is about $2/2^{n_z}$. At twelve pairs per family a family where five
+pairs move has a floor of 0.0625, and no effect size can push it lower. In
+most cells the floor sits above 0.05, so the permutation test cannot express
+significance there however large the effect, and Holm correction across nine
+families cannot be cleared by construction. We therefore report every $p$
+alongside its floor and its count of moving pairs, so that evidence which is
+weak can be told apart from evidence at the instrument's resolution, and we
+rest the non-zero calls on the intervals, which the tie structure does not
+affect.
+
 Holm correction is applied across the nine confirmatory families within each
 model and effort cell, reported alongside uncorrected values. It is applied
 separately to each measure. Adding a second measure doubles the number of

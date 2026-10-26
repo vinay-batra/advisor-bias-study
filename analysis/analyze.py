@@ -127,6 +127,24 @@ def holm(ps):
     return out
 
 
+def p_floor(n_nonzero):
+    """Smallest two sided p the sign flipping test can return.
+
+    Flipping the sign of a pair whose difference is zero changes nothing, so
+    the test's resolution is set by the pairs that moved, not by the pairs
+    collected. With `nz` moving pairs there are 2**nz sign patterns, and in
+    the most extreme case only the all same and all flipped patterns reach the
+    observed absolute mean, which is 2 / 2**nz. One moving pair therefore
+    gives p = 1 whatever the effect size. A cell whose p equals this floor is
+    reporting the strongest result the test can express, which is a different
+    statement from a weak result, and the two are indistinguishable without
+    this number.
+    """
+    if n_nonzero <= 0:
+        return 1.0
+    return min(1.0, 2.0 ** (1 - n_nonzero))
+
+
 def entropy(counts):
     total = sum(counts.values())
     if total == 0:
@@ -285,6 +303,7 @@ def main():
                         model=model, effort=effort, bias=bias,
                         baseline=base_c, treatment=treat_c, predicted=pred,
                         n_pairs=len(diffs), n_nonzero=nz,
+                        p_floor=p_floor(nz),
                         effect=eff, ci_low=lo, ci_high=hi,
                         p_value=permutation_p(diffs),
                         flip_rate=mean(flips),
@@ -318,26 +337,31 @@ def main():
         print(f"\n== {mname} "
               f"({'pre-registered primary' if mname == 'sell_tendency' else 'continuous co-primary, Amendment 3'})")
         print(f"{'model':18s} {'effort':7s} {'bias':20s} {'effect':>8s} "
-              f"{'95% CI':>20s} {'p':>7s} {'p_holm':>7s} {'nz':>4s} "
-              f"{'flip':>6s} {'ci':>3s} {'holm':>4s}")
+              f"{'95% CI':>20s} {'p':>7s} {'p_holm':>7s} {'floor':>7s} "
+              f"{'nz':>4s} {'flip':>6s} {'ci':>3s} {'holm':>4s}")
         for r in sub:
             print(f"{r['model'].replace('claude-',''):18s} {r['effort']:7s} "
                   f"{r['bias']:20s} {r['effect']:+8.3f} "
                   f"[{r['ci_low']:+8.3f},{r['ci_high']:+8.3f}] "
                   f"{r['p_value']:7.4f} {r['p_holm']:7.4f} "
+                  f"{('=' if r['p_value'] <= r['p_floor'] * 1.05 else ' ')}"
+                  f"{r['p_floor']:6.4f} "
                   f"{r['n_nonzero']:2d}/{r['n_pairs']:<2d} "
                   f"{r['flip_rate']:6.2f} "
                   f"{('yes' if r['significant'] else ''):>3s} "
                   f"{('yes' if r['significant_holm'] else ''):>4s}")
-        # The sign flipping test can only take as many distinct values as the
-        # non-zero pairs allow. One moving pair gives p = 1 whatever the
-        # effect size, because flipping its sign leaves the absolute mean
-        # unchanged. Said out loud so the granularity is not read as a bug.
-        thin = [r for r in sub if r["n_nonzero"] <= 2]
-        if thin:
-            print(f"  note: {len(thin)} of {len(sub)} cells have 2 or fewer "
-                  f"pairs with a non-zero difference, so their permutation "
-                  f"p values are coarse by construction")
+        # A p value at its floor is the strongest the test can express, not a
+        # weak result. Both facts are invisible without the floor itself.
+        at_floor = [r for r in sub
+                    if r["p_value"] <= r["p_floor"] * 1.05]
+        unreachable = [r for r in sub if r["p_floor"] > 0.05]
+        if at_floor:
+            print(f"  note: {len(at_floor)} of {len(sub)} cells sit at the "
+                  f"resolution floor of the permutation test, so their p "
+                  f"cannot fall further without more pairs moving")
+        if unreachable:
+            print(f"  note: in {len(unreachable)} of {len(sub)} cells too few "
+                  f"pairs moved for any p below 0.05 to be attainable")
 
     print("\nH10. Does more reasoning reduce bias? |effect| by effort.")
     print("Sign agnostic by construction: H10 is a claim about magnitude.")
