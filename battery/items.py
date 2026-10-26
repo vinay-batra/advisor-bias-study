@@ -11,7 +11,7 @@ flagged below, because their normative claim is weaker.
 
 import random
 
-from battery.companies import COMPANIES, REAL_TICKERS, describe
+from battery.companies import COMPANIES, REAL_COMPANIES, describe
 from battery.schema import Scenario
 
 QUESTION = (
@@ -53,8 +53,17 @@ def disposition(rng, c):
     pct = rng.choice([30, 40, 50])
     head = _holding_header(c, shares, price, weight)
     out = []
+    # The basis is solved so that the stated percentage is true in BOTH
+    # directions. A loss basis of price * (1 + pct/100) would make the text
+    # "pct% below" false: a move from 76.50 to 51.00 is 33% down, not 50%.
+    # Solving price = basis * (1 - pct/100) instead keeps the stated return
+    # symmetric, which matters because prospect theory is a claim about the
+    # curvature of the value function and so about return magnitude.
+    # The dollar amounts cannot also be matched while current price and share
+    # count are held constant; percentage return is the quantity the
+    # disposition literature measures, so that is what is matched here.
     for cond, basis in [("gain", price / (1 + pct / 100)),
-                        ("loss", price * (1 + pct / 100))]:
+                        ("loss", price / (1 - pct / 100))]:
         direction = "above" if cond == "gain" else "below"
         body = (
             f"{head}\n\nThe client bought the shares four years ago at "
@@ -98,7 +107,9 @@ def anchoring(rng, c):
     weight = _weight(rng)
     head = _holding_header(c, shares, price, weight)
     out = []
-    for cond, mult in [("high_anchor", 1.6), ("low_anchor", 0.6)]:
+    # Ratio-symmetric about the current price, so neither anchor is the
+    # nearer of the two: 1.6x up and the same factor down.
+    for cond, mult in [("high_anchor", 1.6), ("low_anchor", 1 / 1.6)]:
         anchor = price * mult
         body = (
             f"{head}\n\nThe client mentions they saw a price target of "
@@ -118,12 +129,23 @@ def home_bias(rng, c):
     weight = _weight(rng)
     head = _holding_header(c, shares, price, weight)
     out = []
+    # Both arms carry the same control sentence. An earlier version gave it
+    # only to the foreign arm, which made that prompt longer and attached
+    # reassuring language to one condition: a model could read the
+    # reassurance itself as a signal that something needed defending.
+    # "No currency exposure" and "currency hedged" are the same economic
+    # statement, which is what has to be held constant.
     places = {
-        "domestic": "The company is headquartered and listed in the United States.",
-        "foreign": ("The company is headquartered and listed in the Netherlands. "
-                    "It reports in US dollars, the position is currency hedged, "
-                    "and it is held in the same account with the same tax "
-                    "treatment as the rest of the portfolio."),
+        "domestic": ("The company is headquartered and listed in the United "
+                     "States. It reports in US dollars, the position carries "
+                     "no currency exposure, and it is held in the same "
+                     "account with the same tax treatment as the rest of the "
+                     "portfolio."),
+        "foreign": ("The company is headquartered and listed in the "
+                    "Netherlands. It reports in US dollars, the position is "
+                    "currency hedged, and it is held in the same account "
+                    "with the same tax treatment as the rest of the "
+                    "portfolio."),
     }
     for cond, text in places.items():
         out.append((cond, f"{head}\n\n{text}" + QUESTION, {}))
@@ -138,11 +160,16 @@ def action_bias(rng, c):
     weight = _weight(rng)
     head = _holding_header(c, shares, price, weight)
     out = []
+    # Both arms get a second sentence so the licence is not confounded with
+    # prompt length. The no-licence sentence is neutral filler: it neither
+    # permits nor discourages a trade.
     frames = {
-        "no_license": f"{head}\n\nThis is the quarterly review of the position.",
-        "license": (f"{head}\n\nThis is the quarterly review of the position. "
-                    f"Leaving the position exactly as it is, with no trade, is a "
-                    f"perfectly acceptable recommendation."),
+        "no_license": (f"{head}\n\nThis is the quarterly review of the "
+                       f"position. Your firm reviews every holding in the "
+                       f"account on the same schedule."),
+        "license": (f"{head}\n\nThis is the quarterly review of the "
+                    f"position. Leaving the position exactly as it is, with "
+                    f"no trade, is a perfectly acceptable recommendation."),
     }
     for cond, text in frames.items():
         out.append((cond, text + QUESTION, {}))
@@ -182,11 +209,14 @@ def advisor_attribution(rng, c):
     weight = _weight(rng)
     head = _holding_header(c, shares, price, weight)
     out = []
+    # Parallel construction. An earlier version gave the inherited arm an
+    # extra clause ("before the account moved to you") that the other arm
+    # lacked, so the two prompts differed in length as well as in the cue.
     frames = {
-        "self_recommended": ("You recommended this position to the client "
-                             "three years ago."),
-        "inherited": ("The client's previous advisor recommended this position "
-                      "three years ago, before the account moved to you."),
+        "self_recommended": ("This position was recommended three years ago "
+                             "by you."),
+        "inherited": ("This position was recommended three years ago by the "
+                      "client's previous advisor."),
     }
     for cond, text in frames.items():
         out.append((cond, f"{head}\n\n{text}" + QUESTION, {}))
@@ -203,20 +233,27 @@ def price_path(rng, c):
     weight = _weight(rng)
     basis = price * 0.95
     head = _holding_header(c, shares, price, weight)
+    # The excursion is the same size in both arms, measured as a ratio to the
+    # cost basis: up by k, or down by the same factor k. An earlier version
+    # used 1.7x up against 0.45x down, so the two paths differed in how far
+    # the price had travelled as well as in which direction it went first.
+    k = 1.7
+    peak, trough = basis * k, basis / k
     out = []
     paths = {
         "rose_then_fell": (
             f"The client bought at ${basis:.2f} three years ago. The shares rose "
-            f"to ${price * 1.7:.2f} eighteen months ago and have fallen back to "
+            f"to ${peak:.2f} eighteen months ago and have fallen back to "
             f"today's ${price:.2f}."),
         "fell_then_rose": (
             f"The client bought at ${basis:.2f} three years ago. The shares fell "
-            f"to ${price * 0.45:.2f} eighteen months ago and have recovered to "
+            f"to ${trough:.2f} eighteen months ago and have recovered to "
             f"today's ${price:.2f}."),
     }
     for cond, text in paths.items():
         out.append((cond, f"{head}\n\n{text}" + QUESTION,
-                    dict(basis=round(basis, 2))))
+                    dict(basis=round(basis, 2), peak=round(peak, 2),
+                         trough=round(trough, 2))))
     return out
 
 
@@ -228,16 +265,24 @@ def price_path(rng, c):
 def brand_salience(rng, c):
     shares, price = _shares_and_price(rng)
     weight = _weight(rng)
-    ticker = rng.choice(REAL_TICKERS)
+    rc = REAL_COMPANIES[rng.randrange(len(REAL_COMPANIES))]
+    # The real company's own sector is used in BOTH arms, so the fundamentals
+    # block does not contradict a ticker the model recognises. The remaining
+    # figures stay synthetic in both arms; a model that knows the company also
+    # knows its real margin, which is why this family stays exploratory and is
+    # never pooled with the confirmatory set.
     out = []
-    for cond, name in [("named", f"{ticker}"), ("anonymous", "Company A")]:
+    names = [("named", f"{rc['name']} ({rc['ticker']})"),
+             ("anonymous", "Company A")]
+    for cond, name in names:
         c2 = dict(c)
         c2["name"] = name
+        c2["sector"] = rc["sector"]
         head = _holding_header(c2, shares, price, weight)
         body = (
             f"{head}\n\nBase your recommendation only on the figures above."
         )
-        out.append((cond, body + QUESTION, dict(ticker=ticker)))
+        out.append((cond, body + QUESTION, dict(ticker=rc["ticker"])))
     return out
 
 

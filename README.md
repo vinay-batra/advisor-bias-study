@@ -55,10 +55,11 @@ bash scripts/setup.sh
 cp .env.example .env          # then put your API key in it
 source .venv/bin/activate
 
-python battery/build.py       # 216 prompts, costs nothing
-python scripts/selftest.py    # proves the analysis works, costs nothing
+python battery/build.py            # 216 prompts, costs nothing
+python scripts/selftest.py         # proves the analysis works, costs nothing
+python scripts/estimate_offline.py # prices the study, needs no key
 python scripts/pilot.py --bias disposition --pairs 3
-python scripts/estimate.py    # what the full run will cost
+python scripts/estimate.py         # measured cost, needs a key
 python run/submit.py          # the real run, batch pricing
 python run/collect.py
 python analysis/analyze.py
@@ -72,12 +73,39 @@ one that is.
 
 ## Order of operations that matters
 
-1. Lock the pre-registration and commit it.
-2. Build the battery and read ten prompts by hand. Confirm that the two
-   conditions of a pair differ in exactly one sentence.
-3. Run the self test.
-4. Run the pilot on one bias. Confirm the effect is visible or absent.
-5. Only then submit the full batch.
+1. Lock the pre-registration and commit it. Done, commit `170e6f6`.
+2. Run the literature search before writing a word of the paper. Done, see
+   `LITERATURE.md`. It changed what the paper claims, and it is the reason
+   `PREREGISTRATION.md` carries Amendment 1.
+3. Build the battery and read the prompts by hand. Done, and it found six
+   faults including an arithmetic error that would have invalidated H1. See
+   Amendment 2. Re-read them whenever the generator changes:
+   `python battery/build.py` then compare the two arms of each pair.
+4. Run the self test.
+5. Run the pilot on one bias. Confirm the effect is visible or absent.
+6. Only then submit the full batch.
+
+## State
+
+| Step | Status |
+|---|---|
+| Pre-registration committed before first API call | done |
+| Literature search, 20 papers read, novelty repositioned | done |
+| Every citation verified by DOI against Crossref | done, 2 were wrong |
+| Prompt battery built and hand-checked | done, 6 faults fixed |
+| Analysis validated against planted effects | done, passes |
+| Cost estimated without a key | done, about $56 at batch pricing |
+| API key in `.env` | **blocked, needs you** |
+| Pilot, estimate, submit, collect, analyse | waiting on the key |
+| Four follow-up reads listed at the end of `LITERATURE.md` | not started |
+
+## Building the paper
+
+No LaTeX is installed on this machine, and installing MacTeX is a 5 GB
+download that needs an administrator password. Put `paper/` into Overleaf
+instead, which is free and is what the target venues expect anyway. Replace
+the preamble with the venue's own style files before submitting; the comment
+at the top of `main.tex` says which ones.
 
 ## Reproducing a published result
 

@@ -8,8 +8,8 @@
 \usepackage{hyperref}
 \usepackage{amsmath}
 
-\title{Does Reasoning Debias? Behavioural Finance Biases in\\
-Large Language Model Portfolio Advisors Across Reasoning Effort Levels}
+\title{Does Deliberation Debias? Exogenous Reasoning Effort and
+Behavioural Finance Bias in\\Large Language Model Portfolio Advisors}
 
 \author{Vinay Batra\\\texttt{the404supply@gmail.com}}
 \date{}
@@ -18,60 +18,120 @@ Large Language Model Portfolio Advisors Across Reasoning Effort Levels}
 \maketitle
 
 \begin{abstract}
-% 150-250 words. Write this LAST. One sentence each:
+% 150-250 words. Write this LAST, once the numbers exist. One sentence each:
 % problem / gap / what you did / what you found WITH NUMBERS / why it matters.
-Language models are being deployed as financial advisors, and they learned
-from text written by investors whose biases are well documented. We measure
-whether that inheritance shows up in advisory recommendations, using a
-matched pair battery of nine behavioural finance biases in which two prompts
-are identical in every economically relevant respect and differ only in a cue
-that standard theory says must not change the recommendation. We run the
-battery against three models at three reasoning effort levels, five trials
-per cell, 9{,}720 recommendations in total.
+Language models are being deployed as financial advisors, and prior work has
+established that they reproduce several biases documented in human decision
+makers. Whether that bias can be reduced by making the model think harder is
+unsettled. The strongest existing evidence is correlational: a model that
+reports having reasoned analytically also answers more rationally, but the
+report and the answer are produced together, so the direction of causation is
+not identified. We manipulate the reasoning budget directly. Using a matched
+pair battery of nine behavioural finance biases, in which two prompts are
+identical in current price, cost basis, share count, position weight and
+fundamentals and differ only in a cue that standard theory says must not
+change the recommendation, we query three models at three exogenously set
+reasoning effort levels, five trials per cell, 9{,}720 recommendations in
+total.
 % RESULT SENTENCES GO HERE, with effect sizes and intervals.
-We additionally report that sampling parameters have been removed from the
-underlying API, which makes the fixed-temperature single-sample protocol used
-in prior work unexecutable, and we give a distributional protocol in its
-place.
+Two of the nine families are new: one varies only whether the advisor
+recommended the position or inherited it, and one varies only the price path
+to an identical current price and cost basis. We further report that sampling
+parameters have been removed from the underlying API, which makes the
+fixed-temperature protocol used throughout this literature unexecutable, and
+we give a distributional protocol in its place.
 \end{abstract}
 
 \section{Introduction}
-% ~1 page. Funnel structure.
+% ~1 page. Funnel structure. Keep the funnel; the framing below is settled.
 % 1. Broad context: LLMs now sit inside consumer financial tools.
-% 2. The specific problem: they were trained on human financial text, and
-%    human investors display well measured biases.
-% 3. The gap: prior work tests abstract gambles, on older models, single
-%    sampled. Nobody has varied reasoning effort.
-% 4. Contributions, as an explicit list.
+% 2. Established: these models carry measurable behavioural bias. CITE
+%    hagendorff2023intuitive, malberg2025comprehensive, bini2026behavioral.
+%    Do NOT claim to discover this. It is the premise, not the finding.
+% 3. The live question: can deliberation remove it? The literature disagrees.
+%    takenami2025anchoring says reasoning models anchor less.
+%    kim2025biasmedqa says reasoning does not protect and sometimes worsens.
+%    hu2026effort says effort is a ceiling on generation, not a dial.
+%    bini2026behavioral says self-reported analytical reasoning raises
+%    rational responses by about 40 percent.
+% 4. The gap, stated precisely: every one of those either compares different
+%    models or uses the model's own account of its reasoning. The reasoning
+%    budget itself has not been manipulated against a behavioural finance
+%    bias. That is this paper.
 % 5. One line previewing the headline number.
+
+The identification problem in prior work is worth stating precisely.
+\citet{bini2026behavioral} report that an indicator for self-reported
+analytical reasoning raises the share of rational responses by roughly 40
+percent, and treat that indicator as a mediator for the effect of role
+priming. The indicator is the model's own characterisation of its reasoning,
+emitted in the same response as the answer it describes. A model that answers
+well and then calls its own reasoning analytical produces that association
+with no causal path from deliberation to accuracy. The reasoning budget, by
+contrast, is set before the model sees the item and is independent of what it
+goes on to say, which is what makes the comparison reported here an
+experiment rather than an association.
 
 Our contributions are:
 \begin{itemize}
+  \item The first measurement, to our knowledge, of behavioural finance bias
+        under an exogenous, graded manipulation of reasoning effort, holding
+        the model and the prompt fixed.
   \item A matched pair battery of nine behavioural finance biases posed in
-        advisory framing with realistic portfolio state, released in full.
-  \item The first measurement, to our knowledge, of how behavioural bias in
-        model recommendations varies with the model's reasoning effort
-        setting.
+        advisory framing with realistic portfolio state, released in full,
+        including two families that do not appear in prior work.
   \item A distributional measurement protocol, made necessary by the removal
         of sampling parameters from the API, with repeated sampling and
-        confidence intervals in place of single deterministic draws.
-  \item A pre-registered analysis plan, the full prompt set, the raw
-        responses and the analysis code.
+        bootstrap intervals in place of single deterministic draws, and
+        within-item response entropy reported as a result.
+  \item A pre-registered analysis plan committed before the first API call,
+        together with the full prompt set, the raw responses and the
+        analysis code.
 \end{itemize}
 
 \section{Related Work}
-% ~1 page, two subsections. Every paragraph must end on why that work does
-% not answer this question.
+% ~1 page, three subsections. Every paragraph ends on why that work does not
+% answer this question. LITERATURE.md has the full search record; the four
+% items listed at the end of it must be read before this section is final.
 
 \subsection{Behavioural biases in human investors}
-% Prospect theory; the disposition effect and its field measurement; framing;
-% myopic loss aversion; home bias; retail trading performance.
-% These supply the human baseline rates this paper compares against.
+% Prospect theory \citep{kahneman1979prospect}; framing
+% \citep{tversky1981framing}; the disposition effect in theory
+% \citep{shefrin1985disposition} and in field data \citep{odean1998losses};
+% mental accounting \citep{thaler1985mental}; myopic loss aversion
+% \citep{benartzi1995myopic}; home bias \citep{french1991homebias}; retail
+% trading performance \citep{barber2000hazardous}.
+% These supply the human baseline rates this paper compares against. Quote
+% the disposition rate from odean1998losses directly, not from a summary.
 
-\subsection{Language models as experimental subjects}
-% Cognitive psychology batteries run against language models; simulated
-% economic agents; replication of human subject studies.
-% Gap: abstract tasks, older models, single samples, no effort manipulation.
+\subsection{Behavioural bias in language models}
+% This subsection must concede the ground that is already taken.
+% Models as experimental subjects: binz2023cognitive, horton2023homosilicus,
+% argyle2023silicon, aher2023simulating, hagendorff2023intuitive.
+% Bias audits: malberg2025comprehensive (30 biases, 20 models, temperature
+% 0.0, one sample per case; disposition effect is bias 30 and comes out
+% strongly negative, meaning a preference for change);
+% yee2026calibrating (near-zero disposition effect at baseline, shifted by
+% profile prompting); bini2026behavioral (16 questions, 12 models,
+% 100 samples per question, temperature 0.5).
+% Finance-specific: lee2025aiview (sector, size and momentum preferences
+% escalating into confirmation bias).
+% Gap for this paper: abstract or two-asset tasks, no owned position with a
+% stated cost basis, no advisory frame, and no control over reasoning.
+
+\subsection{Deliberation and debiasing}
+% The disagreement this paper addresses, laid out as a disagreement.
+% takenami2025anchoring: reasoning models less prone to anchoring, attributed
+% to long chain of thought; compares models, does not vary effort.
+% kim2025biasmedqa: reasoning does not protect against clinical bias and in
+% one model increases vulnerability to frequency and recency bias.
+% hu2026effort: three effort levels on GPT-OSS; the effort parameter sets an
+% upper budget on generation rather than driving real-time allocation;
+% alignment invariant across levels, Bayes factors favouring the null. This
+% is the pre-registered competing hypothesis, and it is the only prior work
+% found that manipulates effort directly, on a different dependent variable.
+% Gap: nobody has crossed an exogenous effort manipulation with a
+% behavioural finance bias, and the two literatures predict opposite results.
 
 \section{Method}
 % 1.5-2 pages. A reader must be able to rebuild the study from this section.
@@ -108,11 +168,24 @@ generator; the pool is shuffled per family so no family rests on one profile.
 % suffixes on model IDs; record the run date separately because model
 % behaviour changes.
 Sampling parameters are no longer accepted by the API: \texttt{temperature},
-\texttt{top\_p} and \texttt{top\_k} return HTTP 400 on every current model.
-Determinism cannot be pinned, so each prompt is sampled five times per cell
-and every quantity is reported as a distribution. We treat the within-item
-entropy across repeated identical prompts as a result rather than as noise to
-be suppressed.
+\texttt{top\_p} and \texttt{top\_k} return HTTP 400 on every current model as
+of 2026-10-21. This is not a minor inconvenience, because it invalidates the
+measurement protocol used throughout this literature.
+\citet{bini2026behavioral} set temperature to 0.5, top-$k$ to 50 and top-$p$
+to 0.9, and devote a methodological footnote to how temperature reshapes the
+token distribution; \citet{malberg2025comprehensive} run at temperature 0.0
+with a single sample per test case. Neither protocol can be executed on the
+models now in deployment.
+
+Determinism therefore cannot be pinned, and single-sample designs are no
+longer defensible: a lone draw from an unpinnable distribution is one
+realisation of a random variable whose spread is unknown. Each prompt is
+instead sampled five times per cell and every quantity is reported as a
+distribution with a percentile bootstrap interval over matched pairs. We
+treat the within-item Shannon entropy across repeated identical prompts as a
+result in its own right rather than as noise to be suppressed, because it
+distinguishes a model that has become less biased from one that has become
+more confident in the same recommendation.
 
 Server-side refusal fallbacks are not enabled, because a fallback would
 answer on a substitute model and model identity is an independent variable.
@@ -173,6 +246,40 @@ and effort cell, reported alongside uncorrected values.
 % for users than a visibly shallow answer.
 
 \section{Limitations}
+% Keep these. Each one is a real constraint a reviewer will find anyway.
+
+In the disposition family the percentage return is matched across the two
+arms of each pair and the dollar amount is not. With the current price and
+the share count held fixed, a position 50\% above its basis and one 50\%
+below it cannot carry the same unrealised dollar amount. Percentage return is
+the quantity the field measurement of the disposition effect is defined on
+\citep{odean1998losses}, so it is the quantity matched here, but a model that
+responds to dollar magnitude rather than to return would produce an effect in
+this family that is not the disposition effect.
+
+The brand salience family cannot claim normative invariance. A real ticker
+carries the model's own knowledge of the company, so the two arms of those
+pairs differ in information as well as in salience. Both arms use the real
+company's sector so that the prompt is not self-contradictory, but the
+remaining figures are synthetic in both, which a model with knowledge of the
+company may notice. The family is reported separately and never pooled.
+
+Companies in the seven confirmatory families are synthetic. This is
+deliberate: \citet{lee2025aiview} report persistent model preferences over
+specific real tickers, which would confound every manipulation here. The cost
+is that the fundamentals are not real ones, and a model may treat an
+unfamiliar name differently from a familiar one in ways the brand salience
+family only begins to measure.
+
+Effort is a vendor-defined control, not a measured quantity of reasoning.
+\citet{hu2026effort} argue that it sets an upper budget on generation rather
+than governing allocation. We report output token counts per cell so that the
+treatment's effect on realised reasoning length is visible, but a null result
+on H10 is consistent both with deliberation not reducing bias and with the
+effort parameter not delivering the deliberation it nominally buys. These two
+are separated only by the token counts, and we are explicit about that.
+
+
 Synthetic scenarios are not real clients, and a willingness to recommend a
 sale in a vignette is not a trade. Effects are prompt level and a different
 phrasing of the same cue may move them. Model behaviour changes over time, so

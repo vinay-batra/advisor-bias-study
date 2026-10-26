@@ -59,7 +59,24 @@ COMPANIES = [
 
 # Used only by the brand-salience item, which is pre-registered as exploratory
 # precisely because a real name brings outside knowledge with it.
-REAL_TICKERS = ["AAPL", "KO", "JNJ", "PG", "CSCO", "VZ"]
+# Used only by the exploratory brand salience family. Each carries its real
+# sector, because attaching a synthetic sector to a real ticker makes the
+# prompt self-contradictory for any model that knows the company, and an
+# incoherent prompt measures confusion rather than brand salience. The named
+# and anonymous arms of a pair both use the sector below, so the only thing
+# that varies is whether the holding is identified.
+REAL_COMPANIES = [
+    dict(ticker="AAPL", name="Apple", sector="consumer electronics"),
+    dict(ticker="KO", name="Coca-Cola", sector="non-alcoholic beverages"),
+    dict(ticker="JNJ", name="Johnson & Johnson",
+         sector="pharmaceuticals and medical devices"),
+    dict(ticker="PG", name="Procter & Gamble",
+         sector="household and personal care products"),
+    dict(ticker="CSCO", name="Cisco", sector="networking equipment"),
+    dict(ticker="VZ", name="Verizon", sector="telecommunications"),
+]
+
+REAL_TICKERS = [rc["ticker"] for rc in REAL_COMPANIES]
 
 
 def describe(c):

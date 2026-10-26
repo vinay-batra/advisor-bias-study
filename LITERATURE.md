@@ -1,0 +1,163 @@
+# Literature search
+
+Searched 2026-10-26 on Google Scholar, arXiv, ACL Anthology, Crossref and
+publisher pages. This file is the record of what exists, so that Related Work
+is written from papers that were actually opened and so that the novelty claim
+in `PREREGISTRATION.md` can be checked by someone else.
+
+Every bibliographic entry in `paper/refs.bib` was verified by DOI lookup
+against Crossref, or against the publisher's own page where the venue is not
+indexed. Two recalled citations were wrong and are corrected there.
+
+## Verdict
+
+The study is not a replication, but the original framing of it was too
+confident. Three of the nine bias families have been tested on language models
+before, and the headline question needed to move.
+
+What already exists:
+
+- Anchoring, framing, loss aversion and mental accounting in LLMs: tested
+  repeatedly, across many models.
+- The disposition effect in LLMs: tested twice, by `malberg2025comprehensive`
+  as one of thirty biases and by `yee2026calibrating` as one of eight
+  behavioural parameters. Both find LLMs do **not** show the human pattern.
+- Reasoning models being less biased than non-reasoning models: found by
+  `takenami2025anchoring` for anchoring.
+
+What does not exist, and is what this paper does:
+
+1. **Reasoning effort as an exogenous, graded treatment.** No paper found
+   manipulates the reasoning budget at three levels inside a fixed model and
+   measures the change in a behavioural finance bias.
+2. **Advisory framing with portfolio state.** Prior work asks the model to
+   choose between abstract gambles, or between two assets. None states a cost
+   basis, a position weight and a fundamentals block and asks whether to hold
+   or sell.
+3. **A sampling protocol for models with no sampling parameters.** The
+   protocol every prior paper uses is no longer executable (see below).
+4. **Two bias families that appear nowhere**: advisor attribution and price
+   path.
+
+## The paper this one is positioned against
+
+`bini2026behavioral`, Bini, Cong, Huang and Jin, "Behavioral Economics of AI:
+LLM Biases and Corrections". 69 pages, Boston University Questrom plus Cornell
+SC Johnson plus NBER, first draft January 2025, this draft January 2026,
+presented at the 2026 AFA Annual Meeting. It describes itself as the most
+comprehensive set of such experiments to date and it is the serious prior work
+in this exact area.
+
+What it does: sixteen experimental questions from cognitive psychology and
+experimental economics, put to twelve LLMs across families and generations
+(benchmark models GPT-4, Claude 3 Opus, Gemini 1.5 Pro, Llama 3 70B), 100 API
+calls per question per model, temperature 0.5, top-k 50, top-p 0.9. Responses
+are graded rational, human-like, or other. Debiasing is attempted by role
+priming and by a four-step expected-utility procedure in the prompt.
+
+What it finds that matters here: an indicator they call "system 2 thinking",
+set to one when the model reports its reasoning was analytical rather than
+intuitive, **increases rational responses by about 40 percent**. They use it as
+a mediator for the effect of role priming.
+
+### Why that leaves this paper a question to answer
+
+Their reasoning measure is the model's own self-report, collected in the same
+response as the answer. It is not exogenous. The same forward pass that
+produced the answer also produced the label describing it, so a model that
+answers correctly and then calls its own reasoning analytical generates that
+correlation without any causal path from deliberation to accuracy. Their
+mediation analysis assumes the direction of causation that the design cannot
+establish.
+
+This study replaces the self-report with an API parameter set before the model
+sees the item, at three levels, with the prompt held constant. That converts a
+correlation into an experiment, and it is a gap in a paper going to the AFA,
+which is a defensible place for a contribution to sit.
+
+## The methodological contribution, with a named instance
+
+`bini2026behavioral` sets temperature to 0.5, top-k to 50 and top-p to 0.9,
+and discusses at length how temperature reshapes the token distribution. As of
+2026-10-21, `temperature`, `top_p` and `top_k` return HTTP 400 on every current
+Claude model. `malberg2025comprehensive` runs at temperature 0.0 with one
+sample per item, which is also no longer possible.
+
+So the protocol of the leading paper in this area cannot be run on the models
+people now deploy, and the single-sample-at-temperature-zero protocol cannot
+either. This paper proposes the replacement: repeated sampling per item,
+percentile bootstrap intervals over matched pairs, and within-item response
+entropy reported as a result rather than suppressed as noise. That is a
+contribution available to this paper only because of when it is being written.
+
+## The disagreement this paper can resolve
+
+Does more deliberation reduce bias? The literature does not agree, and nobody
+has tested it with the reasoning budget as the treatment.
+
+| Paper | Design | Finding |
+|---|---|---|
+| `takenami2025anchoring` | reasoning models vs others, price negotiation | reasoning models less prone to anchoring |
+| `bini2026behavioral` | self-reported reasoning type as mediator | analytical self-report, +40% rational |
+| `kim2025biasmedqa` | reasoning models on clinical vignettes | reasoning does not protect, sometimes worse |
+| `hu2026effort` | three effort levels, GPT-OSS 20B and 120B | effort is a ceiling on generation, not a dial; Bayes factors favour the null |
+| arXiv 2505.15392 | anchoring mitigations | conventional mitigation fails, reasoning helps somewhat |
+
+The first two compare different models, or compare a model to its own account
+of itself. Only `hu2026effort` manipulates effort directly, and it finds
+nothing, on reasoning-time alignment rather than on bias. H10 is therefore a
+real test with a real chance of a null, and `hu2026effort` is pre-registered as
+the competing hypothesis.
+
+## Everything else found, and why it does not overlap
+
+- `malberg2025comprehensive`, Malberg et al., NLP4DH 2025. Thirty biases, twenty
+  models, temperature 0.0, one sample per test case, 30,000 cases. Disposition
+  effect is bias 30. Reports disposition effect and status-quo bias as the only
+  two with a strong negative average, meaning these models preferred change.
+  No cost basis, no advisory frame, no reasoning control, no repeated sampling.
+- `yee2026calibrating`, Yee and Koh, arXiv 2602.01022, revised May 2026. Four
+  models, 24,000 agent-scenario pairs, eight behavioural parameters. Finds
+  near-zero disposition effect at baseline and shifts it with profile-based
+  prompting. Calibration paper, not a bias audit, and no effort manipulation.
+- `takenami2025anchoring`, Findings of EMNLP 2025, pages 4481 to 4498. Seller
+  agents told to anchor in price negotiations. Compares reasoning models to
+  others; does not vary effort within a model.
+- `kim2025biasmedqa`, medRxiv 2025. Clinical vignettes, BiasMedQA. Finds
+  reasoning does not consistently prevent bias and in one model increased
+  vulnerability to frequency and recency bias. Different domain, useful
+  counterweight.
+- `hu2026effort`, arXiv 2605.16938. Three effort levels on GPT-OSS 20B and
+  120B over six reasoning tasks. Concludes the effort parameter sets an upper
+  budget on generation rather than driving real-time allocation. Measures
+  cost alignment with human reaction times, not bias.
+- `lee2025aiview`, Lee et al., ICAIF 2025, arXiv 2507.20957. Balanced and
+  imbalanced argument scenarios. Finds preferences for technology, large-cap
+  and contrarian positions, escalating into confirmation bias. Measures
+  preference over assets, not normative invariance, and has no owned position.
+- CogBias, Huang et al., arXiv 2604.01366. Four bias families, steering and
+  mitigation, three models. No finance domain, no effort manipulation.
+- Weerasekara et al., arXiv 2608.05166. Nine biases by eight frontier models
+  over a 9x9 interaction matrix, 24,300 prompts. Studies how biased user turns
+  modulate in-context reasoning. Multi-turn, no finance, no effort control.
+- arXiv 2602.14233, evaluating LLMs in finance. Argues finance-specific biases
+  contaminate benchmarks. Useful for the limitations section, not a competitor.
+- arXiv 2609.15727, LLMs as financial user simulators. Reports that models
+  systematically overpredict hold and underpredict sell. Directly relevant to
+  the action bias family and to interpreting the baseline sell tendency; find
+  and read the full version before writing Results.
+- arXiv 2503.08750, product bias in LLM investment recommendation. Reports
+  persistent preferences for specific tickers such as AAPL and MSFT. This is
+  the published justification for using synthetic companies in the
+  confirmatory families.
+
+## Still to read before Related Work is final
+
+- `bini2026behavioral` Table 1, the full list of sixteen questions, to confirm
+  no overlap item by item. The extracted text is at hand; the table did not
+  extract cleanly.
+- `malberg2025comprehensive` Appendix B.30, the exact disposition effect
+  prompt, to state precisely how this paper's version differs.
+- arXiv 2609.15727 in full, for the hold-over-sell baseline.
+- A targeted SSRN sweep for working papers from the last four months. Scholar
+  and arXiv do not index SSRN reliably and finance work appears there first.
