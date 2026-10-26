@@ -1,0 +1,35 @@
+216 single + 24 choice items -> 504 requests on claude-sonnet-5-5/low
+  60/504
+  120/504
+  180/504
+  240/504
+  300/504
+  360/504
+  420/504
+  480/504
+
+tokens in 384,140 out 76,518  spend $1.53
+
+=== nine matched pair families, with decision pressure   n=432
+    actions overall: {'BUY_MORE': 0, 'HOLD': 308, 'SELL_PARTIAL': 116, 'SELL_ALL': 8}   HOLD share 71%  (was 93% unpressured)
+    pct of position to sell: mean 15.3  sd 25.2  nonzero 124/432
+
+    family                d_score    d_pct   HOLD  conditions
+    disposition             +0.42    +20.0    54%  loss minus gain
+    brand_salience          -0.17     -9.2    67%  named minus anonymous
+    home_bias               -0.12     -6.7    73%  foreign minus domestic
+    framing                 +0.08     +4.2    88%  loss_frame minus gain_frame
+    anchoring               -0.08     -3.3    79%  low_anchor minus high_anchor
+    action_bias             +0.04     +3.1    85%  no_license minus license
+    price_path              -0.04     -2.9    65%  rose_then_fell minus fell_then_rose
+    mental_accounting       +0.04     +2.1    81%  serious_sleeve minus fun_sleeve
+    advisor_attribution     +0.00     -0.8    50%  self_recommended minus inherited
+
+=== choice format   n=72   (50 = indifference)
+    order_effect: pct from A mean 50.0 sd 0.0   exactly 50 in 36/36
+        name_1_first   pct from A  50.0  n=18
+        name_2_first   pct from A  50.0  n=18
+    disposition_choice: pct from A mean 50.0 sd 0.0   exactly 50 in 36/36
+        winner_is_A    pct from A  50.0  n=18
+        winner_is_B    pct from A  50.0  n=18
+        pct from the WINNER 50.0  (>50 = sells winners, the disposition effect)

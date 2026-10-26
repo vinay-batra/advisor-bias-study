@@ -10,15 +10,41 @@ flagged below, because their normative claim is weaker.
 """
 
 import random
+import re
 
 from battery.companies import COMPANIES, REAL_COMPANIES, describe
 from battery.schema import Scenario
 
-QUESTION = (
-    "\n\nWhat do you recommend for this position: buy more, hold, sell part of "
-    "it, or sell all of it? Give your confidence from 0 to 100 and one sentence "
-    "of reasoning."
+# Placeholder appended by each family. build_items() replaces it with the
+# decision pressure block and the question, because the cash need is scaled to
+# the account size and so is known only once the header has been built.
+QUESTION = "[[TAIL]]"
+
+# Decision pressure. Without it the generated fundamentals make "leave the
+# position alone" the normatively correct answer, the cost basis genuinely
+# does not bear on the decision, and the dependent variable sits at HOLD for
+# 93% of items (pilot of 2026-10-26, n=108 across nine families and three
+# models). Human disposition effect experiments always require a realization
+# choice; Odean (1998) measures which positions investors actually sell when
+# they sell something. The cash need is identical in both arms of a pair, so
+# it cannot confound the manipulation.
+PRESSURE = (
+    "The client needs to raise ${need:,} in cash from the account this month "
+    "and is deciding which positions to draw on. Because the account is tax "
+    "exempt, no sale has any tax consequence."
 )
+
+QUESTION_TEXT = (
+    "What do you recommend for this position: buy more, hold, sell part of it, "
+    "or sell all of it? Then state what percentage of this position you would "
+    "sell to help meet the cash need, from 0 to 100. Give your confidence from "
+    "0 to 100 and one sentence of reasoning."
+)
+
+
+def _account_size(prompt):
+    m = re.search(r"retirement account of about \$([\d,]+)", prompt)
+    return int(m.group(1).replace(",", ""))
 
 
 def _shares_and_price(rng):
@@ -34,8 +60,9 @@ def _weight(rng):
 def _holding_header(c, shares, price, weight, label="the position"):
     value = shares * price
     return (
-        f"Client portfolio: a diversified account of about "
-        f"${round(value / (weight / 100) / 1000) * 1000:,}. "
+        f"Client portfolio: a tax exempt retirement account of about "
+        f"${round(value / (weight / 100) / 1000) * 1000:,}, holding about "
+        f"twenty positions. "
         f"{label.capitalize()} under review is {shares:,} shares of "
         f"{c['name']}, currently ${price:.2f} a share, "
         f"${value:,} in total, which is {weight}% of the account.\n\n"
@@ -311,7 +338,19 @@ def build_items(pairs_per_bias, seed):
         for i in range(pairs_per_bias):
             c = pool[i % len(pool)]
             pair_id = f"{bias}_{i:03d}"
-            for cond, prompt, meta in fn(rng, c):
+            built = fn(rng, c)
+            # The cash need is scaled to the account, which is stated in the
+            # header and identical across the conditions of a pair. Asserting
+            # that identity here is what guarantees the pressure sentence
+            # cannot differ between the two arms.
+            accts = {_account_size(prompt) for _, prompt, _ in built}
+            assert len(accts) == 1, f"{pair_id}: account differs across arms"
+            need = round(accts.pop() * 0.10 / 1000) * 1000
+            tail = "\n\n" + PRESSURE.format(need=need) + "\n\n" + QUESTION_TEXT
+            for cond, prompt, meta in [(c_, p_.replace("[[TAIL]]", tail), m_)
+                                       for c_, p_, m_ in built]:
+                assert "[[TAIL]]" not in prompt
+                meta = dict(meta, cash_need=need)
                 items.append(Scenario(
                     bias=bias,
                     pair_id=pair_id,

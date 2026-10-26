@@ -41,10 +41,22 @@ RESPONSE_SCHEMA = {
                 "type": "string",
                 "enum": ["BUY_MORE", "HOLD", "SELL_PARTIAL", "SELL_ALL"],
             },
-            "confidence": {"type": "integer", "minimum": 0, "maximum": 100},
+            # No "minimum"/"maximum": the structured output schema rejects
+            # numeric bounds on an integer with a 400. The range is stated in
+            # the prompt and checked at collection time instead; out of range
+            # values are recorded as a data quality note, not silently
+            # clamped, because a model ignoring a stated bound is itself a
+            # fact worth reporting.
+            # Continuous secondary measure. The four level enum sat at
+            # HOLD for 93% of pilot items, so a graded measure is needed that
+            # can move while the categorical answer does not. Stated as a
+            # percentage of the position, which has a natural zero.
+            "pct_of_position_to_sell": {"type": "number"},
+            "confidence": {"type": "integer"},
             "one_sentence_reason": {"type": "string"},
         },
-        "required": ["action", "confidence", "one_sentence_reason"],
+        "required": ["action", "pct_of_position_to_sell", "confidence",
+                     "one_sentence_reason"],
         "additionalProperties": False,
     },
 }

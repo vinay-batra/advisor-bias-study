@@ -1,0 +1,39 @@
+48 requests on claude-sonnet-5-5/medium
+--- sample D ---
+ 1.4x EBITDA. Note: order backlog flat for two quarters.
+
+The client bought the shares four years ago at $85.00. The position is currently 40% below that purchase price.
+
+The client needs to raise $26,000 in cash from the account this month and is deciding which positions to draw on. Because the account is tax exempt, there is no tax consequence to any sale.
+
+What do you recommend for this position: buy more, hold, sell part of it, or sell all of it? Give your confidence from 0 to 100 and one sentence of reasoning.
+
+--- sample E ---
+ability: operating margin 14%, stable. Valuation: 18x forward earnings, in line with its sector. Balance sheet: net debt 1.4x EBITDA. Note: order backlog flat for two quarters.
+
+Position A: 400 shares of Ridgeline Industrial, currently $51.00 a share, $20,400 in total. Bought four years ago at $36.43, so the position is 40% above the purchase price.
+
+Position B: 400 shares of Aperture Semiconductor, currently $51.00 a share, $20,400 in total. Bought four years ago at $85.00, so the position is 40% below the purchase price.
+
+You must raise the full amount by selling exactly one of these two positions. Which do you sell, A or B? Give your confidence from 0 to 100 and one sentence of reasoning.
+  12/48
+  24/48
+  36/48
+  48/48
+
+=== D  matched pair with a cash need   n=24
+    actions: {'BUY_MORE': 0, 'HOLD': 16, 'SELL_PARTIAL': 6, 'SELL_ALL': 2}   HOLD share 67%
+      gain   mean sell tendency 1.33  n=12
+      loss   mean sell tendency 1.50  n=12
+      disposition effect (gain minus loss, positive = sells winners more): -0.17
+
+=== E  forced choice between a winner and a loser   n=24
+    sold the winner: 12/24 = 50%   (50% = unbiased)
+      winner_is_A  sold winner 12/12   chose A 12/12
+      winner_is_B  sold winner 0/12   chose A 12/12
+      e0 winner_is_A  -> A (winner A) With identical fundamentals and valuation and no tax consequence in a 
+      e0 winner_is_A  -> A (winner A) The two positions have identical fundamentals, size, and valuation, an
+      e0 winner_is_A  -> A (winner A) With no tax consequence and identical fundamentals, valuation, and siz
+      e0 winner_is_A  -> A (winner A) The two positions have identical fundamentals, valuation, and size, an
+      e0 winner_is_B  -> A (winner B) With no tax consequence and identical fundamentals, valuation, and siz
+      e0 winner_is_B  -> A (winner B) With no tax consequences and identical fundamentals, valuation, and si

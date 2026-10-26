@@ -34,10 +34,31 @@ def extract(msg):
         return dict(status="unparseable", raw=text[:400])
     if payload.get("action") not in config.ACTION_SCORE:
         return dict(status="bad_action", raw=text[:400])
+    # The schema cannot express the 0 to 100 bound (the API rejects numeric
+    # bounds on an integer), so it is checked here. An out of range value is
+    # kept and flagged rather than clamped: the action is the dependent
+    # variable and is still usable, and a model ignoring a stated bound is a
+    # reportable fact about instruction following, not noise to be tidied.
+    conf = payload.get("confidence")
+    conf_ok = isinstance(conf, int) and 0 <= conf <= 100
+    pct = payload.get("pct_of_position_to_sell")
+    pct_ok = isinstance(pct, (int, float)) and 0 <= pct <= 100
+    # The two measures can disagree: HOLD with a non-zero percentage, or a
+    # sell action with zero. Flagged, never reconciled, because which measure
+    # the model honours when they conflict is itself a result.
+    action = payload["action"]
+    inconsistent = pct_ok and (
+        (action in ("BUY_MORE", "HOLD") and pct > 0)
+        or (action in ("SELL_PARTIAL", "SELL_ALL") and pct == 0)
+    )
     return dict(
         status="ok",
-        action=payload["action"],
-        confidence=payload.get("confidence"),
+        action=action,
+        pct_of_position_to_sell=pct,
+        pct_out_of_range=(not pct_ok),
+        action_pct_inconsistent=inconsistent,
+        confidence=conf,
+        confidence_out_of_range=(not conf_ok),
         reason=payload.get("one_sentence_reason", "")[:500],
     )
 

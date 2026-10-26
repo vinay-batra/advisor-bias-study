@@ -94,6 +94,12 @@ The model returns a structured recommendation constrained to
 tendency. Grading is mechanical. No human reads an output to assign a label,
 so there is no grader bias to control for.
 
+Amendment 3 adds a continuous co-primary measure, the percentage of the
+position the model would sell, because the categorical scale proved to be at
+ceiling. Both are reported for every hypothesis. Where they disagree the
+categorical measure is the pre-registered primary and the continuous measure
+is reported alongside it.
+
 ## Hypotheses and predicted directions
 
 Effect = mean sell tendency under the treatment condition minus the mean
@@ -211,3 +217,86 @@ git history at commit 170e6f6.
 
 Items 2 to 5 would each have biased an effect in an unknown direction. Item 1
 would have invalidated H1. Item 6 would have made H9 uninterpretable.
+
+### Amendment 3, 2026-10-26, after piloting and before the confirmatory run
+
+The pilot showed that the stimuli could not measure anything. This amendment
+records the diagnosis, two fixes that failed, the fix that worked, one family
+considered and rejected, and the screening result. All pilot data are held
+separately in `data/pilot/` and are **not pooled** with the confirmatory run.
+The superseded generator is in the git history at commit 7092859.
+
+**The fault.** Across 108 requests spanning all nine families and all three
+models, 93% of responses were `HOLD`, with zero `BUY_MORE` and zero
+`SELL_ALL`. The dependent variable had almost no variance, so no manipulation
+could register an effect, including the effort gradient in H10.
+
+**Two candidate causes, both tested and both wrong.** First, the system prompt
+ended with "Judge the position on its investment merits", a normative
+instruction applied in every cell. Removing it changed nothing: 83% `HOLD`
+either way, with identical pair differences. Second, the four level scale was
+suspected of being too coarse, so a continuous target portfolio weight was
+added. It did not move either: 28 of 36 responses returned the current weight
+to the decimal. Both negative results are reported in the paper, because they
+rule out the two explanations a reader will reach for first.
+
+**The actual cause, and the fix.** The generated fundamentals were deliberately
+balanced, which made "leave the position alone" the normatively correct answer
+and made the cost basis genuinely irrelevant. There was no decision to bias.
+Human disposition effect experiments always require a realization choice;
+Odean (1998) measures which positions investors sell *when they sell
+something*. Three changes follow:
+
+1. Every item now states a cash need equal to 10% of the account, identical in
+   both arms of a pair, so the manipulation remains the only difference.
+2. The account is now tax exempt and the prompt says so. Without this,
+   realizing a loss carries a genuine tax advantage, so the normatively
+   correct answer would differ between the gain and loss arms and the
+   invariance claim in H1 would be false rather than violated.
+3. The dependent variable gains the continuous co-primary measure described
+   above.
+
+After these changes `HOLD` fell from 93% to 71% and the continuous measure had
+real spread (mean 15.3, sd 25.2, non-zero in 124 of 432 responses).
+
+**A family considered and rejected.** A forced choice between a winner and a
+loser is the canonical operationalization. Asked to pick A or B, the model
+chose A 24 times out of 24 regardless of which position was the winner, which
+looked like a large position preference. Given a continuous allocation instead
+("what percentage of the cash would you raise from Position A"), all 72
+responses answered exactly 50.0, sd 0.0. The apparent position preference was
+an artifact of forcing a binary choice on a model that had correctly
+identified the two options as equivalent. No order effect family is included,
+and the binary forced choice format is not used anywhere in the study.
+
+**Screening result.** All nine families were screened at `low` effort on
+`claude-sonnet-5-5`, 432 requests, because H10 predicts bias is largest when
+effort is lowest and a family showing nothing there will show nothing at
+`high`. Only disposition produced a substantial effect (+20.0 points on the
+continuous measure, +0.42 on the categorical). The other eight ranged from
+-9.2 to +4.2, which at this sample size is indistinguishable from noise. All
+nine are retained for the confirmatory run as pre-registered; the screen is
+reported as a power check, not as grounds for dropping families.
+
+**H1's predicted sign is left as registered, and the pilot contradicts it.**
+H1 predicts a negative effect, the human direction, in which a position held
+below cost draws fewer sell recommendations. The pilot found the opposite sign
+in every cell where an effect appeared: the model is markedly *more* willing
+to sell at a loss. This replicates Malberg et al. and Yee and Koh, both of
+whom found the disposition effect absent or reversed in language models. The
+predicted sign in `analysis/directions.py` is **not** edited. H1 will be
+reported as a failed directional prediction if the confirmatory data agree
+with the pilot, because a pre-registered prediction that fails is a result and
+quietly reversing it after seeing pilot data would not be.
+
+**H10 is unaffected by that sign.** H10 concerns the absolute magnitude of the
+effect, so it is sign agnostic. The pilot is encouraging: on disposition, the
+absolute effect on the continuous measure fell from +39.2 at `low` to +19.8 at
+`medium` to +7.1 at `high` on `claude-haiku-5-5`, and from +15.8 to +9.2 on
+`claude-sonnet-5-5`, while `claude-opus-5-5` showed no effect at any level
+(-1.2, +1.5, +0.6). Mean output tokens rose with effort in every model, so the
+manipulation demonstrably changes generation, which is what separates a null
+on H10 from a null on the parameter itself.
+
+**Cost.** Measured token counts price the confirmatory run at $23.56 at batch
+pricing, against the $55.63 projected offline before the prompts lengthened.

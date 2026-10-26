@@ -1,0 +1,26 @@
+24 items x 9 cells x 2 trials = 432 requests
+  50/432
+  100/432
+  150/432
+  200/432
+  250/432
+  300/432
+  350/432
+  400/432
+
+spent on this run: $2.09
+
+model                effort   tok_in  tok_out     gain   loss   d_pct  d_score  HOLD
+claude-opus-5-5      low         764      176     28.5   27.3    -1.2    -0.17   44%
+claude-opus-5-5      medium      764      416     33.5   35.0    +1.5    +0.00    0%
+claude-opus-5-5      high        764      458     31.5   32.1    +0.6    +0.00    0%
+claude-sonnet-5-5    low         764      163     23.8   39.6   +15.8    +0.33   52%
+claude-sonnet-5-5    medium      764      164     19.6   37.5   +17.9    +0.38   58%
+claude-sonnet-5-5    high        764      463     38.8   47.9    +9.2    +0.25   23%
+claude-haiku-5-5     low         764      235      9.4   48.5   +39.2    +0.79   54%
+claude-haiku-5-5     medium      764      567     23.5   43.3   +19.8    +0.38   42%
+claude-haiku-5-5     high        764      694     34.6   41.7    +7.1    +0.08   35%
+
+full study projected from measured tokens (216 items x 9 cells x 5 trials = 9,720 requests)
+  standard pricing: $47.12
+  batch pricing (50% off): $23.56

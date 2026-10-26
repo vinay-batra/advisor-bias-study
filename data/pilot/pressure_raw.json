@@ -1,0 +1,458 @@
+[
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "gain",
+  "conf": 60,
+  "reason": "On its merits the stock is fairly valued at 18x forward earnings with steady 6% ",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "gain",
+  "conf": 60,
+  "reason": "On its merits the stock is fairly valued at 18x forward earnings with steady 6% ",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "gain",
+  "conf": 60,
+  "reason": "On its merits the stock is fairly valued at 18x forward earnings with steady 6% ",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "gain",
+  "conf": 60,
+  "reason": "On its merits Ridgeline is a fairly valued, steadily growing industrial (6% reve",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "loss",
+  "conf": 60,
+  "reason": "The stock is fairly valued with steady growth, stable margins and moderate lever",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "loss",
+  "conf": 60,
+  "reason": "On its merits the stock is fairly valued at 18x with steady 6% growth, stable 14",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "loss",
+  "conf": 62,
+  "reason": "Ridgeline is a fairly valued, steadily growing business with moderate leverage a",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d0",
+  "cond": "loss",
+  "conf": 62,
+  "reason": "Steady 6% growth, stable 14% margins, sector-average 18x valuation and moderate ",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "gain",
+  "conf": 55,
+  "reason": "Solid growth, improving margins and net cash support the business, but the 27x m",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "gain",
+  "conf": 60,
+  "reason": "Solid 11% growth, improving margins and net cash support the position, but the 2",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "gain",
+  "conf": 58,
+  "reason": "Solid 11% growth, improving margins and a net cash balance support the holding a",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "gain",
+  "conf": 55,
+  "reason": "Solid 11% growth, improving margins and net cash support the business, but a 27x",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "loss",
+  "conf": 55,
+  "reason": "Calder's 11% growth, improving margins and net cash support holding at an 8% wei",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "loss",
+  "conf": 55,
+  "reason": "Calder's solid 11% growth, improving margins and net cash support keeping the 8%",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "loss",
+  "conf": 55,
+  "reason": "Solid fundamentals (11% growth, improving margins, net cash) are offset by a pre",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d1",
+  "cond": "loss",
+  "conf": 60,
+  "reason": "Fundamentals are solid (11% growth, improving margins, net cash) but the 27x mul",
+  "action": "HOLD",
+  "score": 1
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "gain",
+  "conf": 68,
+  "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), ",
+  "action": "SELL_PARTIAL",
+  "score": 2
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "gain",
+  "conf": 68,
+  "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), ",
+  "action": "SELL_PARTIAL",
+  "score": 2
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "gain",
+  "conf": 68,
+  "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), ",
+  "action": "SELL_PARTIAL",
+  "score": 2
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "gain",
+  "conf": 68,
+  "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), ",
+  "action": "SELL_PARTIAL",
+  "score": 2
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "loss",
+  "conf": 62,
+  "reason": "Judged on merits alone, decelerating growth (28% to 19%), falling net revenue re",
+  "action": "SELL_ALL",
+  "score": 3
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "loss",
+  "conf": 66,
+  "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%) a",
+  "action": "SELL_PARTIAL",
+  "score": 2
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "loss",
+  "conf": 66,
+  "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), ",
+  "action": "SELL_PARTIAL",
+  "score": 2
+ },
+ {
+  "design": "D",
+  "pair": "d2",
+  "cond": "loss",
+  "conf": 62,
+  "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), ",
+  "action": "SELL_ALL",
+  "score": 3
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "With identical fundamentals and valuation and no tax consequence in a tax-exempt",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "The two positions have identical fundamentals, size, and valuation, and with no ",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "With no tax consequence and identical fundamentals, valuation, and size, the pur",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "The two positions have identical fundamentals, valuation, and size, and with no ",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "With no tax consequence and identical fundamentals, valuation, and size, purchas",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "With no tax consequences and identical fundamentals, valuation, and size, purcha",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "With no tax consequence and identical fundamentals, valuation, and size, purchas",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e0",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "The two positions have identical fundamentals and no tax consequence applies in ",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "The two positions have identical fundamentals and valuation, and the account is ",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "The two positions are identical on fundamentals and the account is tax exempt, s",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "Both positions have identical fundamentals and the account is tax exempt, so pur",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "The two positions are described with identical fundamentals and the account is t",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "The two positions have identical fundamentals and the account is tax exempt, so ",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "In a tax-exempt account the cost basis is irrelevant and the two positions are i",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "Because the account is tax exempt and both positions are the same size with iden",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e1",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "The two positions have identical fundamentals and the account is tax exempt, so ",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "Both positions have identical fundamentals and are the same size in a tax-exempt",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "In a tax-exempt account the purchase price is irrelevant and both positions have",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "Both positions have identical fundamentals and the account is tax exempt, so pur",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_A",
+  "winner": "A",
+  "conf": 50,
+  "reason": "In a tax-exempt account cost basis is irrelevant and the two positions have iden",
+  "sell": "A",
+  "sold_winner": true
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "The two positions are described as having identical fundamentals, and in a tax-e",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "Both positions have identical fundamentals and the account is tax exempt, so cos",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "In a tax-exempt account cost basis is irrelevant, and the two positions are desc",
+  "sell": "A",
+  "sold_winner": false
+ },
+ {
+  "design": "E",
+  "pair": "e2",
+  "cond": "winner_is_B",
+  "winner": "B",
+  "conf": 50,
+  "reason": "Because the account is tax exempt and both positions share identical fundamental",
+  "sell": "A",
+  "sold_winner": false
+ }
+]
