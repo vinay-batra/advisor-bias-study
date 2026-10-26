@@ -95,50 +95,122 @@ Our contributions are:
 % items listed at the end of it must be read before this section is final.
 
 \subsection{Behavioural biases in human investors}
-% Prospect theory \citep{kahneman1979prospect}; framing
-% \citep{tversky1981framing}; the disposition effect in theory
-% \citep{shefrin1985disposition} and in field data \citep{odean1998losses};
-% mental accounting \citep{thaler1985mental}; myopic loss aversion
-% \citep{benartzi1995myopic}; home bias \citep{french1991homebias}; retail
-% trading performance \citep{barber2000hazardous}.
-% These supply the human baseline rates this paper compares against. Quote
-% the disposition rate from odean1998losses directly, not from a summary.
+The biases this paper tests are not hypotheses about language models. They
+are documented regularities in human investors, and the design borrows their
+operationalisations rather than inventing new ones. Prospect theory
+\citep{kahneman1979prospect} supplies the reference dependence that makes a
+cost basis matter at all, and the framing manipulations of
+\citet{tversky1981framing} supply the form of the framing family here: the
+same information, valenced two ways. The disposition effect was named by
+\citet{shefrin1985disposition} as a reluctance to realise losses and measured
+in brokerage account data by \citet{odean1998losses}, who scores which
+positions investors sell when they sell something. Mental accounting
+\citep{thaler1985mental} motivates the sleeve manipulation, myopic loss
+aversion \citep{benartzi1995myopic} the evaluation horizon, and home bias
+\citep{french1991homebias} the domestic and foreign arms.
+\citet{barber2000hazardous} supply the reason any of this is worth
+measuring in an advisor: these biases carry a cost in realised returns.
+
+These are also the source of the human baselines in
+Section~\ref{sec:humanbaselines}, and the comparison is indicative rather
+than like for like, because a field study of brokerage accounts and a
+prompt battery are different instruments.
+% OPEN: every human rate quoted in Section 4.2 must come from the primary
+% paper, not from a summary of it, and the Odean rate is not yet verified
+% against the paper. Do not write a number here until it is.
 
 \subsection{Behavioural bias in language models}
-% This subsection must concede the ground that is already taken.
-% Models as experimental subjects: binz2023cognitive, horton2023homosilicus,
-% argyle2023silicon, aher2023simulating, hagendorff2023intuitive.
-% Bias audits: malberg2025comprehensive (30 biases, 20 models, temperature
-% 0.0, one sample per case; disposition effect is bias 30 and comes out
-% strongly negative, meaning a preference for change);
-% yee2026calibrating (near-zero disposition effect at baseline, shifted by
-% profile prompting); bini2026behavioral (16 questions, 12 models,
-% 100 samples per question, temperature 0.5).
-% Finance-specific: lee2025yourai (sector, size and momentum preferences
-% escalating into confirmation bias).
-% Gap for this paper: abstract or two-asset tasks, no owned position with a
-% stated cost basis, no advisory frame, and no control over reasoning.
+That language models exhibit behavioural biases is established, and this
+paper does not re-establish it. Models have been used as experimental
+subjects for cognitive tasks \citep{binz2023cognitive}, as simulated
+economic agents \citep{horton2023homosilicus}, as stand-ins for survey
+populations \citep{argyle2023silicon, aher2023simulating}, and tested for
+the dual-process failures that characterise human intuition
+\citep{hagendorff2023intuitive}. Three audits set the current state of the
+art. \citet{malberg2025comprehensive} test thirty biases across twenty
+models at temperature 0.0 with one sample per case, and find evidence of
+every bias in at least some models. \citet{bini2026behavioral} run sixteen
+experimental questions drawn from cognitive psychology across twelve models
+with 100 samples per question at temperature 0.5, and report that
+preference-based responses become more human-like, meaning less rational, as
+models grow more advanced. \citet{yee2026calibrating} test eight behavioural
+parameters across four models and 24{,}000 agent-scenario pairs. Closest to
+this paper's setting, \citet{lee2025yourai} measure sector, size and
+momentum preferences in six models and show them escalating into
+confirmation bias.
+
+What none of these do is ask a model whether to act on a position it already
+holds. The sixteen questions of \citet{bini2026behavioral} are abstract
+gambles and general-knowledge items: narrow framing in the sense of
+\citet{tversky1981framing} and anchoring in the sense of
+\citet{tversky1974judgment} appear there, but the disposition effect does
+not appear at all, and neither do mental accounting, advisor attribution,
+price path or brand salience. \citet{malberg2025comprehensive} do test the
+disposition effect, as a relative preference between two owned assets
+measured on a 7-point scale. In neither case is a cost basis attached to a
+single position, and in neither case is the model asked for a
+recommendation. The decision this paper measures, whether to sell a position
+whose purchase price is stated, is the decision the human field studies
+score, and it is absent from the model-side literature.
 
 \subsection{Deliberation and debiasing}
-% The strongest version of the motivation is that a 2025 paper measuring bias
-% in LLM investment analysis states in its own limitations that its design is
-% weak for reasoning models. Quote or paraphrase that admission here: the gap
-% this paper fills is one the adjacent literature has already named.
-% \citet{lee2025yourai} measure sector, size, momentum and confirmation bias
-% across six models at temperature 0.6, with a buy-or-sell action set and no
-% effort manipulation.
-% The disagreement this paper addresses, laid out as a disagreement.
-% takenami2025anchoring: reasoning models less prone to anchoring, attributed
-% to long chain of thought; compares models, does not vary effort.
-% kim2025biasmedqa: reasoning does not protect against clinical bias and in
-% one model increases vulnerability to frequency and recency bias.
-% hu2026effort: three effort levels on GPT-OSS; the effort parameter sets an
-% upper budget on generation rather than driving real-time allocation;
-% alignment invariant across levels, Bayes factors favouring the null. This
-% is the pre-registered competing hypothesis, and it is the only prior work
-% found that manipulates effort directly, on a different dependent variable.
-% Gap: nobody has crossed an exogenous effort manipulation with a
-% behavioural finance bias, and the two literatures predict opposite results.
+\label{sec:deliberation}
+Whether thinking harder makes a model less biased is an open disagreement,
+and the papers on each side are not testing the same thing.
+
+On one side, \citet{takenami2025anchoring} find reasoning models less prone
+to anchoring than non-reasoning models in price negotiations, and attribute
+it to longer chains of thought. On the other,
+\citet{kim2025biasmedqa} find that reasoning does not reliably protect
+against bias in clinical vignettes and that in one model it increased
+vulnerability. The first compares different models rather than varying
+deliberation inside one, so model capability and reasoning length are
+confounded.
+
+\citet{bini2026behavioral} come closest to an answer and are the paper this
+design is built against. Their mediation analysis reports that an indicator
+for analytical reasoning, which they label system 2 thinking, increases
+rational responses by 40\% on preference-based questions, and they use it to
+explain how role priming works. The difficulty is where that indicator comes
+from. Their prompt asks the model to return its choice, a confidence level, a
+short explanation and its reasoning type in one response, so the self-report
+and the answer are produced in the same forward pass. The association
+therefore does not identify a direction: a model that answers well may
+report analytical reasoning for the same reason it answered well. Their one
+exogenous lever, role priming, moves that same indicator by 11.4
+percentage points, so the large number belongs to the correlational mediator
+rather than to anything the experimenter set. Their treatments are also
+prompt level throughout. Priming the model to act as a rational investor
+under expected utility does reduce bias, at a magnitude they call
+economically modest, while supplying the model with a four-step expected
+utility procedure is ineffective and supplying the findings of
+\citet{kahneman1979prospect} reduces rational responses by about 29\%. Their
+own summary is that debiasing remains a challenging task.
+
+Setting the reasoning budget through the API, before the model sees the item,
+removes that identification problem. The treatment is assigned rather than
+reported, it is graded rather than binary, and it is invisible to the model's
+own account of itself.
+
+\citet{hu2026effort} are the only prior work found that manipulates the
+effort parameter itself, at three levels on GPT-OSS-20B and GPT-OSS-120B, and
+they conclude it sets an upper budget on generation rather than driving how
+reasoning is allocated, with alignment invariant across levels and Bayes
+factors favouring the null. Their outcome is the alignment between generation
+length and human reaction times over six reasoning tasks, not whether a
+decision changes, so their finding and this paper's question are compatible:
+their result is pre-registered here as the competing hypothesis H10-null
+precisely because it is the best available reason to expect no effect.
+
+The gap is the crossing. \citet{lee2025yourai}, the closest work in this
+domain, measure sector, size and momentum preferences and confirmation bias
+across six models at temperature 0.6, and their own limitations section
+reports that the design is weak for reasoning models. The action set there is
+buy or sell with no hold, which also makes the response ceiling of
+Section~\ref{sec:pressure} unobservable by construction. No paper found
+manipulates the reasoning budget exogenously inside a fixed model and
+measures the change in a behavioural finance bias, which is what this paper
+does.
 
 \section{Method}
 % 1.5-2 pages. A reader must be able to rebuild the study from this section.
@@ -333,6 +405,7 @@ and so are reported once per cell.
 \end{figure}
 
 \subsection{Comparison to human baselines}
+\label{sec:humanbaselines}
 Two prior measurements of the disposition effect in language models should be
 read before the comparison below, because neither reproduces the human
 direction. \citet{malberg2025comprehensive}, testing thirty biases across

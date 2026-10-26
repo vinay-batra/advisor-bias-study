@@ -154,7 +154,7 @@ the competing hypothesis.
   120B over six reasoning tasks. Concludes the effort parameter sets an upper
   budget on generation rather than driving real-time allocation. Measures
   cost alignment with human reaction times, not bias.
-- `lee2025aiview`, Lee et al., ICAIF 2025, arXiv 2507.20957. Balanced and
+- `lee2025yourai`, Lee et al., ICAIF 2025, arXiv 2507.20957. Balanced and
   imbalanced argument scenarios. Finds preferences for technology, large-cap
   and contrarian positions, escalating into confirmation bias. Measures
   preference over assets, not normative invariance, and has no owned position.
@@ -201,9 +201,51 @@ the competing hypothesis.
 
 ## Still to read before Related Work is final
 
-- `bini2026behavioral` Table 1, the full list of sixteen questions, to confirm
-  no overlap item by item. The extracted text is at hand; the table did not
-  extract cleanly.
+- ~~`bini2026behavioral` Table 1, the full list of sixteen questions, to
+  confirm no overlap item by item.~~ Closed 2026-10-26, read in full. Their
+  sixteen, verbatim from Table 1. Panel A, preferences: prospect theory
+  diminishing sensitivity, prospect theory loss aversion, prospect theory
+  probability weighting, narrow framing, ambiguity aversion, hyperbolic
+  discounting. Panel B, beliefs: sample size neglect (three items), base rate
+  neglect, conjunction fallacy, gambler's fallacy, confirmation bias,
+  anchoring, overconfidence as overprecision, overconfidence as
+  overestimation.
+  Overlap with this paper's nine families is two at the level of the name and
+  neither at the level of the item. Their narrow framing is a modified
+  Problem 10 from Tversky and Kahneman (1981), a risk-preference question,
+  not a valence frame on one recommendation. Their anchoring is Question 14,
+  the general-knowledge anchor from Tversky and Kahneman (1974) page 1128,
+  not an anchor inside a portfolio decision. The word "disposition" does not
+  appear anywhere in the 69 pages, and neither do mental accounting, advisor
+  attribution, price path or brand salience. Seven of nine families have no
+  counterpart, and none of their sixteen items states a cost basis, a
+  position weight or a fundamentals block.
+  Two corrections to how this repository had been describing the paper.
+  First, their effective correction is role priming to act as a rational
+  investor under expected utility, which they call economically modest, while
+  the detailed version of the same idea, a four-step expected utility
+  procedure, is ineffective, and supplying the Kahneman and Tversky (1979)
+  findings reduces rational responses by about 29 percent. The paper's own
+  summary is that debiasing remains a challenging task, which is a better
+  motivation for this study than the +40 percent mediator figure alone.
+  Second, their mediator is confidence and reasoning *type*, self-reported in
+  the same forward pass, which is exactly the identification problem this
+  design removes by setting the budget before the model sees the item. The
+  numbers, now verified rather than remembered, make the point harder than
+  the +40 percent figure alone did. Their Table 8 reports that "system 2
+  thinking", an indicator equal to one when the LLM selects reasoning type B,
+  increases rational responses by 40 percent in Panel A and 38 percent in
+  Panel B. Their actual exogenous lever, rational-investor role priming,
+  moves that same indicator by only 11.4 percentage points, and high
+  confidence by 6.6. So the big number belongs to the correlational mediator,
+  not to anything the experimenter set.
+  And the self-report is unambiguous, because their Internet Appendix prints
+  the prompt: the model is asked to return its choice, its confidence level,
+  a brief explanation and its reasoning type, type A for intuitive and type B
+  for "analytical thinking and calculations", all in one response. One
+  forward pass produces both the answer and the account of how it was
+  reached. That is the sentence to cite when a reviewer asks why an exogenous
+  effort manipulation is worth running at all.
 - ~~`malberg2025comprehensive` Appendix B.30, the exact disposition effect
   prompt.~~ Closed 2026-10-26, read in full. See the expanded entry above.
 - ~~arXiv 2609.15727 in full, for the hold-over-sell baseline.~~ Closed
