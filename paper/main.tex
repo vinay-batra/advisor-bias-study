@@ -319,6 +319,17 @@ and so are reported once per cell.
 \end{figure}
 
 \subsection{Comparison to human baselines}
+Two prior measurements of the disposition effect in language models should be
+read before the comparison below, because neither reproduces the human
+direction. \citet{malberg2025comprehensive}, testing thirty biases across
+twenty models, report the disposition effect as one of only two with a strong
+negative average, meaning their models preferred change to the status quo.
+\citet{yee2026calibrating}, across four models and 24{,}000
+agent-scenario pairs, report disposition effects near zero relative to human
+benchmarks. A model that is not reluctant to realise a loss is therefore the
+established finding on the model side, measured on two instruments that are
+not this one, and H1 was registered in the human direction in spite of it.
+
 % Human rates from the cited field studies, next to the measured model rates.
 % Every human number needs its citation and its measurement caveat: field
 % studies of brokerage accounts are not the same instrument as this battery.
@@ -395,7 +406,13 @@ family only begins to measure.
 
 Effort is a vendor-defined control, not a measured quantity of reasoning.
 \citet{hu2026effort} argue that it sets an upper budget on generation rather
-than governing allocation. We report output token counts per cell so that the
+than governing allocation, on a different model family and a different
+outcome: they test GPT-OSS at three effort levels on reasoning tasks and
+measure the alignment between generation length and human reaction times,
+not whether a decision changes. Our token counts agree with their ceiling
+claim, so the two results are not in conflict, and we claim an extension of
+their manipulation to an outcome they did not measure rather than a
+refutation of their finding. We report output token counts per cell so that the
 treatment's effect on realised reasoning length is visible, but a null result
 on H10 is consistent both with deliberation not reducing bias and with the
 effort parameter not delivering the deliberation it nominally buys. These two

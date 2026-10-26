@@ -132,6 +132,17 @@ protect against clinical bias and in one model worsens it. H10 is recorded as
 directional, but a null result here is an informative answer to a live
 disagreement and is written up as such, not as a failed study.
 
+The scope of that competing claim is recorded here so it is not later
+overstated. Hu and Wang test GPT-OSS-20B and GPT-OSS-120B on six reasoning
+tasks, and their dependent variable is the alignment between generation
+length and human reaction times. They share this design's manipulation but
+not its models, its domain or its outcome: they do not measure whether a
+decision changes. Their ceiling claim is about how much a model generates,
+and this design's own token counts are expected to agree with it, since
+output length rises with effort in the pilot. A non-null H10 here therefore
+extends their manipulation to an outcome they did not measure rather than
+refuting their finding, and the write up must say so in those terms.
+
 The `flip_rate` and `mean_entropy` measures are what separate the two. If
 effort leaves the effect size unchanged but lowers entropy, the model is
 becoming more confident in the same biased answer, which is the outcome with
