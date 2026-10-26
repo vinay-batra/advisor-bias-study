@@ -303,8 +303,63 @@ realisation decision that the human measurements of
 \citet{shefrin1985disposition} and \citet{odean1998losses} are about.
 
 \subsection{Bias families}
-% Table: family, the cue varied, the normative argument, confirmatory or
-% exploratory. Nine rows.
+\label{sec:families}
+Nine families are listed in Table~\ref{tab:hypotheses}. Each is a matched
+pair of prompts that differ in one cue and are identical in everything that
+bears on the decision, so the normatively correct recommendation is the same
+in both arms. A difference in the recommendation between the arms is
+therefore a violation of invariance rather than a response to information.
+Seven of the nine are confirmatory. Price path is exploratory because the
+route a price took is weak evidence rather than no evidence, and brand
+salience is exploratory because a real ticker brings the model's own prior
+knowledge, so strict invariance is not a clean normative claim there. The two
+exploratory families are reported separately and never pooled with the
+confirmatory ones.
+
+\begin{table}[t]
+  \centering
+  \small
+  \begin{tabular}{@{}llp{3.5cm}cc@{}}
+    \toprule
+    Family & Cue varied & Why the recommendation should not change
+           & Pred. & Status \\
+    \midrule
+    Disposition effect & gain vs loss
+      & cost basis is sunk and does not bear on a forward decision
+      & $-$ & conf. \\
+    Framing & gain vs loss frame
+      & the same probability stated as its own complement
+      & two sided & conf. \\
+    Anchoring & low vs high anchor
+      & an unsourced number the client saw online, labelled as not research
+      & $-$ & conf. \\
+    Home bias & domestic vs foreign
+      & identical fundamentals, with currency and tax treatment held constant
+      & $+$ & conf. \\
+    Action bias & licence to do nothing
+      & whether inaction is named as permitted does not change which action
+        is correct
+      & $-$ & conf. \\
+    Mental accounting & long term vs discretionary sleeve
+      & the same money relabelled, with horizon and tax treatment identical
+      & $+$ & conf. \\
+    Advisor attribution & inherited vs self recommended
+      & who recommended the position is a sunk fact about the past
+      & $-$ & conf. \\
+    Price path & fell then rose vs rose then fell
+      & same current price and same cost basis, different route between them
+      & $+$ & expl. \\
+    Brand salience & anonymous vs real ticker
+      & a real name carries prior knowledge, so invariance is not clean here
+      & two sided & expl. \\
+    \bottomrule
+  \end{tabular}
+  \caption{The nine bias families. Predicted direction is the sign of the
+  mean sell tendency under the treatment arm minus the baseline arm, fixed
+  in \texttt{analysis/directions.py} before the run. Advisor attribution and
+  price path are original to this study.}
+  \label{tab:hypotheses}
+\end{table}
 
 \subsection{Companies and randomisation}
 Company profiles are synthetic. A real ticker would carry the model's own
@@ -427,9 +482,29 @@ benchmarks. A model that is not reluctant to realise a loss is therefore the
 established finding on the model side, measured on two instruments that are
 not this one, and H1 was registered in the human direction in spite of it.
 
-% Human rates from the cited field studies, next to the measured model rates.
-% Every human number needs its citation and its measurement caveat: field
-% studies of brokerage accounts are not the same instrument as this battery.
+The human benchmark for the disposition family is
+\citet{odean1998losses}, who scores 10,000 accounts at a nationwide discount
+brokerage from 1987 to 1993 by the proportion of gains realised against the
+proportion of losses realised. Aggregated over the whole period his Table~I
+reports PGR of 0.148 against PLR of 0.098, a difference of 0.050 with a
+$t$-statistic of 35 over 13,883 realised gains, 79,658 paper gains, 11,930
+realised losses and 110,348 paper losses. Investors realised their winners
+about half again as often as their losers.
+
+That is not the quantity this battery measures, and the two should not be
+placed in the same column. Odean's denominator is the set of positions
+available to be sold, which only a portfolio can supply; a prompt cannot.
+What transfers between the two instruments is the sign. A human investor is
+more willing to sell a position held at a gain than one held at a loss, so
+the disposition family here predicts a lower sell tendency in the loss arm
+than in the gain arm, which is the negative direction registered for H1 in
+Table~\ref{tab:hypotheses}. Whether the model shares that sign is a question
+the matched pairs can answer even though the magnitudes are not comparable.
+
+% OPEN: the measured model rates go here, next to the sign comparison above,
+% once the confirmatory run is complete. Report the matched pair effect and
+% its interval, not a PGR/PLR analogue, and say plainly if the sign is
+% reversed.
 
 \subsection{Reasoning effort}
 \begin{figure}[t]
