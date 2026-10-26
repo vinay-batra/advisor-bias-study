@@ -1,0 +1,5 @@
+anthropic>=0.69
+scipy>=1.11
+numpy>=1.26
+matplotlib>=3.8
+python-dotenv>=1.0

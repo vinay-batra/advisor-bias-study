@@ -1,0 +1,201 @@
+% Replace this preamble with the venue's own template before submitting.
+% FinNLP (co-located with EMNLP/IJCAI) uses the ACL style files.
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\title{Does Reasoning Debias? Behavioural Finance Biases in\\
+Large Language Model Portfolio Advisors Across Reasoning Effort Levels}
+
+\author{Vinay Batra\\\texttt{the404supply@gmail.com}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+% 150-250 words. Write this LAST. One sentence each:
+% problem / gap / what you did / what you found WITH NUMBERS / why it matters.
+Language models are being deployed as financial advisors, and they learned
+from text written by investors whose biases are well documented. We measure
+whether that inheritance shows up in advisory recommendations, using a
+matched pair battery of nine behavioural finance biases in which two prompts
+are identical in every economically relevant respect and differ only in a cue
+that standard theory says must not change the recommendation. We run the
+battery against three models at three reasoning effort levels, five trials
+per cell, 9{,}720 recommendations in total.
+% RESULT SENTENCES GO HERE, with effect sizes and intervals.
+We additionally report that sampling parameters have been removed from the
+underlying API, which makes the fixed-temperature single-sample protocol used
+in prior work unexecutable, and we give a distributional protocol in its
+place.
+\end{abstract}
+
+\section{Introduction}
+% ~1 page. Funnel structure.
+% 1. Broad context: LLMs now sit inside consumer financial tools.
+% 2. The specific problem: they were trained on human financial text, and
+%    human investors display well measured biases.
+% 3. The gap: prior work tests abstract gambles, on older models, single
+%    sampled. Nobody has varied reasoning effort.
+% 4. Contributions, as an explicit list.
+% 5. One line previewing the headline number.
+
+Our contributions are:
+\begin{itemize}
+  \item A matched pair battery of nine behavioural finance biases posed in
+        advisory framing with realistic portfolio state, released in full.
+  \item The first measurement, to our knowledge, of how behavioural bias in
+        model recommendations varies with the model's reasoning effort
+        setting.
+  \item A distributional measurement protocol, made necessary by the removal
+        of sampling parameters from the API, with repeated sampling and
+        confidence intervals in place of single deterministic draws.
+  \item A pre-registered analysis plan, the full prompt set, the raw
+        responses and the analysis code.
+\end{itemize}
+
+\section{Related Work}
+% ~1 page, two subsections. Every paragraph must end on why that work does
+% not answer this question.
+
+\subsection{Behavioural biases in human investors}
+% Prospect theory; the disposition effect and its field measurement; framing;
+% myopic loss aversion; home bias; retail trading performance.
+% These supply the human baseline rates this paper compares against.
+
+\subsection{Language models as experimental subjects}
+% Cognitive psychology batteries run against language models; simulated
+% economic agents; replication of human subject studies.
+% Gap: abstract tasks, older models, single samples, no effort manipulation.
+
+\section{Method}
+% 1.5-2 pages. A reader must be able to rebuild the study from this section.
+
+\subsection{Matched pair construction}
+Each item is a pair of prompts $(p_{\text{base}}, p_{\text{treat}})$ that
+state the same current price, share count, position weight, portfolio size
+and fundamentals block, and differ only in one manipulated cue. Under
+standard finance theory the normatively correct recommendation is identical
+across the pair, so
+\[
+  \Delta = \mathbb{E}[s \mid p_{\text{treat}}] -
+           \mathbb{E}[s \mid p_{\text{base}}]
+\]
+is the measured bias, where $s \in \{0,1,2,3\}$ is the sell tendency.
+
+% Insert ONE full example pair here, verbatim. The rest go in the appendix.
+
+\subsection{Bias families}
+% Table: family, the cue varied, the normative argument, confirmatory or
+% exploratory. Nine rows.
+
+\subsection{Companies and randomisation}
+Company profiles are synthetic. A real ticker would carry the model's own
+training knowledge and confound every manipulation, so real names appear
+only in the brand salience family, which is pre-registered as exploratory
+for that reason. Twelve profiles span sectors and are deliberately mixed on
+fundamentals, so neither buying nor selling is obviously correct. Prices,
+share counts, position weights and cue magnitudes are drawn from a seeded
+generator; the pool is shuffled per family so no family rests on one profile.
+
+\subsection{Models, effort, and sampling}
+% Table of exact model IDs, effort levels, trials, run dates. No date
+% suffixes on model IDs; record the run date separately because model
+% behaviour changes.
+Sampling parameters are no longer accepted by the API: \texttt{temperature},
+\texttt{top\_p} and \texttt{top\_k} return HTTP 400 on every current model.
+Determinism cannot be pinned, so each prompt is sampled five times per cell
+and every quantity is reported as a distribution. We treat the within-item
+entropy across repeated identical prompts as a result rather than as noise to
+be suppressed.
+
+Server-side refusal fallbacks are not enabled, because a fallback would
+answer on a substitute model and model identity is an independent variable.
+
+\subsection{Grading}
+The model answers through a constrained output schema with fields
+\texttt{action}, \texttt{confidence} and \texttt{one\_sentence\_reason}.
+Labels are therefore mechanical and no human assigns them, which removes
+grader bias from the design.
+
+\subsection{Statistical analysis}
+The unit of analysis is the matched pair. Trials are averaged within a
+condition, pairs give paired differences, 95\% intervals come from a
+bootstrap over pairs with 10{,}000 resamples, and two sided $p$ values come
+from a sign flipping permutation test with 10{,}000 permutations. Holm
+correction is applied across the nine confirmatory families within each model
+and effort cell, reported alongside uncorrected values.
+
+\section{Results}
+% 1.5-2 pages. Numbers and figures only. No interpretation here.
+
+\subsection{Bias incidence}
+% Table: effect, 95% CI, p, flip rate, per bias per model at one effort.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../figures/fig1_forest.pdf}
+  \caption{Matched pair effects with 95\% bootstrap intervals. Zero means the
+  irrelevant cue changed nothing.}
+  \label{fig:forest}
+\end{figure}
+
+\subsection{Comparison to human baselines}
+% Human rates from the cited field studies, next to the measured model rates.
+% Every human number needs its citation and its measurement caveat: field
+% studies of brokerage accounts are not the same instrument as this battery.
+
+\subsection{Reasoning effort}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../figures/fig2_effort.pdf}
+  \caption{Absolute effect against reasoning effort.}
+  \label{fig:effort}
+\end{figure}
+
+\subsection{Response variability}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.7\linewidth]{../figures/fig3_entropy.pdf}
+  \caption{Within-item entropy across five identical repeated prompts.}
+  \label{fig:entropy}
+\end{figure}
+
+\section{Discussion}
+% ~1 page. Interpret now.
+% What it means. Why it might happen. What it implies for anyone shipping an
+% LLM financial advisor. If effort does not debias, say so plainly: it means
+% deliberation improves the justification, not the decision, which is worse
+% for users than a visibly shallow answer.
+
+\section{Limitations}
+Synthetic scenarios are not real clients, and a willingness to recommend a
+sale in a vignette is not a trade. Effects are prompt level and a different
+phrasing of the same cue may move them. Model behaviour changes over time, so
+these numbers are tied to the model IDs and run dates in Section~3.4, not to
+the model families in general. The human baselines come from field studies of
+brokerage accounts, a different instrument from this battery, so the
+comparison is indicative rather than like for like. The brand salience and
+price path families are exploratory. Nothing here is investment advice and
+the author is not a licensed adviser.
+
+\section{Conclusion}
+% One paragraph. The finding, and one line of future work.
+
+\section*{Reproducibility}
+Prompts, generator seed, raw responses and analysis code are available at
+% REPO URL
+. The pre-registration was committed before the first API call.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\section{Full prompt battery}
+% data/items.jsonl, rendered.
+
+\end{document}
