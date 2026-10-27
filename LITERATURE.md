@@ -405,3 +405,47 @@ specific finding is wrong. Their mediator, their items and their models are
 all different. It shows that the class of design cannot be relied on to
 recover the sign, which is a claim about method rather than about their
 result, and the paper should say so in exactly those terms.
+
+## Record verification, moved out of `refs.bib`
+
+Every entry in `refs.bib` carried a `note` field holding the verification
+trail and, in several cases, commentary on what the cited work found. Those
+notes render in the paper's bibliography, where a reader can do nothing with
+the date I checked Crossref and where commentary on a cited work's findings
+belongs in the body text instead. The notes are now trimmed to what a reader
+needs in order to weigh the citation: whether it is peer reviewed, whether I
+was able to read it, and what this paper rests on it. What was removed is
+recorded here.
+
+- **`tversky1974judgment`.** Record verified against Crossref 2026-10-26.
+- **`bini2026behavioral`.** Verified 2026-10-26. NBER Working Paper 34745,
+  issued January 2026, also arXiv:2602.09362 submitted 10 February 2026, with
+  an earlier version listed at NeurIPS 2025 and a first draft in January 2025.
+  Reports that bias corrections work by prompting, with an expected utility
+  framing most effective, which is a prompt-level intervention and not the
+  parameter-level manipulation studied here. The paper's Related Work makes
+  that point in the text, which is where it belongs.
+- **`yee2026calibrating`.** Verified against the arXiv abstract page
+  2026-10-26. Submitted 1 February 2026, current version v3 revised 8 May
+  2026, with a withdrawn v2. Treats language models as measurement
+  instruments for loss aversion, herding and extrapolation, and reports
+  near-zero disposition effects relative to human benchmarks. That it is
+  independent support for the sign reversal found here is said in the
+  Discussion, which cites it alongside `malberg2025comprehensive`.
+- **`hu2026effort`.** Verified against the arXiv abstract page 2026-10-26.
+  Submitted to cs.CL on 16 May 2026. Measures alignment between generation
+  length and human reaction times rather than the content of a decision. Its
+  manipulation check concludes that effort caps how much a model can generate
+  rather than how it allocates reasoning, which is the competing hypothesis
+  this paper pre-registered and did not support.
+- **`piya2026overthinking`.** Posted August 2026, Indiana Wesleyan University.
+  Listing and abstract seen 2026-10-26. Runs o3-mini, GPT-5.4 and Claude
+  Sonnet 4.6 at low, medium and high reasoning effort on 317 items from the
+  CLARITY dataset, SemEval-2026 Task 6, with three annotators per item.
+- **`chon2025variability`.** Record verified against Crossref 2026-10-26. The
+  full text is paywalled on ScienceDirect (HTTP 403) and the SSRN preprint,
+  DOI 10.2139/ssrn.5350936, sits behind bot detection.
+- **`lee2025yourai`.** Verified against the arXiv abstract page 2026-10-26.
+  Submitted 28 July 2025. Six models, 427 S&P 500 stocks, 10 repetitions at
+  temperature 0.6. Its own limitations section states the design is weak for
+  reasoning models.
