@@ -1015,14 +1015,16 @@ in Appendix~\ref{app:repro}.
 \label{app:repro}
 The confirmatory set is 9{,}720 responses, one row per \texttt{custom\_id}, in
 \texttt{data/responses.jsonl}; pilot data are in \texttt{data/pilot/} and are
-never pooled with it. \texttt{analysis/analyze.py} reproduces every
-pre-registered number in Section~\ref{sec:results} from that file,
-\texttt{analysis/exploratory.py} the analyses labelled as not pre-registered,
-\texttt{analysis/mediator.py} the three designs of
-Section~\ref{sec:mediator}, and \texttt{analysis/aggregate.py} the secondary
+never pooled with it. The scripts under \texttt{analysis/} reproduce the
+paper: \texttt{analyze.py} every pre-registered number in
+Section~\ref{sec:results} from that file; \texttt{exploratory.py} those
+labelled as not pre-registered; \texttt{mediator.py} the three designs of
+Section~\ref{sec:mediator}; \texttt{aggregate.py} the secondary
 aggregation of the disposition family quoted in the abstract, which checks
-itself against the registered per-cell figures before reporting. All are
-deterministic given the seeds recorded in them.
+itself against the registered per-cell figures before reporting; and
+\texttt{reasons.py} the reason-text measure of \movedref{app:reasons}
+with its validation against the four rounds of labels committed under
+\texttt{data/}. All are deterministic given the seeds recorded in them.
 
 \section{Full prompt battery}
 \label{app:battery}
