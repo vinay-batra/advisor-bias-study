@@ -1,0 +1,56 @@
+\section{Limitations}
+\label{sec:limitations}
+% Keep these. Each one is a real constraint a reviewer will find anyway.
+
+In the disposition family the percentage return is matched across the two
+arms of each pair and the dollar amount is not. With the current price and
+the share count held fixed, a position 50\% above its basis and one 50\%
+below it cannot carry the same unrealised dollar amount. Percentage return is
+the quantity the field measurement of the disposition effect is defined on
+\citep{odean1998losses}, so it is the quantity matched here, but a model that
+responds to dollar magnitude rather than to return would produce an effect in
+this family that is not the disposition effect.
+
+The brand salience family cannot claim normative invariance. A real ticker
+carries the model's own knowledge of the company, so the two arms of those
+pairs differ in information as well as in salience. Both arms use the real
+company's sector so that the prompt is not self-contradictory, but the
+remaining figures are synthetic in both, which a model with knowledge of the
+company may notice. The family is reported separately and never pooled.
+
+Companies in the seven confirmatory families are synthetic. This is
+deliberate: \citet{lee2025yourai} report persistent model preferences over
+specific real tickers, which would confound every manipulation here. The cost
+is that the fundamentals are not real ones, and a model may treat an
+unfamiliar name differently from a familiar one in ways the brand salience
+family only begins to measure.
+
+Effort is a vendor-defined control, not a measured quantity of reasoning.
+\citet{hu2026effort} argue that it sets an upper budget on generation rather
+than governing allocation, on a different model family and a different
+outcome: they test GPT-OSS at three effort levels on reasoning tasks and
+measure the alignment between generation length and human reaction times,
+not whether a decision changes. Our token counts agree with their ceiling
+claim, so the two results are not in conflict, and we claim an extension of
+their manipulation to an outcome they did not measure rather than a
+refutation of their finding. We report output token counts per cell so that the
+treatment's effect on realised reasoning length is visible, but a null result
+on H10 is consistent both with deliberation not reducing bias and with the
+effort parameter not delivering the deliberation it nominally buys. These two
+are separated only by the token counts, and we are explicit about that.
+
+
+Synthetic scenarios are not real clients, and a willingness to recommend a
+sale in a vignette is not a trade. Effects are prompt level and a different
+phrasing of the same cue may move them. Model behaviour changes over time, so
+these numbers are tied to the model IDs and run dates in Section~3.4, not to
+the model families in general. The human baselines come from field studies of
+brokerage accounts, a different instrument from this battery, so the
+comparison is indicative rather than like for like. The brand salience and
+price path families are exploratory. Twelve pairs per family is the binding
+resolution limit of the design: it is what puts study-wide Holm correction out
+of arithmetic reach (Section~\ref{sec:results}) and what leaves the
+between-family spread in two of six cells indistinguishable from sampling
+error (Section~\ref{sec:rtm}). An extension should add items per family
+rather than trials per item. Nothing here is investment advice and
+the author is not a licensed adviser.

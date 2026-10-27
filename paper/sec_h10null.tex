@@ -1,0 +1,47 @@
+\movedhead{What the null for H10 actually is}
+\label{sec:h10null}\label{app:h10null}
+H10 is a conditional hypothesis, and the condition does work that a naive
+count ignores. The rule selects a family on having a non-zero effect at
+\texttt{low} and then asks whether a second, independent measurement of the
+same quantity is smaller. A family qualifies partly because its true effect
+is large and partly because its noise at \texttt{low} happened to point away
+from zero, and the second measurement does not inherit that luck. So the
+qualifying cases shrink on re-measurement at a rate above one half even when
+effort does nothing at all, which is the standard regression artefact of
+selecting on a noisy baseline \citep{barnett2005regression}. Reporting
+$2^{-n}$ against a count of $n$ successes treats the rate as one half and
+overstates the evidence.
+
+The rate can be measured rather than assumed. In
+\texttt{analysis/h10\us placebo.py} the effort label is shuffled among the
+responses to the same item within a model, over 400 shuffles, and the
+registered H10 rule including its bootstrap filter is run on each shuffled
+replicate. The rule, the sample sizes and the item set are untouched; only
+the labels move, so no real effect of effort can survive and whatever the
+rule still finds is the artefact alone. Using the seven confirmatory
+families, a qualifying case shrinks with probability 0.654, not 0.500, and
+the running estimate is stable from the first hundred shuffles. Across all
+nine families the rate is 0.706. The rate is further from one half in the
+inclusive set because the two exploratory families have the smallest true
+effects, so a larger share of what qualifies them is noise.
+
+The matched null event is the one H10 asserts: every qualifying case shrinks.
+Its measured probability is 0.0125 on the confirmatory families and 0.0200
+across all nine, against $2^{-9} = 0.0020$ and $2^{-14} = 0.0001$ from the
+coin flip, which is wrong by a factor of 26 and of 328 respectively. The
+observed result is therefore unlikely under the null, but by about one and a
+half orders of magnitude less than a count alone suggests, and the paper
+claims the measured figure.
+
+Two features of the measurement are worth stating because they cut in
+opposite directions. The shuffled replicates qualify more cases than the real
+data does, 11.48 on average with a range of 6 to 20 against the observed 9,
+so the joint event is being evaluated over a longer run of cases than the one
+actually reported; that makes 0.0125 smaller than the figure a nine-case
+comparison would give. Raising the measured per-case rate to the ninth power
+gives 0.022, which is the matched figure if qualifying cases were
+independent. They are not, since cases within a model share the same
+responses, so the truth is above the directly measured 0.0125 and the paper
+uses that bound rather than the smaller number. Either way the conclusion is
+the same: the pattern is unlikely under the null by roughly one part in fifty
+to one part in eighty, and not one part in five hundred.

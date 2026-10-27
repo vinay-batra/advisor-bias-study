@@ -1,0 +1,49 @@
+% table* spans both columns in the two column build and degrades to an
+% ordinary full width table in the single column one, so the widths below
+% work in both. In a single ACL column this table overflows by 158pt, which
+% is not fixable by shrinking the font.
+\begin{table*}[t]
+  \centering
+  \small
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}p{2.5cm}p{3.0cm}p{6.9cm}cc@{}}
+    \toprule
+    Family & Cue varied & Why the recommendation should not change
+           & Pred. & Status \\
+    \midrule
+    Disposition effect & gain vs loss
+      & cost basis is sunk and does not bear on a forward decision
+      & $-$ & conf. \\
+    Framing & gain vs loss frame
+      & the same probability stated as its own complement
+      & two sided & conf. \\
+    Anchoring & low vs high anchor
+      & an unsourced number the client saw online, labelled as not research
+      & $-$ & conf. \\
+    Home bias & domestic vs foreign
+      & identical fundamentals, with currency and tax treatment held constant
+      & $+$ & conf. \\
+    Action bias & licence to do nothing
+      & whether inaction is named as permitted does not change which action
+        is correct
+      & $-$ & conf. \\
+    Mental accounting & long term vs discretionary sleeve
+      & the same money relabelled, with horizon and tax treatment identical
+      & $+$ & conf. \\
+    Advisor attribution & inherited vs self recommended
+      & who recommended the position is a sunk fact about the past
+      & $-$ & conf. \\
+    Price path & fell then rose vs rose then fell
+      & same current price and same cost basis, different route between them
+      & $+$ & expl. \\
+    Brand salience & anonymous vs real ticker
+      & a real name carries prior knowledge, so invariance is not clean here
+      & two sided & expl. \\
+    \bottomrule
+  \end{tabular}
+  \caption{The nine bias families, with the normative reason the recommendation should not change. Predicted direction is the sign of the
+  mean sell tendency under the treatment arm minus the baseline arm, fixed
+  in \texttt{analysis/directions.py} before the run. Advisor attribution and
+  price path are original to this study.}
+  \label{tab:hypothesesfull}
+\end{table*}

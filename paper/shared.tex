@@ -1,0 +1,33 @@
+% \ifsubmission is true only in the ACL build. It does not change a single
+% claim or number: it decides whether five sections of the paper are printed
+% where they were written or in the appendix, and where the Limitations
+% section sits. An ACL page limit covers the body alone, so material a reader
+% wants but a reviewer can reach by reference goes to the appendix rather
+% than being deleted. Set it in the venue preamble, never here.
+\newif\ifsubmission
+
+% Heading for a section that moves to the appendix in the submission build.
+% There the appendix supplies its own \section, so this prints nothing.
+\newcommand{\movedhead}[1]{\ifsubmission\else\subsection{#1}\fi}
+
+% Shared by every venue preamble. main.tex and main_acl.tex differ only in
+% document class, geometry and bibliography style; everything below is the
+% same paper, so it lives here rather than in two places that can drift.
+
+% The one place the repository URL is set. There is no remote yet, so this
+% is deliberately a visible placeholder rather than a plausible-looking URL:
+% a reproducibility claim that points at nothing is worse than no claim.
+% Set it here before submission and it updates everywhere.
+\newcommand{\repourl}{[repository URL to be added]}
+
+% Long schema field names set in \texttt do not hyphenate, so a single one
+% can push a line past the margin. \us allows a break after an underscore
+% without printing a hyphen, which a reader would misread as part of the
+% field name.
+\newcommand{\us}{\_\discretionary{}{}{}}
+
+\title{Does Deliberation Debias? Exogenous Reasoning Effort and
+Behavioural Finance Bias in\\Large Language Model Portfolio Advisors}
+
+\author{Vinay Batra\\\texttt{the404supply@gmail.com}}
+\date{}

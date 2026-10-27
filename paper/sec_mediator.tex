@@ -1,0 +1,111 @@
+\movedhead{The budget and the behaviour are not the same variable}
+\label{app:mediator}
+The argument for setting the reasoning budget through the API rather than
+measuring how much reasoning a response contains is made in
+Section~\ref{sec:deliberation} on identification grounds: a measure read off
+the response is produced by the same forward pass as the answer, so it cannot
+separate reasoning that helped from reasoning that a hard item provoked. This
+data can test that argument instead of asserting it, because it holds both
+variables. The effort parameter is exogenous, set before the model sees the
+item. Output tokens are endogenous, chosen by the model for each response.
+They are not the self-reported analytical-reasoning indicator used by
+\citet{bini2026behavioral}, but they are the same class of variable: a
+within-cell, model-chosen measure of how much reasoning a response contains,
+with no experimental control over it. None of this subsection is
+pre-registered; it was written after the data were in hand.
+
+The parameter does set reasoning volume, so the two variables are not
+measuring different constructs. Output tokens rise from \texttt{low} to
+\texttt{high} by a factor of 2.33 in Haiku, 2.44 in Opus and 2.91 in Sonnet,
+and the distributions barely overlap: 0.1\% of Haiku's and Opus's
+\texttt{low} effort responses exceed the median \texttt{high} effort
+response, 0.0\% of Sonnet's, and in the other direction 0.0\%, 0.0\% and
+3.5\%. If an observational measure of reasoning volume recovers the causal
+effect of reasoning volume anywhere, it should do so here.
+
+It does not. \texttt{analysis/mediator.py} runs the paper's own arithmetic
+three ways on the same 9{,}720 responses, with the same families, items and
+statistics, changing only which responses enter each pair mean.
+
+\paragraph{Exogenous.} Comparing effort levels, the mean absolute family
+effect falls from \texttt{low} to \texttt{high} in all three models on both
+measures, by $-0.120$, $-0.069$ and $-0.050$ on the categorical measure for
+Opus, Sonnet and Haiku, and by $-2.628$, $-3.667$ and $-3.700$ on the
+continuous one. Six of six.
+
+\paragraph{Endogenous, between items.} Within a single model and effort cell
+the effort label is constant, but generation length still varies widely from
+item to item. If deliberation itself is what reduces bias, then holding the
+label fixed, pairs on which the model happened to generate more should show
+less bias. They show more. The Spearman correlation between a pair's mean
+output tokens and its absolute effect, pooled across all nine cells with the
+cell means removed from both variables so that only within-cell variation
+contributes, is $+0.190$ ($p = 0.0001$) on the categorical measure and
+$+0.154$ ($p = 0.0001$) on the continuous measure, over 972 pairs. The
+relationship is positive in 17 of the 18 cell by measure combinations and
+reaches $p < 0.05$ in eight of them. Taken as a median split instead, so that
+the statistic matches the one used for the exogenous comparison, the mean
+absolute effect is lower in the heavier half in one cell of nine on both
+measures, and pooled over effort and bootstrapped over pairs the contrast is
+positive in all three models on both measures, with Haiku on the categorical
+measure excluding zero in the wrong direction at $+0.066$ $[+0.014, +0.143]$.
+Between cells, bias falls as effort rises. Within cells, bias rises with
+length. The two slopes have opposite signs.
+
+\paragraph{Endogenous, within item.} Two readings of that reversal were
+available. The first is that the exogenous budget and the model's own
+allocation of tokens are distinct interventions with distinct effects. The
+second is reverse causation: an item that provokes bias also provokes a
+longer answer, so length is an index of item difficulty rather than of
+deliberation. A third design separates them. Inside one model by effort cell,
+split the five trials of each single item at that item's own median token
+count. The stimulus, the family, the company and the effort setting are then
+identical across the split, and only the model's sample to sample choice of
+how much to write differs. The reversal disappears and nothing takes its
+place: the mean absolute effect falls in four of nine cells, which is what
+chance gives, and every pooled interval contains zero, the largest being
+$-0.585$ $[-2.896, +1.999]$ for Haiku on the continuous measure. The positive
+association is therefore a property of the item, not of the response, and the
+difficulty reading is the one the data support.
+
+An observational study of these responses would thus have reported that
+reasoning makes the bias worse, or that it does nothing, depending on whether
+it conditioned on the item. The experiment reports that it reduces the bias,
+in every model and on both measures.
+
+Leverage rules out the obvious objection that the observational designs
+simply had less variation to work with. Both separate their halves by a
+similar amount, 49.5 and 53.6 output tokens in Opus, 59.6 and 61.2 in Sonnet,
+132.0 and 155.1 in Haiku, which is between 0.19 and 0.39 of the gap the
+parameter opens. The two observational designs therefore have the same
+leverage as each other and less than the experiment. Less leverage is a fair
+explanation of the within-item null, which should be read as consistent with
+low power rather than as evidence against the experiment. It is not an
+explanation of a sign reversal. Where the between-item design returns the
+wrong sign it is returning confounding, not noise.
+
+Because the two observational designs differ only in whether the item is held
+fixed, their disagreement locates that confounding in the item, and two item
+level properties move with the token count. Harder items draw more words and
+are more bias-prone, which is the reading above. The second is visible in the
+data and is less often named: the families themselves differ in how much the
+model writes about them, so splitting on tokens re-weights the cues being
+averaged. Mental accounting contributes 75.5\% of its responses to the heavy
+half and price path 68.2\%, while action bias contributes 28.0\% and framing
+30.2\%. A measure of reasoning volume taken from the response is therefore
+also a measure of which cue was present.
+
+What no observational design here can remove is the loop that motivates the
+study. A response's recommendation and the length of its justification are
+produced together, so conditioning on length conditions on the answer.
+Setting the budget before the item is seen is the only one of the three
+designs that avoids this, and it is the only one that recovers an effect. A
+design which measures deliberation by observing the model, whether through
+generated length or through the model's own report of its reasoning, is
+measuring a quantity whose association with bias runs the other way from the
+one an experimenter can set. That is not a refinement of the identification
+problem in \citet{bini2026behavioral}; it is a demonstration of it. It is not
+a demonstration that their finding is wrong: their mediator, items and models
+all differ from these. It shows that the class of design cannot be relied on
+to recover the sign, which is a claim about method and not about their
+result.

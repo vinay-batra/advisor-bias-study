@@ -1,0 +1,62 @@
+\movedhead{Comparison to human baselines}
+\label{sec:humanbaselines}\label{app:humanbaselines}
+Two prior measurements of the disposition effect in language models should be
+read before the comparison below, because neither reproduces the human
+direction. \citet{malberg2025comprehensive}, testing thirty biases across
+twenty models, report the disposition effect as one of only two with a strong
+negative average, meaning their models preferred change to the status quo.
+\citet{yee2026calibrating}, across four models and 24{,}000
+agent-scenario pairs, report disposition effects near zero relative to human
+benchmarks. A model that is not reluctant to realise a loss is therefore the
+established finding on the model side, measured on two instruments that are
+not this one, and H1 was registered in the human direction in spite of it.
+
+The human benchmark for the disposition family is
+\citet{odean1998losses}, who scores 10,000 accounts at a nationwide discount
+brokerage from 1987 to 1993 by the proportion of gains realised against the
+proportion of losses realised. Aggregated over the whole period his Table~I
+reports PGR of 0.148 against PLR of 0.098, a difference of 0.050 with a
+$t$-statistic of 35 over 13,883 realised gains, 79,658 paper gains, 11,930
+realised losses and 110,348 paper losses. Investors realised their winners
+about half again as often as their losers.
+
+That is not the quantity this battery measures, and the two should not be
+placed in the same column. Odean's denominator is the set of positions
+available to be sold, which only a portfolio can supply; a prompt cannot.
+What transfers between the two instruments is the sign. A human investor is
+more willing to sell a position held at a gain than one held at a loss, so
+the disposition family here predicts a lower sell tendency in the loss arm
+than in the gain arm, which is the negative direction registered for H1 in
+Table~\ref{tab:hypotheses}. Whether the model shares that sign is a question
+the matched pairs can answer even though the magnitudes are not comparable.
+
+The models do not share that sign. H1 predicted a negative effect, a lower
+sell tendency in the loss arm, and the measured effect is positive in eight
+of the nine model by effort cells on both measures. The exception is Opus at
+\texttt{low} effort, discussed below. Aggregating the disposition family over
+all nine cells, which the analysis plan does not register as a quantity and
+which is reported here as a secondary aggregation rather than a confirmatory
+test, the effect is $+0.239$ $[+0.148, +0.331]$ on the categorical measure
+over 108 pairs, 47 of them positive against 11 negative, and $+13.376$
+$[+8.844, +18.104]$ on the continuous measure, 64 positive against 16
+negative. Per model, the aggregate is $+0.367$ $[+0.206, +0.533]$ in Haiku,
+$+0.328$ $[+0.178, +0.500]$ in Sonnet, and $+0.022$ $[-0.106, +0.144]$ in
+Opus.
+
+Read against Odean's sign, this is a reversal rather than an absence. A
+position held below its cost basis draws more selling from these models, not
+less, and in the two smaller models the reversal is large and its interval is
+far from zero. H1 is recorded as a failed directional prediction. The
+pre-registered sign in \texttt{analysis/directions.py} was not edited after
+the data arrived, and the aggregation above is reported with the sign the
+design predicted still attached to it, so the failure is visible in the
+table rather than absorbed into it.
+
+Two independent instruments already pointed this way.
+\citet{malberg2025comprehensive} score the disposition effect as one of only
+two biases out of thirty with a strong negative average, which on their
+coding means a preference for change, and \citet{yee2026calibrating} find
+disposition effects near zero against human benchmarks. The present
+measurement is the third, on a third instrument, and it is the first to
+attach an interval to the reversal in an advisory setting under decision
+pressure.

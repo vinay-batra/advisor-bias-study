@@ -1,30 +1,75 @@
 # Build the paper. Requires tectonic (brew install tectonic); it downloads
 # the packages it needs on first run and caches them.
 #
+# Two builds from one source. body.tex is shared; the \ifsubmission switch in
+# shared.tex decides whether a section prints inline or as an appendix pointer.
+#
+#   main.pdf      reading build, single column, everything inline
+#   main_acl.pdf  submission build, ACL two column, body under the page limit
+#
+# Nothing is cut between them: material that leaves the submission body moves
+# to the appendix, where the venue's page limit does not reach.
+#
 # The appendix and the Method section's example pair are generated from
 # data/items.jsonl, not written by hand, so `make` regenerates them first.
 # Editing example_pair.tex or items_appendix.tex directly is pointless:
 # the next build overwrites both.
 
 TECTONIC ?= tectonic
+PYTHON ?= python3
+# analysis/figures.py needs numpy and matplotlib, which the repo venv has and
+# the system python does not.
+VENVPY ?= ../.venv/bin/python
 
-all: main.pdf
+GENERATED = example_pair.tex items_appendix.tex
+# Tectonic ignores TEXINPUTS, so the style files live next to the paper as
+# copies of the vendored originals rather than being found on a path.
+ACLSTYLE = acl.sty acl_natbib.bst
+FIGS = ../figures/fig1_forest_acl.pdf ../figures/fig2_effort_acl.pdf \
+       ../figures/fig4_forest_pct_acl.pdf ../figures/fig5_effort_pct_acl.pdf
 
-main.pdf: main.tex refs.bib example_pair.tex items_appendix.tex
+all: main.pdf main_acl.pdf
+
+main.pdf: main.tex shared.tex body.tex refs.bib $(GENERATED) $(FIGS)
 	$(TECTONIC) -X compile main.tex --keep-logs --untrusted
 
-example_pair.tex items_appendix.tex: ../data/items.jsonl render_items.py
-	cd .. && python3 paper/render_items.py
+main_acl.pdf: main_acl.tex shared.tex body.tex refs.bib $(GENERATED) \
+              $(ACLSTYLE) $(FIGS)
+	$(TECTONIC) -X compile main_acl.tex --keep-logs --untrusted
 
-# Fails loudly on anything that would embarrass the paper in review:
-# an unresolved citation, a dangling cross reference, or a line past the
-# margin.
-check: main.pdf
-	@! grep -qE "undefined" main.log || { grep -E "undefined" main.log; exit 1; }
-	@! grep -q "Overfull" main.log || { grep "Overfull" main.log; exit 1; }
-	@echo "clean: no undefined references, no overfull lines"
+acl.sty: aclstyle/acl.sty
+	cp $< $@
+
+acl_natbib.bst: aclstyle/acl_natbib.bst
+	cp $< $@
+
+$(GENERATED): ../data/items.jsonl render_items.py
+	cd .. && $(PYTHON) paper/render_items.py
+
+$(FIGS): ../analysis/figures.py ../data/responses.jsonl
+	cd .. && $(VENVPY) analysis/figures.py
+
+# The submission body must fit the venue page limit. References, appendices
+# and Limitations do not count, so this measures to \label{xbodyend} rather
+# than counting pages in the PDF.
+pages: main_acl.pdf
+	@$(PYTHON) pagecheck.py main_acl.log
+
+# Fails loudly on anything that would embarrass the paper in review: an
+# unresolved citation, a dangling cross reference, a duplicated label, a line
+# past the margin, or a body over the page limit.
+check: main.pdf main_acl.pdf
+	@for f in main main_acl; do \
+	  ! grep -qE "undefined" $$f.log || { echo "$$f:"; grep -E "undefined" $$f.log; exit 1; }; \
+	  ! grep -q "multiply defined" $$f.log || { echo "$$f:"; grep "multiply defined" $$f.log; exit 1; }; \
+	  ! grep -q "Overfull" $$f.log || { echo "$$f:"; grep "Overfull" $$f.log; exit 1; }; \
+	done
+	@echo "clean: no undefined references, no duplicate labels, no overfull lines"
+	@$(PYTHON) pagecheck.py main_acl.log
 
 clean:
 	rm -f main.pdf main.log main.blg main.aux main.bbl main.out main.xdv
+	rm -f main_acl.pdf main_acl.log main_acl.blg main_acl.aux main_acl.bbl \
+	      main_acl.out main_acl.xdv
 
-.PHONY: all check clean
+.PHONY: all check clean pages

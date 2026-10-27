@@ -1,0 +1,42 @@
+% Submission build. FinNLP uses the ACL style files, vendored in aclstyle/
+% from github.com/acl-org/acl-style-files. Tectonic ignores TEXINPUTS, so the
+% Makefile copies them next to the paper rather than putting them on a path.
+%
+% The review option is what a submission wants: it anonymises the author
+% block and adds line numbers for reviewers. Switch to preprint for arXiv
+% and to final once accepted.
+\documentclass[11pt]{article}
+\usepackage[review]{acl}
+
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{longtable}
+\usepackage{enumitem}
+\setlist{topsep=2pt,itemsep=1pt,parsep=0pt,leftmargin=*}
+\usepackage{microtype}
+
+% Three double column floats in an eight page body. With LaTeX's defaults a
+% figure* taller than 0.7 of the column gets deferred to its own page, which
+% pushed the body onto a ninth page while page eight sat half empty. These
+% let a wide float share a page with text instead.
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\setcounter{dbltopnumber}{3}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dblfloatpagefraction}{0.75}
+
+% acl.sty loads natbib itself, so it is not loaded again here.
+
+\input{shared}
+\submissiontrue
+
+\begin{document}
+\maketitle
+\input{body}
+\end{document}

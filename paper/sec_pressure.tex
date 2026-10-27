@@ -1,0 +1,47 @@
+\movedhead{Decision pressure}
+\label{sec:pressure}\label{app:pressure}
+Every item states that the client must raise cash equal to 10\% of the
+account this month, and that the account is tax exempt so no sale carries a
+tax consequence. Both sentences are identical across the arms of a pair.
+Neither is cosmetic.
+
+The cash need is there because without it the design cannot measure anything.
+In a pilot of 108 requests spanning all nine families and all three models,
+93\% of responses were \texttt{HOLD}, with no instance of \texttt{BUY\_MORE}
+and none of \texttt{SELL\_ALL}. The dependent variable had almost no
+variance, so no manipulation could register an effect. Two candidate
+explanations were tested and both failed: removing a normative instruction
+from the system prompt left the distribution unchanged at 83\% \texttt{HOLD},
+and adding a continuous target portfolio weight produced the position's
+current weight, to the decimal, in 28 of 36 responses. The cause was the
+stimulus. Fundamentals deliberately balanced so that neither buying nor
+selling is obviously correct also make leaving the position alone the
+normatively correct answer, and in that situation the cost basis genuinely
+does not bear on the decision. There is no decision to bias. Human
+disposition effect experiments do not have this problem because they always
+require a realisation choice: \citet{odean1998losses} measures which
+positions investors sell \emph{when they sell something}. With the cash need
+in place, \texttt{HOLD} fell to 71\% and the continuous measure acquired real
+spread (mean 15.3, sd 25.2, non-zero in 124 of 432 responses). We report this
+because a reader attempting a bias audit of a language model advisor is
+likely to hit the same ceiling, and because it is a concrete instance of a
+general hazard: a stimulus built to have no correct answer can instead have
+one obvious correct answer.
+
+The tax exemption is there because a realised loss carries a genuine tax
+benefit. Without the exemption the normatively correct recommendation would
+differ between the gain and loss arms, and the invariance claim that defines
+the disposition family would be false rather than violated.
+
+\ifsubmission
+One response format was tested and rejected. Asked to choose between two
+positions identical but for cost basis, the model picked the same one 24
+times out of 24, which reads as a large preference; given a continuous
+allocation over those same two positions it answered exactly 50.0 every
+time, with zero variance. The apparent effect was an artefact of forcing a
+binary choice on a model that had already seen the options were equivalent.
+Appendix~\ref{app:rejected} gives the full exchange, because the failure mode
+generalises to any forced-choice bias probe.
+\else
+\input{sec_rejected}
+\fi

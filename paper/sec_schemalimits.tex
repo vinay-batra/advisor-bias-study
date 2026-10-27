@@ -1,0 +1,16 @@
+\movedhead{Two schema limits}
+\label{sec:schemalimits}\label{app:schemalimits}
+Two schema limits are worth recording for anyone reproducing this. The API
+rejects \texttt{minimum} and \texttt{maximum} on a numeric field with an
+HTTP 400, so the stated 0 to 100 bounds are advisory and are checked at
+collection rather than by the schema. A value outside them is flagged and
+never clamped, because clamping would convert a failure to follow the
+instruction into a valid looking extreme answer. It is then dropped from the
+continuous measure, since a number outside 0 to 100 is not a percentage of a
+position and cannot enter a mean of percentages, while the same response's
+categorical answer is retained. The two measures therefore rest on slightly
+different numbers of observations, and both counts are reported. The
+categorical and continuous measures can also disagree, for instance
+\texttt{HOLD} with a non-zero percentage. Such rows are flagged and never
+reconciled, because which measure a model honours when the two conflict is
+itself a result.
