@@ -10,6 +10,11 @@
 % There the appendix supplies its own \section, so this prints nothing.
 \newcommand{\movedhead}[1]{\ifsubmission\else\subsection{#1}\fi}
 
+% Cross reference to one of those moved sections. The target is an inline
+% section in the reading build and an appendix in the submission build, so the
+% word has to follow the build: "Section O" is wrong when O is an appendix.
+\newcommand{\movedref}[1]{\ifsubmission Appendix\else Section\fi~\ref{#1}}
+
 % Shared by every venue preamble. main.tex and main_acl.tex differ only in
 % document class, geometry and bibliography style; everything below is the
 % same paper, so it lives here rather than in two places that can drift.
