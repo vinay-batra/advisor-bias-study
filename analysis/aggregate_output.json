@@ -1,0 +1,113 @@
+{
+  "family": "disposition",
+  "registered": false,
+  "aggregates": [
+    {
+      "label": "all nine cells",
+      "effect": 0.23888888888888887,
+      "ci_low": 0.14814814814814814,
+      "ci_high": 0.33148148148148143,
+      "n_pairs": 108,
+      "n_positive": 47,
+      "n_negative": 11
+    },
+    {
+      "label": "claude-haiku-5-5",
+      "effect": 0.3666666666666667,
+      "ci_low": 0.2111111111111111,
+      "ci_high": 0.5333333333333333,
+      "n_pairs": 36,
+      "n_positive": 24,
+      "n_negative": 5
+    },
+    {
+      "label": "claude-opus-5-5",
+      "effect": 0.022222222222222213,
+      "ci_low": -0.10555555555555557,
+      "ci_high": 0.14444444444444443,
+      "n_pairs": 36,
+      "n_positive": 8,
+      "n_negative": 5
+    },
+    {
+      "label": "claude-sonnet-5-5",
+      "effect": 0.3277777777777778,
+      "ci_low": 0.17222222222222222,
+      "ci_high": 0.49444444444444446,
+      "n_pairs": 36,
+      "n_positive": 15,
+      "n_negative": 1
+    },
+    {
+      "label": "all nine cells",
+      "effect": 13.375925925925925,
+      "ci_low": 8.825925925925926,
+      "ci_high": 18.037037037037038,
+      "n_pairs": 108,
+      "n_positive": 64,
+      "n_negative": 16
+    },
+    {
+      "label": "claude-haiku-5-5",
+      "effect": 21.194444444444443,
+      "ci_low": 12.722222222222221,
+      "ci_high": 30.38888888888889,
+      "n_pairs": 36,
+      "n_positive": 26,
+      "n_negative": 6
+    },
+    {
+      "label": "claude-opus-5-5",
+      "effect": 3.3777777777777778,
+      "ci_low": -2.566666666666667,
+      "ci_high": 9.350000000000001,
+      "n_pairs": 36,
+      "n_positive": 20,
+      "n_negative": 9
+    },
+    {
+      "label": "claude-sonnet-5-5",
+      "effect": 15.555555555555555,
+      "ci_low": 8.11111111111111,
+      "ci_high": 23.666666666666668,
+      "n_pairs": 36,
+      "n_positive": 18,
+      "n_negative": 1
+    }
+  ],
+  "action_shares": [
+    {
+      "model": "claude-haiku-5-5",
+      "n": 3240,
+      "shares": {
+        "BUY_MORE": 0.0,
+        "HOLD": 46.54320987654321,
+        "SELL_PARTIAL": 47.160493827160494,
+        "SELL_ALL": 6.296296296296297
+      },
+      "modal": "SELL_PARTIAL"
+    },
+    {
+      "model": "claude-opus-5-5",
+      "n": 3240,
+      "shares": {
+        "BUY_MORE": 0.0,
+        "HOLD": 17.65432098765432,
+        "SELL_PARTIAL": 80.80246913580247,
+        "SELL_ALL": 1.5432098765432098
+      },
+      "modal": "SELL_PARTIAL"
+    },
+    {
+      "model": "claude-sonnet-5-5",
+      "n": 3240,
+      "shares": {
+        "BUY_MORE": 0.0,
+        "HOLD": 63.24074074074074,
+        "SELL_PARTIAL": 34.53703703703704,
+        "SELL_ALL": 2.2222222222222223
+      },
+      "modal": "HOLD"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+  5 duplicate custom_ids resolved, usable row preferred
+==============================================================================
+Self check: the disposition cells of the registered analysis
+==============================================================================
+  18 cells checked against analysis/confirmatory_output.txt, 0 mismatched
+
+==============================================================================
+Categorical answer shares per model
+==============================================================================
+  claude-haiku-5-5     n= 3240  BUY_MORE 0.0%  HOLD 46.5%  SELL_PARTIAL 47.2%  SELL_ALL 6.3%
+  claude-opus-5-5      n= 3240  BUY_MORE 0.0%  HOLD 17.7%  SELL_PARTIAL 80.8%  SELL_ALL 1.5%
+  claude-sonnet-5-5    n= 3240  BUY_MORE 0.0%  HOLD 63.2%  SELL_PARTIAL 34.5%  SELL_ALL 2.2%
+  never returned by any model at any effort: BUY_MORE
+
+==============================================================================
+Secondary aggregation, sell_tendency. Not a registered quantity:
+it pools over model and effort, which the design varies.
+==============================================================================
+  all nine cells             +0.239 [  +0.148,   +0.331]   108 pairs,  47 positive,  11 negative,  50 zero
+  claude-haiku-5-5           +0.367 [  +0.211,   +0.533]    36 pairs,  24 positive,   5 negative,   7 zero
+  claude-opus-5-5            +0.022 [  -0.106,   +0.144]    36 pairs,   8 positive,   5 negative,  23 zero
+  claude-sonnet-5-5          +0.328 [  +0.172,   +0.494]    36 pairs,  15 positive,   1 negative,  20 zero
+
+==============================================================================
+Secondary aggregation, pct_to_sell. Not a registered quantity:
+it pools over model and effort, which the design varies.
+==============================================================================
+  all nine cells            +13.376 [  +8.826,  +18.037]   108 pairs,  64 positive,  16 negative,  28 zero
+  claude-haiku-5-5          +21.194 [ +12.722,  +30.389]    36 pairs,  26 positive,   6 negative,   4 zero
+  claude-opus-5-5            +3.378 [  -2.567,   +9.350]    36 pairs,  20 positive,   9 negative,   7 zero
+  claude-sonnet-5-5         +15.556 [  +8.111,  +23.667]    36 pairs,  18 positive,   1 negative,  17 zero
+
+wrote analysis/aggregate_output.json

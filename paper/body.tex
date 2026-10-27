@@ -11,7 +11,7 @@ against matched pairs that differ only in that cue. Across 9{,}720 responses
 from three models the disposition effect runs opposite to the human
 direction: these models are more willing to sell at a loss than at a gain,
 $+0.239$ $[+0.148, +0.331]$ on the categorical measure and $+13.4$ $[+8.8,
-+18.1]$ percentage points of the position, where the pre-registered
++18.0]$ percentage points of the position, where the pre-registered
 prediction was negative. Reasoning effort reduces the absolute effect in all
 nine qualifying cases, against a shuffled-label null of 0.0125 rather than
 the $2^{-9}$ a count would suggest, and it does so by compressing the spread
@@ -461,6 +461,7 @@ Appendix~\ref{app:companies} gives the randomisation.
 \fi
 
 \subsection{Models, effort, and sampling}
+\label{sec:models}
 The three models are \texttt{claude-haiku-5-5}, \texttt{claude-sonnet-5-5}
 and \texttt{claude-opus-5-5}, each at \texttt{low}, \texttt{medium} and
 \texttt{high} reasoning effort, 108 pairs per cell and five trials per
@@ -987,9 +988,11 @@ The confirmatory set is 9{,}720 responses, one row per \texttt{custom\_id}, in
 never pooled with it. \texttt{analysis/analyze.py} reproduces every
 pre-registered number in Section~\ref{sec:results} from that file,
 \texttt{analysis/exploratory.py} the analyses labelled as not pre-registered,
-and \texttt{analysis/mediator.py} the three designs of
-Section~\ref{sec:mediator}. All are deterministic given the seeds recorded in
-them.
+\texttt{analysis/mediator.py} the three designs of
+Section~\ref{sec:mediator}, and \texttt{analysis/aggregate.py} the secondary
+aggregation of the disposition family quoted in the abstract, which checks
+itself against the registered per-cell figures before reporting. All are
+deterministic given the seeds recorded in them.
 
 \section{Full prompt battery}
 \label{app:battery}

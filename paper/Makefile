@@ -22,6 +22,10 @@ PYTHON ?= python3
 VENVPY ?= ../.venv/bin/python
 
 GENERATED = example_pair.tex items_appendix.tex
+# Each moved section, table and figure is its own file pulled in by body.tex.
+# Without these a build after editing one of them alone is skipped as up to
+# date and `make check` passes on the previous PDF.
+PARTS = $(wildcard sec_*.tex) $(wildcard tab_*.tex) $(wildcard fig_*.tex)
 # Tectonic ignores TEXINPUTS, so the style files live next to the paper as
 # copies of the vendored originals rather than being found on a path.
 ACLSTYLE = acl.sty acl_natbib.bst
@@ -30,12 +34,16 @@ FIGS = ../figures/fig1_forest_acl.pdf ../figures/fig2_effort_acl.pdf \
 
 all: main.pdf main_acl.pdf
 
-main.pdf: main.tex shared.tex body.tex refs.bib $(GENERATED) $(FIGS)
-	$(TECTONIC) -X compile main.tex --keep-logs --untrusted
+# --keep-intermediates keeps the .aux, the only record of what number or
+# appendix letter each label resolved to. Without it tectonic skips writing
+# one and a leftover from an earlier run sits beside a fresh PDF reading as
+# current.
+main.pdf: main.tex shared.tex body.tex refs.bib $(GENERATED) $(PARTS) $(FIGS)
+	$(TECTONIC) -X compile main.tex --keep-logs --keep-intermediates --untrusted
 
 main_acl.pdf: main_acl.tex shared.tex body.tex refs.bib $(GENERATED) \
-              $(ACLSTYLE) $(FIGS)
-	$(TECTONIC) -X compile main_acl.tex --keep-logs --untrusted
+              $(PARTS) $(ACLSTYLE) $(FIGS)
+	$(TECTONIC) -X compile main_acl.tex --keep-logs --keep-intermediates --untrusted
 
 acl.sty: aclstyle/acl.sty
 	cp $< $@
@@ -66,6 +74,8 @@ check: main.pdf main_acl.pdf
 	done
 	@echo "clean: no undefined references, no duplicate labels, no overfull lines"
 	@$(PYTHON) pagecheck.py main_acl.log
+	@$(PYTHON) branchaudit.py
+	@$(PYTHON) numaudit.py
 
 clean:
 	rm -f main.pdf main.log main.blg main.aux main.bbl main.out main.xdv
