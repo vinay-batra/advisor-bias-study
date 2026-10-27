@@ -479,3 +479,44 @@ and the same matched pair definition. Running it on wave 1 alone must
 reproduce the committed outputs exactly, and that reproduction is the
 regression test that the wave machinery did not quietly alter the registered
 analysis.
+
+## Amendment 6, 2026-10-27 UTC: wave 2 is complete for two models, not three
+
+Wave 2 collection stopped partway. The three Opus batches returned
+`invalid_request_error`, "Your credit balance is too low to access the
+Anthropic API", for 443 of 1080 requests at `low`, 441 of 1080 at `medium`
+and 447 of 1080 at `high`. The haiku and sonnet batches had already
+completed, 1080 of 1080 each, with no errors. The rule below was written
+while the `high` batch was still running and is left as it was written; that
+batch has since ended the same way, which changes nothing about the rule.
+
+The rule, fixed here before any Opus wave 2 effect was computed:
+
+> A wave 2 cell enters any reading only if it is complete: every one of the
+> twelve matched pairs present with both conditions. A cell short of that is
+> excluded whole, not analysed on what survived.
+
+This was decided on coverage alone. The coverage is what was looked at and it
+is the reason: 37 of 108 pairs per Opus effort have both conditions, and the
+survivors are spread unevenly across the families, from 7 pairs in action
+bias down to 2 in disposition and 2 in brand salience. A cell resting on two
+pairs is not an estimate, and a reading in which Opus rests on a different
+and much smaller item set than Haiku and Sonnet is not a comparison between
+models. No Opus wave 2 effect was computed before this rule was written, and
+the rule keys on whether a cell is complete rather than on anything it says.
+
+The consequences, to be reported rather than smoothed over:
+
+- The wave 2 replication covers Haiku and Sonnet, at all three efforts and
+  all nine families. It does not cover Opus.
+- The pooled reading therefore gives Haiku and Sonnet twenty four pairs per
+  cell and leaves Opus at wave 1's twelve. The power gain is theirs, not
+  Opus's, and every statement of it has to say so.
+- The paper's disclosed defect, that Opus spans zero on the disposition
+  measures because its sign changes with effort, is an Opus claim and wave 2
+  cannot speak to it. It stands exactly where wave 1 left it.
+
+The partial Opus responses stay in `data/responses_wave2.jsonl`. They are
+data, and deleting them would make the exclusion unverifiable. The rule is
+enforced in `analysis/replication.py`, which reports which cells it dropped
+and why.

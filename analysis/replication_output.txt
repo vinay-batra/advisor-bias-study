@@ -1,0 +1,95 @@
+19,440 distinct custom_ids, none shared between waves
+
+  5 duplicate custom_ids resolved, usable row preferred
+wave 1: 9,720 responses, 9,720 usable
+wave 2: 9,720 responses, 8,389 usable, 1,331 errored
+  wave 2: 54 cells excluded under Amendment 6, fewer than 12 complete pairs
+    opus-5-5       high    18 cells, 2 to 7 pairs
+    opus-5-5       low     18 cells, 2 to 7 pairs
+    opus-5-5       medium  18 cells, 2 to 7 pairs
+
+  wave 2 covers 6 of 9 model by effort cells. Not covered: opus-5-5/high, opus-5-5/low, opus-5-5/medium
+  every comparison below is restricted to the cells both waves cover, so it is a comparison between item sets rather than between models. The models a wave does not cover are absent from it, not estimated from part of it.
+  5 duplicate custom_ids resolved, usable row preferred
+pooled: 19,440 responses, 18,109 usable
+  pooled: 54 cells pool to wave 1 alone, their wave 2 half being incomplete: opus-5-5/high, opus-5-5/low, opus-5-5/medium
+
+==============================================================================
+Wave 1 alone: the registered result, twelve pairs per cell
+==============================================================================
+  sell_tendency   81 cells,  10 with an interval clear of zero,  1 surviving Holm, 33 where a p below 0.05 is attainable at all
+  pct_to_sell     81 cells,  22 with an interval clear of zero,  3 surviving Holm, 64 where a p below 0.05 is attainable at all
+
+==============================================================================
+Wave 2 alone: out of sample, on items chosen after wave 1 was read
+==============================================================================
+  sell_tendency   54 cells,   4 with an interval clear of zero,  0 surviving Holm, 29 where a p below 0.05 is attainable at all
+  pct_to_sell     54 cells,   4 with an interval clear of zero,  0 surviving Holm, 33 where a p below 0.05 is attainable at all
+
+==============================================================================
+Pooled: twenty four pairs per cell where both waves are complete, twelve where only wave 1 is
+==============================================================================
+  sell_tendency   81 cells,  15 with an interval clear of zero,  2 surviving Holm, 42 where a p below 0.05 is attainable at all
+  pct_to_sell     81 cells,  26 with an interval clear of zero,  3 surviving Holm, 72 where a p below 0.05 is attainable at all
+
+==============================================================================
+Agreement between the waves
+==============================================================================
+  over the 108 cells both waves carry: haiku-5-5/high, haiku-5-5/low, haiku-5-5/medium, sonnet-5-5/high, sonnet-5-5/low, sonnet-5-5/medium
+
+  sell_tendency
+    sign agreement        33/47 cells with a nonzero effect in both waves point the same way
+    wave 2 covers wave 1  41/54 cells, wave 2's interval contains wave 1's point estimate
+    rank correlation      +0.467 across 54 cells (permutation p 0.0009)
+    heterogeneity         2/54 cells differ between waves by more than the pairs explain (3.7%, near 5% under a true replication)
+    wave 1 significant    7 cells, of which 6 keep the sign in wave 2 and 1 are significant again
+      the second figure is bounded by wave 2's own power, which is wave 1's: twelve pairs, the same floor. The sign is what a wave this size can replicate.
+
+  pct_to_sell
+    sign agreement        36/53 cells with a nonzero effect in both waves point the same way
+    wave 2 covers wave 1  43/54 cells, wave 2's interval contains wave 1's point estimate
+    rank correlation      +0.484 across 54 cells (permutation p 0.0005)
+    heterogeneity         2/54 cells differ between waves by more than the pairs explain (3.7%, near 5% under a true replication)
+    wave 1 significant    9 cells, of which 8 keep the sign in wave 2 and 1 are significant again
+      the second figure is bounded by wave 2's own power, which is wave 1's: twelve pairs, the same floor. The sign is what a wave this size can replicate.
+
+==============================================================================
+The abstract's claim, by wave: disposition pooled over model and effort
+==============================================================================
+Not a registered quantity. It pools across two factors the design varies.
+
+  sell_tendency
+    wave 1     +0.239 [  +0.148,   +0.331]   108 pairs,  47 positive,  11 negative
+    w1 same cells   +0.347 [  +0.233,   +0.464]    72 pairs,  39 positive,   6 negative
+    wave 2     +0.147 [  +0.014,   +0.281]    72 pairs,  28 positive,  14 negative
+    pooled     +0.202 [  +0.126,   +0.278]   180 pairs,  75 positive,  25 negative
+    wave 2 minus w1 same cells   -0.200 [  -0.375,   -0.022]   excludes zero
+
+  pct_to_sell
+    wave 1    +13.376 [  +8.826,  +18.037]   108 pairs,  64 positive,  16 negative
+    w1 same cells  +18.375 [ +12.542,  +24.361]    72 pairs,  44 positive,   7 negative
+    wave 2     +7.728 [  +0.881,  +14.694]    72 pairs,  28 positive,  20 negative
+    pooled    +11.117 [  +7.244,  +15.002]   180 pairs,  92 positive,  36 negative
+    wave 2 minus w1 same cells  -10.647 [ -19.678,   -1.611]   excludes zero
+
+==============================================================================
+Every cell that survives Holm in wave 1, as the other two readings see it
+==============================================================================
+  pct_to_sell    haiku-5-5      low     disposition         
+      wave 1    +44.167 [  +28.500,   +60.333]  ci holm
+      wave 2    +27.000 [   +9.500,   +46.333]  ci 
+      pooled    +35.583 [  +22.958,   +48.500]  ci holm
+      between waves -41.167 to +8.083
+  sell_tendency  haiku-5-5      low     disposition         
+      wave 1     +0.750 [   +0.483,    +1.033]  ci holm
+      wave 2     +0.500 [   +0.167,    +0.850]  ci 
+      pooled     +0.625 [   +0.400,    +0.858]  ci holm
+      between waves -0.700 to +0.200
+
+==============================================================================
+What the pairs bought: cells where a p below 0.05 is attainable
+==============================================================================
+  sell_tendency  1: 33/81 reachable, 1 Holm   2: 29/54 reachable, 0 Holm   pooled: 42/81 reachable, 2 Holm
+  pct_to_sell    1: 64/81 reachable, 3 Holm   2: 33/54 reachable, 0 Holm   pooled: 72/81 reachable, 3 Holm
+
+wrote analysis/replication_output.json

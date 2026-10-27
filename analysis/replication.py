@@ -104,6 +104,43 @@ def diffs_by_cell(rows):
     return out
 
 
+def complete_cells(diffs, pairs_expected):
+    """Drop any cell that is not complete, and say which and why.
+
+    Amendment 6. Wave 2 collection stopped partway when the API credit ran
+    out, which left the three Opus efforts with roughly a third of their
+    pairs and that third spread unevenly across the families, from seven
+    pairs in one down to two in another. A cell resting on two pairs is not
+    an estimate, and a reading in which one model rests on a different and
+    much smaller item set than the others is not a comparison between models.
+
+    The rule keys on completeness rather than on anything a cell says, and it
+    was written down before any effect from the partial data was computed.
+    Nothing is deleted: the responses stay on disk, and this is the only
+    place that decides what they are used for.
+    """
+    keep, dropped = {}, []
+    for k, ds in diffs.items():
+        if len(ds) >= pairs_expected:
+            keep[k] = ds
+        else:
+            dropped.append((k, len(ds)))
+    return keep, dropped
+
+
+def report_dropped(dropped, pairs_expected, label):
+    if not dropped:
+        return
+    by_cell = collections.defaultdict(list)
+    for (measure, model, effort, bias), n in dropped:
+        by_cell[(model, effort)].append(n)
+    print(f"  {label}: {len(dropped)} cells excluded under Amendment 6, "
+          f"fewer than {pairs_expected} complete pairs")
+    for (model, effort), ns in sorted(by_cell.items()):
+        print(f"    {model.replace('claude-', ''):<14} {effort:<7} "
+              f"{len(ns):>2} cells, {min(ns)} to {max(ns)} pairs")
+
+
 def cell_rows(diffs, label):
     """One summary row per cell, with Holm applied the registered way.
 
@@ -211,12 +248,18 @@ def main():
     print(f"{len(ids):,} distinct custom_ids, none shared between waves")
 
     per_wave, readings = {}, {}
+    print()
     for w in sorted(config.WAVES):
         rows = load_rows([w])
         ok = [r for r in rows if r.get("status") == "ok"]
-        print(f"wave {w}: {len(rows):,} responses, {len(ok):,} usable")
-        per_wave[w] = diffs_by_cell(ok)
-        readings[w] = cell_rows(per_wave[w], f"wave{w}")
+        bad = len(rows) - len(ok)
+        print(f"wave {w}: {len(rows):,} responses, {len(ok):,} usable"
+              + (f", {bad:,} errored" if bad else ""))
+        want = config.WAVES[w]["pairs"]
+        full, dropped = complete_cells(diffs_by_cell(ok), want)
+        report_dropped(dropped, want, f"wave {w}")
+        per_wave[w] = full
+        readings[w] = cell_rows(full, f"wave{w}")
 
     # Every reading below compares waves cell for cell, so the waves have to
     # cover the same cells. A wave still collecting covers fewer, and the
@@ -230,16 +273,33 @@ def main():
     if short:
         print()
         for w, miss in short.items():
-            print(f"  WARNING wave {w} is missing {len(miss)} of "
-                  f"{len(full)} model by effort cells: "
+            print(f"  wave {w} covers {len(full) - len(miss)} of {len(full)} "
+                  f"model by effort cells. Not covered: "
                   f"{', '.join(m.replace('claude-', '') + '/' + e for m, e in miss)}")
-        print("  the readings below compare different sets of models, not "
-              "different items. Finish collection before quoting them.")
+        print("  every comparison below is restricted to the cells both "
+              "waves cover, so it is a comparison between item sets rather "
+              "than between models. The models a wave does not cover are "
+              "absent from it, not estimated from part of it.")
 
     pooled_rows = load_rows(tuple(sorted(config.WAVES)))
     pooled_ok = [r for r in pooled_rows if r.get("status") == "ok"]
     print(f"pooled: {len(pooled_rows):,} responses, {len(pooled_ok):,} usable")
-    pooled = diffs_by_cell(pooled_ok)
+    # Amendment 6 applies to the pooled reading through the same rule. A cell
+    # whose wave 2 half was incomplete pools to wave 1's twelve pairs rather
+    # than to twelve plus a ragged remainder, so the model whose wave 2 did
+    # not finish keeps wave 1's precision and no more. Which cells those are
+    # is printed, because the power claim below is only true of the rest.
+    pooled_all = diffs_by_cell(pooled_ok)
+    partial = {k for k in pooled_all
+               if k not in per_wave[2] and k in per_wave[1]}
+    pooled = {k: (per_wave[1][k] if k in partial else v)
+              for k, v in pooled_all.items()}
+    if partial:
+        cells = sorted({(m, e) for _, m, e, _ in partial})
+        print(f"  pooled: {len(partial)} cells pool to wave 1 alone, "
+              f"their wave 2 half being incomplete: "
+              + ", ".join(m.replace("claude-", "") + "/" + e
+                          for m, e in cells))
     readings["pooled"] = cell_rows(pooled, "pooled")
 
     print()
@@ -250,7 +310,8 @@ def main():
                   "out of sample, on items chosen after wave 1 was read")
     print()
     print_reading(readings["pooled"], "Pooled",
-                  "twenty four pairs per cell, the powered reading")
+                  "twenty four pairs per cell where both waves are complete, "
+                  "twelve where only wave 1 is")
 
     # Agreement between the waves, cell by cell.
     key = lambda r: (r["measure"], r["model"], r["effort"], r["bias"])
@@ -287,6 +348,10 @@ def main():
     print("=" * 78)
     print("Agreement between the waves")
     print("=" * 78)
+    covered = sorted({(k[1], k[2]) for k in shared})
+    print(f"  over the {len(shared)} cells both waves carry: "
+          + ", ".join(m.replace("claude-", "") + "/" + e
+                      for m, e in covered))
     summary = {}
     for mname in MEASURES:
         sub = [a for a in agree if a["measure"] == mname]
@@ -346,15 +411,23 @@ def main():
     head = {}
     for mname in MEASURES:
         print(f"\n  {mname}")
-        row = []
-        for label, src in ((f"wave {w}", per_wave[w])
-                           for w in sorted(config.WAVES)):
-            row.append((label, [d for (m, _, _, b), ds in src.items()
-                                if m == mname and b == "disposition"
-                                for d in ds]))
-        row.append(("pooled", [d for (m, _, _, b), ds in pooled.items()
-                               if m == mname and b == "disposition"
-                               for d in ds]))
+        # Wave 1 appears twice on purpose. Its first row is the paper's
+        # own figure, over every cell. Its second is the only row wave 2 can
+        # be set against, because wave 2 does not cover every model: without
+        # it a difference in the model mix would read as a difference
+        # between the waves.
+        def pull(src, keys=None):
+            return [d for k, ds in src.items()
+                    if k[0] == mname and k[3] == "disposition"
+                    and (keys is None or (k[1], k[2]) in keys)
+                    for d in ds]
+
+        both = {(k[1], k[2]) for k in set(per_wave[1]) & set(per_wave[2])}
+        row = [("wave 1", pull(per_wave[1]))]
+        if {(k[1], k[2]) for k in per_wave[1]} != both:
+            row.append(("w1 same cells", pull(per_wave[1], both)))
+        row.append(("wave 2", pull(per_wave[2])))
+        row.append(("pooled", pull(pooled)))
         head[mname] = []
         for label, ds in row:
             if not ds:
@@ -368,6 +441,21 @@ def main():
             head[mname].append(dict(reading=label, effect=snap(mean(ds)),
                                     ci_low=lo, ci_high=hi, n_pairs=len(ds),
                                     n_positive=pos, n_negative=neg))
+        # The two rows a reader should compare are the only two drawn from
+        # the same cells, so the difference between them is computed rather
+        # than left to be eyeballed off two overlapping intervals.
+        by_label = {r["reading"]: r for r in head[mname]}
+        a_lab = "w1 same cells" if "w1 same cells" in by_label else "wave 1"
+        a = pull(per_wave[1], both if a_lab != "wave 1" else None)
+        b = pull(per_wave[2])
+        d_lo, d_hi = diff_ci(a, b)
+        gap = snap(mean(b) - mean(a))
+        print(f"    {'wave 2 minus ' + a_lab:<13} {gap:+8.3f} "
+              f"[{d_lo:+8.3f}, {d_hi:+8.3f}]"
+              f"{'   excludes zero' if not (d_lo <= 0 <= d_hi) else ''}")
+        head[mname].append(dict(reading=f"wave 2 minus {a_lab}", effect=gap,
+                                ci_low=d_lo, ci_high=d_hi,
+                                excludes_zero=not (d_lo <= 0 <= d_hi)))
 
     # The four cells that survive Holm anywhere in wave 1 are the paper's
     # strongest claims, so they are printed individually rather than counted.
