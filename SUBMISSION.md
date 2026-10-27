@@ -10,6 +10,14 @@ ACL Rolling Review cycle that opens in January 2027, about ten weeks out.
 That is not a setback. It is the first time this paper has had slack in its
 schedule, and there is one thing worth spending the slack on.
 
+**Updated 2026-10-27.** Part of that one thing has been done. A replication
+wave of 9,720 responses ran on 27 October and is reported in the paper's
+appendix. Haiku and Sonnet came back complete; the three Opus batches failed
+on an exhausted API credit balance and are excluded whole under amendment 6.
+The study's credit is spent, so any further collection needs funding before
+it can start. What the wave bought, and what it did not, is in "What to
+spend the ten weeks on" below, and it changes the case for a third wave.
+
 ## What is closed, and when it closed
 
 | Venue | Deadline | Status |
@@ -77,10 +85,31 @@ move and it is still a weakness a reviewer will press, because the answer to
 better paragraph.
 
 Raising items per family above 12 lowers the floor geometrically: 16 moving
-pairs reach 0.00003. It would turn the multiplicity paragraph from a
-limitation into a result, and it is the single change that most improves the
-paper's chance of acceptance. It costs API money, it reuses the existing
-generator and analysis unchanged, and ten weeks is more than enough time.
+pairs reach 0.00003.
+
+**That reasoning has now been tested, and it was half right.** A second wave
+of 9,720 responses doubled the pairs to 24 per cell on Haiku and Sonnet. The
+floor fell exactly as predicted: cells where a $p$ below 0.05 is attainable
+at all rose from 33 to 42 of 81 on the categorical measure and from 64 to 72
+on the continuous one. But Holm survival barely moved, from one cell to two
+on the first measure and from three to three on the second, because
+reachability was never the binding constraint. Holm over 81 cells needs the
+smallest $p$ under about 0.0006, and most of these effects are not large
+enough to get there at any number of pairs this study can afford.
+
+So if you fund a third wave, fund it knowing what it buys. More items per
+family will keep widening the set of cells where significance is expressible,
+which is worth having and is what the limitations section now reports. It
+will not convert the multiplicity paragraph into a result. The honest reading
+is that the per-cell design is interval-reported by necessity, not by choice,
+and the paper is stronger for saying so than it would be for a third wave
+that says it again with a larger $n$.
+
+The one place a third wave would change a finding rather than a $p$ is Opus.
+Its disposition interval spans zero because its sign flips with effort, and
+the replication wave could not speak to it because the credit ran out before
+its batches finished. Twelve more Opus pairs per family is a far smaller buy
+than a full third wave and it addresses the paper's largest remaining defect.
 
 That is your call and it is the one decision in this file I cannot make for
 you. The battery, the grading and the analysis all run unchanged on more
