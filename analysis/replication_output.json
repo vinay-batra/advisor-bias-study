@@ -11201,7 +11201,13 @@
       "top_quartile_mean_change": -0.11666666666666668,
       "rest_n": 41,
       "rest_shrank": 18,
-      "rest_mean_change": 0.008943089430894308
+      "rest_mean_change": 0.008943089430894308,
+      "slope": 0.46236030544358153,
+      "slope_ci": [
+        0.2054550553229591,
+        0.6388247369771618
+      ],
+      "intercept": 0.010265084341707417
     },
     "pct_to_sell": {
       "n_cells": 54,
@@ -11213,7 +11219,13 @@
       "top_quartile_mean_change": -5.8205128205128185,
       "rest_n": 41,
       "rest_shrank": 16,
-      "rest_mean_change": 0.6313008130081302
+      "rest_mean_change": 0.6313008130081302,
+      "slope": 0.4799745757207975,
+      "slope_ci": [
+        0.22057415720517154,
+        0.6325989816053318
+      ],
+      "intercept": 0.33514259407592517
     }
   },
   "compression": [

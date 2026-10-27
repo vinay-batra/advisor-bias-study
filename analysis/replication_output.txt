@@ -71,12 +71,16 @@ Not pre-registered. The items are new, so wave 1's draw is not shared with wave 
     conditional on size  rho(wave 1 magnitude, change in magnitude) -0.580 (permutation p 0.0001)
     top quartile         10/13 shrank, mean change -0.117
     the other three      18/41 shrank, mean change +0.009
+    shrinkage slope      wave 2 on wave 1 +0.462 [+0.205, +0.639], intercept +0.010
+                         an identity slope of 1 is outside that interval, so the fraction of a wave 1 effect that is signal is 0.462 and the rest was the draw
 
   pct_to_sell
     every cell           26/54 came in smaller in wave 2, against 27 under no attenuation at all
     conditional on size  rho(wave 1 magnitude, change in magnitude) -0.622 (permutation p 0.0001)
     top quartile         10/13 shrank, mean change -5.821
     the other three      16/41 shrank, mean change +0.631
+    shrinkage slope      wave 2 on wave 1 +0.480 [+0.221, +0.633], intercept +0.335
+                         an identity slope of 1 is outside that interval, so the fraction of a wave 1 effect that is signal is 0.480 and the rest was the draw
 
 ==============================================================================
 The compression of the family spread, by wave

@@ -53,6 +53,36 @@ size can replicate and a corrected $p$ is not. The pooled reading, where the
 pairs actually add, reaches two Holm cleared cells on the categorical measure
 and three on the continuous one.
 
+\ifsubmission
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/fig7_replication_acl.pdf}
+  \caption{The 54 cells both waves carry, each plotted at its wave 1 effect
+  against its wave 2 effect, on items the first wave never saw. If a
+  wave 1 estimate were the truth, the cloud would sit on the dashed identity
+  line; if the finding were noise, the cloud would be round. It is neither.
+  It tilts, which is the replication, and it tilts at about half the identity
+  slope, which is the shrinkage. Both axes carry the same range so that the
+  identity line is drawn at forty five degrees and a reader can judge the gap
+  by eye. The dotted verticals cut off the top quartile by wave 1 magnitude,
+  the band that loses half of itself while the rest of the design does not
+  move. A hollow marker is a cell whose wave 2 interval spans zero, which is
+  most of them: this is a figure about where the points sit, not about which
+  of them are significant.}
+  \label{fig:replication}
+\end{figure*}
+\else
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../figures/fig7_replication.pdf}
+  \caption{Wave 2 against wave 1, one point per cell. The dashed line is
+  perfect replication and the solid line is the fit. The gap between them is
+  the regression to the mean, and the dotted verticals mark the top quartile
+  by wave 1 magnitude, where all of it sits.}
+  \label{fig:replication}
+\end{figure}
+\fi
+
 \paragraph{The magnitudes do not replicate, and the reason is measurable.}
 The disposition aggregate over the cells wave 2 covers is $+0.347$ $[+0.233,
 +0.464]$ in wave 1 and $+0.147$ $[+0.014, +0.281]$ in wave 2; on the
@@ -70,6 +100,18 @@ quartile by wave 1 magnitude shrank in ten of thirteen cells, by $-0.117$ and
 $-5.821$ on average, while the other three quartiles moved $+0.009$ and
 $+0.631$, which is nothing.
 
+\paragraph{One number for all of it.} Regressing each cell's wave 2 effect on
+its wave 1 effect gives a slope of $+0.462$ $[+0.205, +0.639]$ on the
+categorical measure and $+0.480$ $[+0.221, +0.633]$ on the continuous one,
+resampled over cells rather than pairs. A slope of one is what wave 1
+estimates being the truth would produce, and both intervals exclude it; a
+slope of zero is what noise alone would produce, and both exclude that too.
+The slope is therefore the fraction of a wave 1 effect that was signal rather
+than a favourable item draw, measured on items the first wave never saw, and
+it is a little under a half. Figure~\ref{fig:replication} is that fit, and
+it is this section's argument in one picture: a cloud that tilts, at half the
+slope it would tilt at if twelve pairs told the truth.
+
 \paragraph{What that is.} Regression to the mean, measured from outside
 rather than bounded from inside. A large effect at twelve pairs is partly a
 large true effect and partly a favourable item draw, and only the first half
@@ -78,8 +120,9 @@ the compression result is regression to the mean and can only bracket the
 answer within one wave, because the sampling error it wants to subtract is
 estimated from the same twelve pairs that carry the effect. A second draw
 from the same generator is not subject to that circularity, and it puts a
-number on the correction: in the quartile where this paper's headline
-findings live, roughly half of a wave 1 magnitude is the draw.
+number on the correction: the slope above, and in the quartile where this
+paper's headline findings live, roughly half of a wave 1 magnitude is the
+draw.
 
 \paragraph{Both headline magnitudes attenuate, and both directions hold.}
 The single cell this paper leads with, Haiku at \texttt{low} effort on the

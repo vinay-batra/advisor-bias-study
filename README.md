@@ -247,6 +247,12 @@ rather than bracketing it:
 - The top quartile by wave 1 magnitude shrank in 10 of 13 cells, mean change
   $-0.117$ and $-5.821$. The other three quartiles moved $+0.009$ and
   $+0.631$, which is nothing.
+- All of it in one number: the slope of wave 2 on wave 1 across the 54 cells
+  is $+0.462$ [$+0.205$, $+0.639$] and $+0.480$ [$+0.221$, $+0.633$], so the
+  share of a wave 1 effect that was signal rather than a favourable item draw
+  is a little under a half, and both intervals exclude a slope of 1 (wave 1
+  told the truth) and a slope of 0 (wave 1 was noise). `figures/fig7_replication.pdf`
+  is that fit against the identity line.
 
 This is what `analysis/robustness.py` could only bracket from inside one
 wave, because the sampling error it wants to subtract is estimated from the

@@ -59,6 +59,12 @@ from analysis.exploratory import perm_corr, spearman
 # with the registered one sample bootstrap that produced the paper's
 # intervals.
 DIFF_SEED = 4201
+# The slope below resamples cells rather than pairs, which is a third kind of
+# draw, so it gets a third seed rather than borrowing either of the others.
+# It stays on the pure Python generator whether or not numpy is installed,
+# because 54 cells is small enough that there is nothing to gain and a second
+# code path would be a second thing to trust.
+SLOPE_SEED = 9901
 OUT_JSON = "analysis/replication_output.json"
 
 
@@ -249,6 +255,57 @@ def inference_cost(waves):
     return dict(requests=n, input_tokens=tin, output_tokens=tout)
 
 
+def shrinkage_slope(x, y, n=10000):
+    """The slope of wave 2 on wave 1, with an interval over cells.
+
+    Galton's regression, stated in the paper's own units. If every wave 1
+    estimate were the truth, wave 2 would scatter about the identity line and
+    the slope would be one. Regression to the mean predicts a slope below
+    one, and the slope is then the fraction of a wave 1 effect that was
+    signal rather than a favourable item draw, measured on items wave 1 never
+    saw. The quartile split is the same fact counted; this is it measured, and
+    the interval is what decides whether a slope below one is more than noise.
+
+    The resampling unit is the cell, because a cell is what the two waves
+    pair up. Draws in which every resampled cell carries the same wave 1
+    effect leave the slope undefined and are dropped rather than counted as
+    zero, which would pull the interval toward it.
+    """
+    import random
+
+    def fit(xs, ys):
+        mx, my = mean(xs), mean(ys)
+        sxx = sum((v - mx) ** 2 for v in xs)
+        if sxx <= 0:
+            return None
+        b = sum((p - mx) * (q - my) for p, q in zip(xs, ys)) / sxx
+        return b, my - b * mx
+
+    k = len(x)
+    whole = fit(x, y) if k >= 3 else None
+    if not whole:
+        nan = float("nan")
+        return nan, (nan, nan), nan
+
+    rng = random.Random(SLOPE_SEED)
+    draws = []
+    for _ in range(n):
+        idx = [rng.randrange(k) for _ in range(k)]
+        got = fit([x[i] for i in idx], [y[i] for i in idx])
+        if got:
+            draws.append(got[0])
+    draws.sort()
+    return (snap(whole[0]),
+            (_pct(draws, 0.025), _pct(draws, 0.975)),
+            snap(whole[1]))
+
+
+def _pct(ordered, q):
+    """The same percentile convention the registered bootstrap uses."""
+    i = min(len(ordered) - 1, max(0, math.ceil(q * len(ordered)) - 1))
+    return snap(float(ordered[i]))
+
+
 def regression_to_mean(agree):
     """How much of a large wave 1 cell was the item draw rather than the model.
 
@@ -303,12 +360,23 @@ def regression_to_mean(agree):
               f"mean change {snap(t_mean):+.3f}")
         print(f"    the other three      {r_shrank}/{len(rest)} shrank, "
               f"mean change {snap(r_mean):+.3f}")
+        slope, (s_lo, s_hi), icept = shrinkage_slope(
+            [a["w1_effect"] for a in sub], [a["w2_effect"] for a in sub])
+        print(f"    shrinkage slope      wave 2 on wave 1 {slope:+.3f} "
+              f"[{s_lo:+.3f}, {s_hi:+.3f}], intercept {icept:+.3f}")
+        print(f"                         an identity slope of 1 is "
+              f"{'outside' if s_hi < 1 else 'inside'} that interval, so the "
+              f"fraction of a wave 1 effect that is signal is "
+              f"{slope:.3f}" + (f" and the rest was the draw"
+                                if s_hi < 1 else " but not resolved from 1"))
         out[mname] = dict(n_cells=len(sub), n_smaller=shrank, rho=rho,
                           rho_p=p_rho, top_quartile_n=len(top),
                           top_quartile_shrank=t_shrank,
                           top_quartile_mean_change=snap(t_mean),
                           rest_n=len(rest), rest_shrank=r_shrank,
-                          rest_mean_change=snap(r_mean))
+                          rest_mean_change=snap(r_mean),
+                          slope=slope, slope_ci=[s_lo, s_hi],
+                          intercept=icept)
     return out
 
 

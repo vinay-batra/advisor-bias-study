@@ -6,6 +6,8 @@ Figures, one pair per dependent variable:
   fig3_entropy  response entropy per item, the stochasticity evidence
   fig4, fig5    the same forest and effort plots on the continuous
                 co-primary measure added in Amendment 3
+  fig6          whether dismissing a cue predicts not acting on it
+  fig7          wave 2 against wave 1, the regression to the mean
 
 results.json carries two rows per cell, one per measure, so every
 figure filters on `measure` first. A row without that key predates
@@ -223,6 +225,7 @@ def fig_entropy(results):
 # from the response text rather than from the matched pair means, and it is
 # not a registered quantity.
 REASONS_JSON = "analysis/reasons_output.json"
+REPLICATION_JSON = "analysis/replication_output.json"
 
 # Shape by model rather than colour, so the panel survives a greyscale
 # print the way the rest of the paper's figures do.
@@ -327,6 +330,123 @@ def fig_dissociation(stem="fig6_dissociation", compact=False):
     print(f"figures/{stem}.pdf")
 
 
+def fig_replication(stem="fig7_replication", compact=False):
+    """Wave 2 against wave 1, one point per cell. Galton's plot.
+
+    The whole regression-to-the-mean argument is one picture. Each point is a
+    cell the two waves share, its wave 1 effect on the x axis and its wave 2
+    effect on the y. If a wave 1 estimate were the truth, the cloud would sit
+    on the dashed identity line. If the finding were noise, the cloud would be
+    round. It is neither: it tilts, which is the replication, and it tilts at
+    about half the identity slope, which is the shrinkage.
+
+    Both axes are forced to the same symmetric range, because an identity
+    line that is not drawn at forty five degrees is a lie about how far the
+    points fall from it. That is also why the fitted line is drawn over the
+    observed x range only and not extrapolated to the frame.
+
+    The slope and its interval come from replication.py rather than being
+    refitted here, so the number in the panel is the number in the appendix.
+    """
+    if not os.path.exists(REPLICATION_JSON):
+        print(f"{REPLICATION_JSON} missing, skipping {stem}")
+        return
+    with open(REPLICATION_JSON) as f:
+        blob = json.load(f)
+    cells, rtm = blob["agreement"], blob["regression_to_mean"]
+    measures = [m for m in ("sell_tendency", "pct_to_sell")
+                if any(c["measure"] == m for c in cells) and m in rtm]
+    if not measures:
+        return
+
+    size = (6.3, 3.0) if compact else (11, 5.0)
+    with compact_rc(compact):
+        fig, axes = plt.subplots(1, len(measures), figsize=size)
+    if len(measures) == 1:
+        axes = [axes]
+    for ax, measure in zip(axes, measures):
+        sub = [c for c in cells if c["measure"] == measure]
+        xs = [c["w1_effect"] for c in sub]
+        ys = [c["w2_effect"] for c in sub]
+        # One range for both axes, so the identity line is drawn at forty
+        # five degrees, but not forced symmetric about zero: the effects are
+        # mostly positive and a symmetric frame would spend half the panel on
+        # an empty quadrant.
+        pad = (max(xs + ys) - min(xs + ys)) * 0.06
+        lo, hi = min(xs + ys) - pad, max(xs + ys) + pad
+        ax.plot([lo, hi], [lo, hi], linestyle="--", color="0.55",
+                linewidth=0.9, zorder=1)
+        ax.axhline(0, color="0.8", linewidth=0.7, zorder=0)
+        ax.axvline(0, color="0.8", linewidth=0.7, zorder=0)
+
+        stat = rtm[measure]
+        b, a = stat["slope"], stat["intercept"]
+        x0, x1 = min(xs), max(xs)
+        ax.plot([x0, x1], [a + b * x0, a + b * x1], color="black",
+                linewidth=1.3, zorder=2)
+
+        # The top quartile by wave 1 magnitude is where the paper says all of
+        # the shrinkage sits, so it is marked rather than described: the band
+        # outside the dotted verticals is that quartile.
+        cut = sorted((abs(v) for v in xs), reverse=True)[stat["top_quartile_n"]
+                                                         - 1]
+        for v in (-cut, cut):
+            ax.axvline(v, color="0.75", linestyle=":", linewidth=0.8,
+                       zorder=0)
+
+        for model, marker in MODEL_MARKER.items():
+            mine = [c for c in sub if model in c["model"]]
+            for c in mine:
+                ax.plot(c["w1_effect"], c["w2_effect"], marker=marker,
+                        color="black",
+                        markerfacecolor=("black" if c["w2_significant"]
+                                         else "none"),
+                        markersize=(3.6 if compact else 6.5),
+                        markeredgewidth=0.9, linestyle="none", zorder=3)
+
+        ax.set_title(f"{measure.replace('_', ' ')}"
+                     f"   slope {b:+.3f} "
+                     f"[{stat['slope_ci'][0]:+.3f}, "
+                     f"{stat['slope_ci'][1]:+.3f}], "
+                     f"{stat['n_cells']} cells",
+                     fontsize=7 if compact else 11)
+        ax.set_xlabel("wave 1 effect")
+        ax.set_ylabel("wave 2 effect")
+        ax.set_xlim(lo, hi)
+        ax.set_ylim(lo, hi)
+        ax.set_aspect("equal", adjustable="box")
+        for sp in ("top", "right"):
+            ax.spines[sp].set_visible(False)
+
+    ms = 3.6 if compact else 6.5
+    handles = [plt.Line2D([], [], marker=m, color="black", linestyle="none",
+                          markerfacecolor="black", markersize=ms, label=k)
+               for k, m in MODEL_MARKER.items()
+               if any(k in c["model"] for c in cells)]
+    handles += [
+        plt.Line2D([], [], marker="D", color="black", linestyle="none",
+                   markerfacecolor="none", markersize=ms),
+        plt.Line2D([], [], linestyle="--", color="0.55", linewidth=0.9),
+        plt.Line2D([], [], linestyle="-", color="black", linewidth=1.3),
+    ]
+    labels = [k for k in MODEL_MARKER
+              if any(k in c["model"] for c in cells)] + [
+        "hollow: wave 2 interval spans zero",
+        "dashed: perfect replication",
+        "solid: fitted",
+    ]
+    axes[0].legend(handles, labels, fontsize=5.5 if compact else 8,
+                   loc="upper left", frameon=False,
+                   handletextpad=0.9, labelspacing=0.5, handlelength=1.8)
+    if not compact:
+        fig.suptitle("Half of a wave 1 effect was the item draw", fontsize=12)
+    fig.tight_layout(pad=0.45 if compact else 1.08)
+    fig.savefig(f"figures/{stem}.pdf")
+    fig.savefig(f"figures/{stem}.png", dpi=200)
+    plt.close(fig)
+    print(f"figures/{stem}.pdf")
+
+
 if __name__ == "__main__":
     r = load()
     fig_forest(r)
@@ -343,3 +463,5 @@ if __name__ == "__main__":
                compact=True)
     fig_dissociation()
     fig_dissociation(stem="fig6_dissociation_acl", compact=True)
+    fig_replication()
+    fig_replication(stem="fig7_replication_acl", compact=True)
