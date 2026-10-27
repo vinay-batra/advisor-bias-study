@@ -23,10 +23,12 @@ from contextlib import nullcontext
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.legend_handler import HandlerTuple
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from analysis.directions import DIRECTIONS
+from analysis.exploratory import spearman
 
 EFFORT_ORDER = ["low", "medium", "high", "xhigh", "max"]
 
@@ -217,6 +219,114 @@ def fig_entropy(results):
     print("figures/fig3_entropy.pdf")
 
 
+# The reason-text measure lives in its own output file, because it is read
+# from the response text rather than from the matched pair means, and it is
+# not a registered quantity.
+REASONS_JSON = "analysis/reasons_output.json"
+
+# Shape by model rather than colour, so the panel survives a greyscale
+# print the way the rest of the paper's figures do.
+MODEL_MARKER = {"haiku": "o", "sonnet": "s", "opus": "^"}
+
+
+def fig_dissociation(stem="fig6_dissociation", compact=False):
+    """Does dismissing the cue predict not acting on it? One panel per measure.
+
+    The x axis is the share of a cell's one-sentence reasons that name the
+    manipulated cue and dismiss it. The y axis is the size of that cell's
+    effect, unsigned, because the claim is about magnitude. If saying the
+    right thing meant doing the right thing, the cloud would run downhill.
+
+    Only the six families the advisor ever refers to appear. Three of the nine
+    manipulate how the decision is framed rather than what is in it, and a
+    rejection rate of essentially zero for them is a fact about the probe, not
+    about the model, so plotting it would put thirty points on the left wall
+    for the wrong reason.
+
+    A filled marker is a cell whose interval clears zero; a ringed one also
+    survives Holm. The ringed points are the paper's strongest claims, and
+    where they sit is the figure's argument: two of the four are at the far
+    right, in cells that dismiss the cue in over nine tenths of their reasons.
+    """
+    if not os.path.exists(REASONS_JSON):
+        print(f"{REASONS_JSON} missing, skipping {stem}")
+        return
+    with open(REASONS_JSON) as f:
+        cells = json.load(f)["dissociation"]["cells"]
+    measures = [m for m in ("sell_tendency", "pct_to_sell")
+                if any(c["measure"] == m for c in cells)]
+    if not measures:
+        return
+
+    size = (6.3, 2.5) if compact else (11, 4.6)
+    with compact_rc(compact):
+        fig, axes = plt.subplots(1, len(measures), figsize=size)
+    if len(measures) == 1:
+        axes = [axes]
+    for ax, measure in zip(axes, measures):
+        sub = [c for c in cells if c["measure"] == measure]
+        for model, marker in MODEL_MARKER.items():
+            mine = [c for c in sub if c["model"] == model]
+            if not mine:
+                continue
+            for c in mine:
+                y = abs(c["effect"])
+                face = "black" if c["significant"] else "none"
+                ax.plot(c["reject_rate"], y, marker=marker, color="black",
+                        markerfacecolor=face,
+                        markersize=(4 if compact else 7),
+                        linestyle="none")
+                if c["significant_holm"]:
+                    ax.plot(c["reject_rate"], y, marker="o", color="black",
+                            markerfacecolor="none",
+                            markersize=(9 if compact else 15),
+                            markeredgewidth=1.2, linestyle="none")
+        rho = spearman([c["reject_rate"] for c in sub],
+                       [abs(c["effect"]) for c in sub])
+        ax.set_title(f"{measure.replace('_', ' ')}"
+                     f"   rank correlation {rho:+.3f}, "
+                     f"{len(sub)} cells",
+                     fontsize=7 if compact else 11)
+        ax.set_xlabel("share of reasons that dismiss the cue")
+        ax.set_ylabel(SHORT_AXIS[measure])
+        ax.set_xlim(-0.05, 1.05)
+        for s in ("top", "right"):
+            ax.spines[s].set_visible(False)
+    # Shape carries the model, fill carries significance, and the ring
+    # carries Holm. The fill and ring keys use a diamond, which is not one of
+    # the model shapes, so a legend entry cannot be read as a fourth model.
+    ms = 4 if compact else 7
+    handles = [plt.Line2D([], [], marker=m, color="black", linestyle="none",
+                          markerfacecolor="black", markersize=ms, label=k)
+               for k, m in MODEL_MARKER.items()]
+    handles += [
+        plt.Line2D([], [], marker="D", color="black", linestyle="none",
+                   markerfacecolor="none", markersize=ms),
+    ]
+    # The ring key is drawn rather than described: two markers at one point,
+    # which is what the plot itself does for a Holm survivor.
+    ringed = (plt.Line2D([], [], marker="D", color="black", linestyle="none",
+                         markerfacecolor="black", markersize=ms),
+              plt.Line2D([], [], marker="o", color="black", linestyle="none",
+                         markerfacecolor="none", markersize=ms * 1.9,
+                         markeredgewidth=1.2))
+    handles.append(ringed)
+    labels = list(MODEL_MARKER) + ["hollow: interval spans zero",
+                                   "ringed: survives Holm"]
+    axes[0].legend(handles, labels, fontsize=5.5 if compact else 8,
+                   loc="upper left", frameon=False,
+                   handletextpad=0.9, labelspacing=0.5, handlelength=1.8,
+                   handler_map={tuple: HandlerTuple(ndivide=None)})
+    if not compact:
+        fig.suptitle("Saying the cue is irrelevant and not acting on it are "
+                     "different things", fontsize=12)
+    fig.tight_layout(pad=0.45 if compact else 1.08)
+    fig.savefig(f"figures/{stem}.pdf")
+    fig.savefig(f"figures/{stem}.png", dpi=200)
+    plt.close(fig)
+    print(f"figures/{stem}.pdf")
+
+
 if __name__ == "__main__":
     r = load()
     fig_forest(r)
@@ -231,3 +341,5 @@ if __name__ == "__main__":
                compact=True)
     fig_effort(r, measure="pct_to_sell", stem="fig5_effort_pct_acl",
                compact=True)
+    fig_dissociation()
+    fig_dissociation(stem="fig6_dissociation_acl", compact=True)
