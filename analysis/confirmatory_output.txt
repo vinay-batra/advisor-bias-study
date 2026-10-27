@@ -1,0 +1,252 @@
+  5 duplicate custom_ids resolved, usable row preferred
+9,720 responses on disk, 9,720 usable (100.0%)
+  flagged 86 as action_pct_inconsistent: the two measures disagree, both kept, never reconciled
+  sell_tendency: 9,720 of 9,720 usable responses carry a valid value (100.0%)
+  pct_to_sell: 9,720 of 9,720 usable responses carry a valid value (100.0%)
+
+== sell_tendency (pre-registered primary)
+model              effort  bias                   effect               95% CI       p  p_holm   floor   nz   flip  ci holm
+haiku-5-5          high    disposition            +0.167 [  -0.033,  +0.400]  0.2427  1.0000  0.0156  7/12   0.42         
+haiku-5-5          high    framing                +0.067 [  -0.117,  +0.267]  0.6441  1.0000  0.0156  7/12   0.42         
+haiku-5-5          high    anchoring              +0.033 [  -0.100,  +0.167]  0.8107  1.0000  0.0020 10/12   0.08         
+haiku-5-5          high    home_bias              +0.067 [  -0.133,  +0.250]  0.6223  1.0000  0.0039  9/12   0.17         
+haiku-5-5          high    action_bias            +0.100 [  +0.000,  +0.233]  0.2504  1.0000  0.0625  5/12   0.25         
+haiku-5-5          high    mental_accounting      +0.150 [  +0.033,  +0.283]  0.0758  0.6821  0.0156  7/12   0.25 yes     
+haiku-5-5          high    advisor_attribution    -0.150 [  -0.317,  +0.017]  0.1695  1.0000  0.0039  9/12   0.08         
+haiku-5-5          high    price_path             -0.100 [  -0.217,  +0.017]  0.2258  1.0000  0.0078  8/12   0.17         
+haiku-5-5          high    brand_salience         -0.217 [  -0.517,  +0.033]  0.2135  1.0000  0.0039  9/12   0.25         
+haiku-5-5          low     disposition            +0.750 [  +0.483,  +1.033]  0.0007  0.0063 =0.0010 11/12   0.58 yes  yes
+haiku-5-5          low     framing                +0.183 [  -0.033,  +0.433]  0.2126  1.0000  0.0039  9/12   0.25         
+haiku-5-5          low     anchoring              +0.067 [  -0.100,  +0.250]  0.6135  1.0000  0.0020 10/12   0.17         
+haiku-5-5          low     home_bias              +0.217 [  +0.000,  +0.483]  0.1591  1.0000  0.0312  6/12   0.33         
+haiku-5-5          low     action_bias            -0.067 [  -0.200,  +0.033]  0.5047  1.0000  0.2500  3/12   0.08         
+haiku-5-5          low     mental_accounting      +0.083 [  -0.100,  +0.267]  0.5338  1.0000  0.0156  7/12   0.17         
+haiku-5-5          low     advisor_attribution    +0.033 [  -0.150,  +0.250]  0.9024  1.0000  0.0156  7/12   0.25         
+haiku-5-5          low     price_path             -0.083 [  -0.150,  -0.017]  0.1194  0.9551  0.0156  7/12   0.00 yes     
+haiku-5-5          low     brand_salience         -0.017 [  -0.200,  +0.150]  1.0000  1.0000  0.0312  6/12   0.33         
+haiku-5-5          medium  disposition            +0.183 [  -0.033,  +0.383]  0.1565  0.9778  0.0010 11/12   0.08         
+haiku-5-5          medium  framing                +0.117 [  +0.017,  +0.217]  0.0926  0.7407  0.0156  7/12   0.08 yes     
+haiku-5-5          medium  anchoring              +0.100 [  -0.050,  +0.250]  0.3206  1.0000  0.0039  9/12   0.33         
+haiku-5-5          medium  home_bias              +0.133 [  +0.000,  +0.267]  0.1397  0.9778  0.0078  8/12   0.08         
+haiku-5-5          medium  action_bias            -0.067 [  -0.267,  +0.133]  0.6539  1.0000  0.0156  7/12   0.42         
+haiku-5-5          medium  mental_accounting      +0.083 [  -0.117,  +0.250]  0.5281  1.0000  0.0312  6/12   0.17         
+haiku-5-5          medium  advisor_attribution    -0.033 [  -0.117,  +0.050]  0.7339  1.0000  0.0078  8/12   0.08         
+haiku-5-5          medium  price_path             -0.167 [  -0.283,  -0.050]  0.0492  0.4428  0.0078  8/12   0.17 yes     
+haiku-5-5          medium  brand_salience         -0.100 [  -0.283,  +0.067]  0.3769  1.0000  0.0078  8/12   0.17         
+opus-5-5           high    disposition            +0.117 [  +0.000,  +0.250]  0.2496  1.0000 =0.2500  3/12   0.17         
+opus-5-5           high    framing                +0.017 [  +0.000,  +0.050]  1.0000  1.0000 =1.0000  1/12   0.00         
+opus-5-5           high    anchoring              +0.050 [  +0.000,  +0.133]  0.4989  1.0000 =0.5000  2/12   0.00         
+opus-5-5           high    home_bias              +0.000 [  +0.000,  +0.000]  1.0000  1.0000 =1.0000  0/12   0.00         
+opus-5-5           high    action_bias            -0.083 [  -0.200,  +0.000]  0.2483  1.0000 =0.2500  3/12   0.08         
+opus-5-5           high    mental_accounting      -0.017 [  -0.050,  +0.000]  1.0000  1.0000 =1.0000  1/12   0.00         
+opus-5-5           high    advisor_attribution    +0.017 [  +0.000,  +0.050]  1.0000  1.0000 =1.0000  1/12   0.00         
+opus-5-5           high    price_path             -0.033 [  -0.100,  +0.000]  1.0000  1.0000 =1.0000  1/12   0.00         
+opus-5-5           high    brand_salience         -0.067 [  -0.200,  +0.000]  1.0000  1.0000 =1.0000  1/12   0.08         
+opus-5-5           low     disposition            -0.183 [  -0.483,  +0.100]  0.3174  1.0000  0.0156  7/12   0.42         
+opus-5-5           low     framing                +0.300 [  +0.067,  +0.550]  0.0643  0.5786  0.0312  6/12   0.33 yes     
+opus-5-5           low     anchoring              +0.233 [  +0.050,  +0.450]  0.1266  0.9935 =0.1250  4/12   0.25 yes     
+opus-5-5           low     home_bias              +0.117 [  -0.033,  +0.317]  0.5033  1.0000  0.2500  3/12   0.17         
+opus-5-5           low     action_bias            -0.050 [  -0.167,  +0.050]  0.6848  1.0000  0.0625  5/12   0.08         
+opus-5-5           low     mental_accounting      +0.183 [  +0.000,  +0.417]  0.2546  1.0000 =0.2500  3/12   0.17         
+opus-5-5           low     advisor_attribution    +0.033 [  -0.050,  +0.133]  0.7484  1.0000  0.0625  5/12   0.00         
+opus-5-5           low     price_path             -0.150 [  -0.400,  +0.083]  0.3786  1.0000  0.1250  4/12   0.33         
+opus-5-5           low     brand_salience         -0.233 [  -0.483,  -0.017]  0.1242  0.9935  0.0156  7/12   0.25 yes     
+opus-5-5           medium  disposition            +0.133 [  +0.000,  +0.283]  0.2509  1.0000 =0.2500  3/12   0.17         
+opus-5-5           medium  framing                +0.033 [  +0.000,  +0.100]  1.0000  1.0000 =1.0000  1/12   0.08         
+opus-5-5           medium  anchoring              +0.000 [  +0.000,  +0.000]  1.0000  1.0000 =1.0000  0/12   0.00         
+opus-5-5           medium  home_bias              +0.000 [  +0.000,  +0.000]  1.0000  1.0000 =1.0000  0/12   0.00         
+opus-5-5           medium  action_bias            -0.017 [  -0.100,  +0.050]  1.0000  1.0000  0.5000  2/12   0.00         
+opus-5-5           medium  mental_accounting      -0.033 [  -0.083,  +0.000]  0.5005  1.0000 =0.5000  2/12   0.00         
+opus-5-5           medium  advisor_attribution    +0.017 [  +0.000,  +0.050]  1.0000  1.0000 =1.0000  1/12   0.00         
+opus-5-5           medium  price_path             -0.050 [  -0.117,  +0.000]  0.5035  1.0000 =0.5000  2/12   0.00         
+opus-5-5           medium  brand_salience         -0.067 [  -0.200,  +0.000]  1.0000  1.0000 =1.0000  1/12   0.08         
+sonnet-5-5         high    disposition            +0.117 [  +0.000,  +0.250]  0.1543  1.0000  0.0312  6/12   0.08         
+sonnet-5-5         high    framing                -0.017 [  -0.117,  +0.083]  1.0000  1.0000  0.2500  3/12   0.08         
+sonnet-5-5         high    anchoring              +0.033 [  -0.150,  +0.200]  0.8412  1.0000  0.0312  6/12   0.33         
+sonnet-5-5         high    home_bias              +0.000 [  -0.117,  +0.117]  1.0000  1.0000  0.0312  6/12   0.17         
+sonnet-5-5         high    action_bias            +0.050 [  -0.050,  +0.150]  0.5626  1.0000  0.0625  5/12   0.00         
+sonnet-5-5         high    mental_accounting      -0.050 [  -0.250,  +0.150]  0.7695  1.0000  0.0156  7/12   0.42         
+sonnet-5-5         high    advisor_attribution    -0.033 [  -0.117,  +0.033]  0.7510  1.0000  0.2500  3/12   0.08         
+sonnet-5-5         high    price_path             +0.083 [  -0.083,  +0.267]  0.5186  1.0000  0.0156  7/12   0.17         
+sonnet-5-5         high    brand_salience         -0.083 [  -0.250,  +0.050]  0.4983  1.0000  0.0625  5/12   0.17         
+sonnet-5-5         low     disposition            +0.383 [  +0.100,  +0.683]  0.0612  0.5507 =0.0625  5/12   0.33 yes     
+sonnet-5-5         low     framing                +0.117 [  +0.000,  +0.300]  0.5043  1.0000 =0.5000  2/12   0.08         
+sonnet-5-5         low     anchoring              -0.017 [  -0.050,  +0.000]  1.0000  1.0000 =1.0000  1/12   0.00         
+sonnet-5-5         low     home_bias              -0.100 [  -0.350,  +0.133]  0.5007  1.0000  0.2500  3/12   0.25         
+sonnet-5-5         low     action_bias            +0.033 [  -0.033,  +0.117]  0.7440  1.0000  0.2500  3/12   0.08         
+sonnet-5-5         low     mental_accounting      +0.150 [  +0.000,  +0.367]  0.5016  1.0000 =0.5000  2/12   0.17         
+sonnet-5-5         low     advisor_attribution    -0.067 [  -0.367,  +0.200]  1.0000  1.0000  0.1250  4/12   0.25         
+sonnet-5-5         low     price_path             +0.050 [  -0.050,  +0.200]  1.0000  1.0000  0.5000  2/12   0.08         
+sonnet-5-5         low     brand_salience         -0.167 [  -0.417,  +0.000]  0.5039  1.0000 =0.5000  2/12   0.17         
+sonnet-5-5         medium  disposition            +0.483 [  +0.167,  +0.833]  0.0612  0.5507 =0.0625  5/12   0.42 yes     
+sonnet-5-5         medium  framing                +0.150 [  +0.000,  +0.367]  0.5043  1.0000 =0.5000  2/12   0.17         
+sonnet-5-5         medium  anchoring              +0.017 [  +0.000,  +0.050]  1.0000  1.0000 =1.0000  1/12   0.00         
+sonnet-5-5         medium  home_bias              -0.117 [  -0.400,  +0.167]  0.6161  1.0000  0.1250  4/12   0.25         
+sonnet-5-5         medium  action_bias            +0.017 [  +0.000,  +0.050]  1.0000  1.0000 =1.0000  1/12   0.00         
+sonnet-5-5         medium  mental_accounting      +0.150 [  +0.000,  +0.367]  0.5016  1.0000 =0.5000  2/12   0.17         
+sonnet-5-5         medium  advisor_attribution    -0.083 [  -0.317,  +0.100]  0.7498  1.0000  0.2500  3/12   0.25         
+sonnet-5-5         medium  price_path             +0.067 [  -0.117,  +0.267]  0.6243  1.0000  0.1250  4/12   0.17         
+sonnet-5-5         medium  brand_salience         -0.150 [  -0.367,  +0.000]  0.5039  1.0000 =0.5000  2/12   0.17         
+  note: 31 of 81 cells sit at the resolution floor of the permutation test, so their p cannot fall further without more pairs moving
+  note: in 48 of 81 cells too few pairs moved for any p below 0.05 to be attainable
+
+== pct_to_sell (continuous co-primary, Amendment 3)
+model              effort  bias                   effect               95% CI       p  p_holm   floor   nz   flip  ci holm
+haiku-5-5          high    disposition            +8.500 [  -1.000, +19.417]  0.1634  1.0000  0.0039  9/12   0.42         
+haiku-5-5          high    framing                +4.167 [  -4.833, +13.667]  0.4683  1.0000  0.0156  7/12   0.42         
+haiku-5-5          high    anchoring              +0.250 [  -5.417,  +5.333]  0.9554  1.0000  0.0020 10/12   0.08         
+haiku-5-5          high    home_bias              +4.000 [  -6.000, +13.667]  0.4722  1.0000  0.0020 10/12   0.17         
+haiku-5-5          high    action_bias            +3.583 [  -1.417,  +9.667]  0.2986  1.0000  0.0156  7/12   0.25         
+haiku-5-5          high    mental_accounting      +6.833 [  +1.167, +13.083]  0.0605  0.5444  0.0039  9/12   0.25 yes     
+haiku-5-5          high    advisor_attribution    -7.250 [ -16.250,  +1.583]  0.1531  1.0000  0.0039  9/12   0.08         
+haiku-5-5          high    price_path             -3.750 [ -10.000,  +1.917]  0.2762  1.0000  0.0020 10/12   0.17         
+haiku-5-5          high    brand_salience        -10.417 [ -25.333,  +1.583]  0.2031  1.0000  0.0039  9/12   0.25         
+haiku-5-5          low     disposition           +44.167 [ +28.500, +60.333]  0.0007  0.0063  0.0005 12/12   0.58 yes  yes
+haiku-5-5          low     framing                +9.750 [  -0.333, +21.417]  0.1464  1.0000  0.0039  9/12   0.25         
+haiku-5-5          low     anchoring              +5.083 [  -3.000, +13.583]  0.2759  1.0000  0.0020 10/12   0.17         
+haiku-5-5          low     home_bias             +11.617 [  +0.417, +25.167]  0.1153  0.9223  0.0039  9/12   0.33 yes     
+haiku-5-5          low     action_bias            -2.000 [  -8.333,  +3.167]  0.6274  1.0000  0.0625  5/12   0.08         
+haiku-5-5          low     mental_accounting      +5.717 [  -2.250, +13.583]  0.1940  1.0000  0.0078  8/12   0.17         
+haiku-5-5          low     advisor_attribution    +1.000 [  -8.500, +11.250]  0.8651  1.0000  0.0078  8/12   0.25         
+haiku-5-5          low     price_path             -0.717 [  -5.983,  +4.783]  0.8270  1.0000  0.0010 11/12   0.00         
+haiku-5-5          low     brand_salience         +2.000 [  -6.000,  +9.333]  0.6638  1.0000  0.0078  8/12   0.33         
+haiku-5-5          medium  disposition           +10.917 [  +0.500, +20.417]  0.0658  0.5263  0.0010 11/12   0.08 yes     
+haiku-5-5          medium  framing                +6.167 [  +1.083, +11.667]  0.0561  0.5048  0.0039  9/12   0.08 yes     
+haiku-5-5          medium  anchoring              +4.250 [  -4.333, +11.750]  0.3779  1.0000  0.0020 10/12   0.33         
+haiku-5-5          medium  home_bias              +6.750 [  +0.667, +13.167]  0.0734  0.5263  0.0020 10/12   0.08 yes     
+haiku-5-5          medium  action_bias            -2.083 [ -11.417,  +7.500]  0.7147  1.0000  0.0156  7/12   0.42         
+haiku-5-5          medium  mental_accounting      +6.167 [  -2.333, +14.250]  0.1933  0.9875  0.0078  8/12   0.17         
+haiku-5-5          medium  advisor_attribution    -0.917 [  -5.167,  +3.417]  0.7248  1.0000  0.0010 11/12   0.08         
+haiku-5-5          medium  price_path             -5.083 [ -11.500,  +0.750]  0.1646  0.9875  0.0020 10/12   0.17         
+haiku-5-5          medium  brand_salience         -4.417 [ -14.083,  +4.583]  0.4360  1.0000  0.0156  7/12   0.17         
+opus-5-5           high    disposition            +7.417 [  +1.500, +14.417]  0.0280  0.1785  0.0010 11/12   0.17 yes     
+opus-5-5           high    framing                +1.750 [  +0.333,  +3.083]  0.0498  0.2490  0.0039  9/12   0.00 yes     
+opus-5-5           high    anchoring              +5.583 [  +2.833,  +9.333]  0.0021  0.0189  0.0020 10/12   0.00 yes  yes
+opus-5-5           high    home_bias              -1.383 [  -2.900,  +0.083]  0.1589  0.5679  0.0078  8/12   0.00         
+opus-5-5           high    action_bias            -0.583 [  -2.500,  +1.383]  0.6113  1.0000  0.0020 10/12   0.08         
+opus-5-5           high    mental_accounting      +5.217 [  +2.167,  +8.967]  0.0051  0.0408  0.0010 11/12   0.00 yes  yes
+opus-5-5           high    advisor_attribution    +3.500 [  +1.000,  +6.417]  0.0255  0.1785  0.0010 11/12   0.00 yes     
+opus-5-5           high    price_path             +0.550 [  -1.583,  +3.317]  0.7960  1.0000  0.0020 10/12   0.00         
+opus-5-5           high    brand_salience         -5.667 [ -13.583,  +0.333]  0.1420  0.5679  0.0020 10/12   0.08         
+opus-5-5           low     disposition            -6.417 [ -19.750,  +6.583]  0.3951  1.0000  0.0156  7/12   0.42         
+opus-5-5           low     framing               +15.167 [  +5.750, +24.833]  0.0179  0.1503  0.0039  9/12   0.33 yes     
+opus-5-5           low     anchoring              +7.833 [  +2.750, +13.333]  0.0167  0.1503  0.0020 10/12   0.25 yes     
+opus-5-5           low     home_bias              +3.333 [  -2.250, +10.500]  0.4443  1.0000  0.0156  7/12   0.17         
+opus-5-5           low     action_bias            -3.000 [  -7.083,  +0.417]  0.1932  1.0000  0.0039  9/12   0.08         
+opus-5-5           low     mental_accounting      +7.217 [  -1.000, +17.633]  0.2388  1.0000  0.0078  8/12   0.17         
+opus-5-5           low     advisor_attribution    +1.583 [  -1.417,  +4.917]  0.4015  1.0000  0.0078  8/12   0.00         
+opus-5-5           low     price_path             -3.583 [ -12.833,  +5.000]  0.5096  1.0000  0.0312  6/12   0.33         
+opus-5-5           low     brand_salience         -7.167 [ -18.583,  +3.417]  0.2561  1.0000  0.0010 11/12   0.25         
+opus-5-5           medium  disposition            +9.133 [  +2.467, +16.667]  0.0335  0.2345  0.0010 11/12   0.17 yes     
+opus-5-5           medium  framing                +3.833 [  +0.917,  +7.417]  0.0242  0.1936  0.0078  8/12   0.08 yes     
+opus-5-5           medium  anchoring              +6.400 [  +2.833, +10.667]  0.0097  0.0873  0.0078  8/12   0.00 yes     
+opus-5-5           medium  home_bias              -2.417 [  -5.117,  -0.067]  0.1414  0.5849  0.0156  7/12   0.00 yes     
+opus-5-5           medium  action_bias            +0.583 [  -1.333,  +2.833]  0.6962  0.6962  0.0078  8/12   0.00         
+opus-5-5           medium  mental_accounting      +3.083 [  +0.167,  +6.583]  0.1170  0.5849  0.0020 10/12   0.00 yes     
+opus-5-5           medium  advisor_attribution    +3.533 [  +0.667,  +6.950]  0.0537  0.3222  0.0010 11/12   0.00 yes     
+opus-5-5           medium  price_path             +2.133 [  -0.400,  +4.783]  0.1569  0.5849  0.0005 12/12   0.00         
+opus-5-5           medium  brand_salience         -5.817 [ -13.817,  +0.083]  0.1602  0.5849  0.0020 10/12   0.08         
+sonnet-5-5         high    disposition            +4.167 [  +0.750,  +8.167]  0.0627  0.5642  0.0156  7/12   0.08 yes     
+sonnet-5-5         high    framing                +0.333 [  -3.500,  +5.083]  1.0000  1.0000  0.1250  4/12   0.08         
+sonnet-5-5         high    anchoring              +1.000 [  -6.750,  +7.750]  0.8130  1.0000  0.0020 10/12   0.33         
+sonnet-5-5         high    home_bias              +1.750 [  -3.333,  +6.833]  0.5520  1.0000  0.0020 10/12   0.17         
+sonnet-5-5         high    action_bias            +1.167 [  -2.250,  +4.583]  0.5625  1.0000  0.0312  6/12   0.00         
+sonnet-5-5         high    mental_accounting      -1.583 [  -7.000,  +4.667]  0.6355  1.0000  0.0039  9/12   0.42         
+sonnet-5-5         high    advisor_attribution    -1.750 [  -6.333,  +2.417]  0.5102  1.0000  0.0078  8/12   0.08         
+sonnet-5-5         high    price_path             +4.417 [  -2.667, +12.500]  0.3417  1.0000  0.0078  8/12   0.17         
+sonnet-5-5         high    brand_salience         -4.750 [ -13.500,  +2.583]  0.3453  1.0000  0.0312  6/12   0.17         
+sonnet-5-5         low     disposition           +18.500 [  +5.333, +33.500]  0.0290  0.2610 =0.0312  6/12   0.33 yes     
+sonnet-5-5         low     framing                +5.333 [  +0.000, +14.000]  0.5043  1.0000 =0.5000  2/12   0.08         
+sonnet-5-5         low     anchoring              -1.667 [  -3.667,  +0.000]  0.2497  1.0000 =0.2500  3/12   0.00         
+sonnet-5-5         low     home_bias              -4.833 [ -17.167,  +6.667]  0.4969  1.0000  0.1250  4/12   0.25         
+sonnet-5-5         low     action_bias            +0.417 [  -2.000,  +3.083]  0.8702  1.0000  0.1250  4/12   0.08         
+sonnet-5-5         low     mental_accounting      +7.500 [  +0.000, +18.333]  0.5016  1.0000 =0.5000  2/12   0.17         
+sonnet-5-5         low     advisor_attribution    -5.667 [ -20.000,  +6.500]  0.3404  1.0000  0.0312  6/12   0.25         
+sonnet-5-5         low     price_path             +2.000 [  -2.500,  +8.500]  1.0000  1.0000  0.5000  2/12   0.08         
+sonnet-5-5         low     brand_salience         -8.000 [ -20.500,  +0.667]  0.5039  1.0000  0.2500  3/12   0.17         
+sonnet-5-5         medium  disposition           +24.000 [  +8.333, +41.500]  0.0290  0.2610 =0.0312  6/12   0.42 yes     
+sonnet-5-5         medium  framing                +7.500 [  +0.000, +18.333]  0.5043  1.0000 =0.5000  2/12   0.17         
+sonnet-5-5         medium  anchoring              +0.667 [  +0.000,  +2.000]  1.0000  1.0000 =1.0000  1/12   0.00         
+sonnet-5-5         medium  home_bias              -5.500 [ -18.500,  +8.167]  0.4941  1.0000  0.0625  5/12   0.25         
+sonnet-5-5         medium  action_bias            -0.750 [  -2.833,  +0.917]  0.7507  1.0000  0.2500  3/12   0.00         
+sonnet-5-5         medium  mental_accounting      +7.500 [  +0.000, +18.333]  0.5016  1.0000 =0.5000  2/12   0.17         
+sonnet-5-5         medium  advisor_attribution    -5.833 [ -16.833,  +2.833]  0.3086  1.0000  0.0625  5/12   0.25         
+sonnet-5-5         medium  price_path             +2.833 [  -5.833, +12.167]  0.6243  1.0000  0.1250  4/12   0.17         
+sonnet-5-5         medium  brand_salience         -7.500 [ -18.333,  +0.000]  0.5039  1.0000 =0.5000  2/12   0.17         
+  note: 9 of 81 cells sit at the resolution floor of the permutation test, so their p cannot fall further without more pairs moving
+  note: in 17 of 81 cells too few pairs moved for any p below 0.05 to be attainable
+
+H10. Does more reasoning reduce bias? |effect| by effort.
+Sign agnostic by construction: H10 is a claim about magnitude.
+
+== sell_tendency
+
+  claude-haiku-5-5
+    disposition          low   0.75  med   0.18  hig   0.17   -> down (-0.58)
+    framing              low   0.18  med   0.12  hig   0.07   -> down (-0.12)
+    anchoring            low   0.07  med   0.10  hig   0.03   -> down (-0.03)
+    home_bias            low   0.22  med   0.13  hig   0.07   -> down (-0.15)
+    action_bias          low   0.07  med   0.07  hig   0.10   -> up (+0.03)
+    mental_accounting    low   0.08  med   0.08  hig   0.15   -> up (+0.07)
+    advisor_attribution  low   0.03  med   0.03  hig   0.15   -> up (+0.12)
+    price_path           low   0.08  med   0.17  hig   0.10   -> flat (+0.02)
+    brand_salience       low   0.02  med   0.10  hig   0.22   -> up (+0.20)
+
+  claude-opus-5-5
+    disposition          low   0.18  med   0.13  hig   0.12   -> down (-0.07)
+    framing              low   0.30  med   0.03  hig   0.02   -> down (-0.28)
+    anchoring            low   0.23  med   0.00  hig   0.05   -> down (-0.18)
+    home_bias            low   0.12  med   0.00  hig   0.00   -> down (-0.12)
+    action_bias          low   0.05  med   0.02  hig   0.08   -> up (+0.03)
+    mental_accounting    low   0.18  med   0.03  hig   0.02   -> down (-0.17)
+    advisor_attribution  low   0.03  med   0.02  hig   0.02   -> flat (-0.02)
+    price_path           low   0.15  med   0.05  hig   0.03   -> down (-0.12)
+    brand_salience       low   0.23  med   0.07  hig   0.07   -> down (-0.17)
+
+  claude-sonnet-5-5
+    disposition          low   0.38  med   0.48  hig   0.12   -> down (-0.27)
+    framing              low   0.12  med   0.15  hig   0.02   -> down (-0.10)
+    anchoring            low   0.02  med   0.02  hig   0.03   -> flat (+0.02)
+    home_bias            low   0.10  med   0.12  hig   0.00   -> down (-0.10)
+    action_bias          low   0.03  med   0.02  hig   0.05   -> flat (+0.02)
+    mental_accounting    low   0.15  med   0.15  hig   0.05   -> down (-0.10)
+    advisor_attribution  low   0.07  med   0.08  hig   0.03   -> down (-0.03)
+    price_path           low   0.05  med   0.07  hig   0.08   -> up (+0.03)
+    brand_salience       low   0.17  med   0.15  hig   0.08   -> down (-0.08)
+
+== pct_to_sell
+
+  claude-haiku-5-5
+    disposition          low  44.17  med  10.92  hig   8.50   -> down (-35.67)
+    framing              low   9.75  med   6.17  hig   4.17   -> down (-5.58)
+    anchoring            low   5.08  med   4.25  hig   0.25   -> down (-4.83)
+    home_bias            low  11.62  med   6.75  hig   4.00   -> down (-7.62)
+    action_bias          low   2.00  med   2.08  hig   3.58   -> up (+1.58)
+    mental_accounting    low   5.72  med   6.17  hig   6.83   -> up (+1.12)
+    advisor_attribution  low   1.00  med   0.92  hig   7.25   -> up (+6.25)
+    price_path           low   0.72  med   5.08  hig   3.75   -> up (+3.03)
+    brand_salience       low   2.00  med   4.42  hig  10.42   -> up (+8.42)
+
+  claude-opus-5-5
+    disposition          low   6.42  med   9.13  hig   7.42   -> up (+1.00)
+    framing              low  15.17  med   3.83  hig   1.75   -> down (-13.42)
+    anchoring            low   7.83  med   6.40  hig   5.58   -> down (-2.25)
+    home_bias            low   3.33  med   2.42  hig   1.38   -> down (-1.95)
+    action_bias          low   3.00  med   0.58  hig   0.58   -> down (-2.42)
+    mental_accounting    low   7.22  med   3.08  hig   5.22   -> down (-2.00)
+    advisor_attribution  low   1.58  med   3.53  hig   3.50   -> up (+1.92)
+    price_path           low   3.58  med   2.13  hig   0.55   -> down (-3.03)
+    brand_salience       low   7.17  med   5.82  hig   5.67   -> down (-1.50)
+
+  claude-sonnet-5-5
+    disposition          low  18.50  med  24.00  hig   4.17   -> down (-14.33)
+    framing              low   5.33  med   7.50  hig   0.33   -> down (-5.00)
+    anchoring            low   1.67  med   0.67  hig   1.00   -> down (-0.67)
+    home_bias            low   4.83  med   5.50  hig   1.75   -> down (-3.08)
+    action_bias          low   0.42  med   0.75  hig   1.17   -> up (+0.75)
+    mental_accounting    low   7.50  med   7.50  hig   1.58   -> down (-5.92)
+    advisor_attribution  low   5.67  med   5.83  hig   1.75   -> down (-3.92)
+    price_path           low   2.00  med   2.83  hig   4.42   -> up (+2.42)
+    brand_salience       low   8.00  med   7.50  hig   4.75   -> down (-3.25)
+
+wrote data/results.json

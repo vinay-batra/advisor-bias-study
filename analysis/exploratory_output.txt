@@ -1,0 +1,185 @@
+  5 duplicate custom_ids resolved, usable row preferred
+9,720 usable responses
+972 matched pairs across 3 models x 3 effort levels x 9 families
+
+==============================================================================
+Q1. Length or label? Pair level correlation between generation
+    length and absolute bias, computed INSIDE each model x effort
+    cell so the effort label cannot drive it.
+==============================================================================
+model          effort  measure      rho        p   pairs  mean tokens
+haiku-5-5      low     cat       +0.184   0.0556     108        296.4
+haiku-5-5      low     pct       +0.169   0.0792     108        296.4
+haiku-5-5      medium  cat       +0.261   0.0052     108        539.0
+haiku-5-5      medium  pct       +0.314   0.0009     108        539.0
+haiku-5-5      high    cat       +0.307   0.0015     108        691.0
+haiku-5-5      high    pct       +0.320   0.0008     108        691.0
+sonnet-5-5     low     cat       +0.014   0.8826     108        160.1
+sonnet-5-5     low     pct       +0.052   0.5880     108        160.1
+sonnet-5-5     medium  cat       +0.099   0.3089     108        163.4
+sonnet-5-5     medium  pct       +0.132   0.1750     108        163.4
+sonnet-5-5     high    cat       +0.353   0.0004     108        465.3
+sonnet-5-5     high    pct       +0.240   0.0123     108        465.3
+opus-5-5       low     cat       +0.025   0.7934     108        179.3
+opus-5-5       low     pct       -0.135   0.1663     108        179.3
+opus-5-5       medium  cat       +0.376   0.0001     108        401.5
+opus-5-5       medium  pct       +0.181   0.0604     108        401.5
+opus-5-5       high    cat       +0.387   0.0001     108        438.1
+opus-5-5       high    pct       +0.055   0.5675     108        438.1
+
+  Pooled, cell means removed from both variables, so only
+  within cell variation contributes and the label is differenced out:
+    cat      rho +0.190  p 0.0001  over 972 pairs
+    pct      rho +0.154  p 0.0001  over 972 pairs
+
+==============================================================================
+Q2. Does the effort slope differ by model? Absolute effect per
+    effort step, and the between model contrasts.
+==============================================================================
+
+  cat
+    haiku-5-5      slope   -0.025 per effort step [  -0.063,   +0.014]  low   0.278 -> high   0.228
+    sonnet-5-5     slope   -0.006 per effort step [  -0.046,   +0.030]  low   0.165 -> high   0.152
+    opus-5-5       slope   -0.092 per effort step [  -0.127,   -0.056]  low   0.228 -> high   0.044
+    contrasts, difference of slopes:
+      haiku-5-5    minus opus-5-5       +0.067 [  +0.016,   +0.119]  excludes zero
+      haiku-5-5    minus sonnet-5-5     -0.019 [  -0.073,   +0.039]  
+      sonnet-5-5   minus opus-5-5       +0.085 [  +0.033,   +0.136]  excludes zero
+
+  pct
+    haiku-5-5      slope   -1.831 per effort step [  -3.907,   +0.143]  low  14.746 -> high  11.083
+    sonnet-5-5     slope   -0.787 per effort step [  -2.657,   +0.880]  low   8.102 -> high   6.528
+    opus-5-5       slope   -2.758 per effort step [  -4.156,   -1.371]  low  10.200 -> high   4.683
+    contrasts, difference of slopes:
+      haiku-5-5    minus opus-5-5       +0.927 [  -1.544,   +3.232]  
+      haiku-5-5    minus sonnet-5-5     -1.044 [  -3.761,   +1.627]  
+      sonnet-5-5   minus opus-5-5       +1.971 [  -0.354,   +4.197]  
+
+==============================================================================
+Q2b. Removal or redistribution? Spread of the nine family effects
+     within each model, at each effort level.
+==============================================================================
+
+  cat
+    model                         low             medium               high
+    haiku-5-5      mean  0.17 sd  0.22  mean  0.11 sd  0.04  mean  0.12 sd  0.05
+                   max  0.75 min  0.02  max  0.18 min  0.03  max  0.22 min  0.03
+    sonnet-5-5     mean  0.12 sd  0.10  mean  0.14 sd  0.13  mean  0.05 sd  0.03
+                   max  0.38 min  0.02  max  0.48 min  0.02  max  0.12 min  0.00
+    opus-5-5       mean  0.16 sd  0.08  mean  0.04 sd  0.04  mean  0.04 sd  0.04
+                   max  0.30 min  0.03  max  0.13 min  0.00  max  0.12 min  0.00
+    A mean that holds while the sd falls is redistribution:
+    large effects shrink and small ones grow.
+    change in sd from low to high, bootstrapped over pairs:
+      haiku-5-5        -0.160 [  -0.231,   -0.033]  excludes zero
+      sonnet-5-5       -0.070 [  -0.157,   +0.000]  
+      opus-5-5         -0.047 [  -0.133,   -0.008]  excludes zero
+
+  pct
+    model                         low             medium               high
+    haiku-5-5      mean  9.12 sd 12.91  mean  5.19 sd  2.72  mean  5.42 sd  2.91
+                   max 44.17 min  0.72  max 10.92 min  0.92  max 10.42 min  0.25
+    sonnet-5-5     mean  5.99 sd  5.06  mean  6.90 sd  6.58  mean  2.32 sd  1.56
+                   max 18.50 min  0.42  max 24.00 min  0.67  max  4.75 min  0.33
+    opus-5-5       mean  6.14 sd  3.82  mean  4.10 sd  2.45  mean  3.52 sd  2.41
+                   max 15.17 min  1.58  max  9.13 min  0.58  max  7.42 min  0.55
+    A mean that holds while the sd falls is redistribution:
+    large effects shrink and small ones grow.
+    change in sd from low to high, bootstrapped over pairs:
+      haiku-5-5       -10.002 [ -14.210,   -3.314]  excludes zero
+      sonnet-5-5       -3.499 [  -7.800,   -0.293]  excludes zero
+      opus-5-5         -1.420 [  -5.048,   +0.575]  
+
+==============================================================================
+Q3. Leave one pair out on the four cells that survived Holm.
+==============================================================================
+  haiku-5-5      low    disposition          cat
+    full        +0.750 [  +0.483,   +1.033]  12 pairs
+    weakest     +0.655 [  +0.418,   +0.873]  dropping pair 10
+    12 of 12 leave one out intervals still exclude zero
+  haiku-5-5      low    disposition          pct
+    full       +44.167 [ +28.500,  +59.750]  12 pairs
+    weakest    +40.000 [ +25.182,  +54.636]  dropping pair 10
+    12 of 12 leave one out intervals still exclude zero
+  opus-5-5       high   anchoring            pct
+    full        +5.583 [  +2.833,   +9.333]  12 pairs
+    weakest     +4.000 [  +2.455,   +5.636]  dropping pair 3
+    12 of 12 leave one out intervals still exclude zero
+  opus-5-5       high   mental_accounting    pct
+    full        +5.217 [  +2.167,   +8.967]  12 pairs
+    weakest     +3.691 [  +1.636,   +5.945]  dropping pair 9
+    12 of 12 leave one out intervals still exclude zero
+
+==============================================================================
+Q4. Sonnet's medium cell. Is it distinguishable from its low cell?
+==============================================================================
+
+  haiku-5-5
+    tokens low    -> medium    296.4 ->   539.0   1.82x  d  +1.77 large       p 0.0005
+    tokens medium -> high      539.0 ->   691.0   1.28x  d  +1.23 large       p 0.0005
+    tokens low    -> high      296.4 ->   691.0   2.33x  d  +2.64 large       p 0.0005
+
+  sonnet-5-5
+    tokens low    -> medium    160.1 ->   163.4   1.02x  d  +0.15 negligible  p 0.0005
+    tokens medium -> high      163.4 ->   465.3   2.85x  d  +2.92 large       p 0.0005
+    tokens low    -> high      160.1 ->   465.3   2.91x  d  +3.00 large       p 0.0005
+
+  opus-5-5
+    tokens low    -> medium    179.3 ->   401.5   2.24x  d  +5.15 large       p 0.0005
+    tokens medium -> high      401.5 ->   438.1   1.09x  d  +0.60 medium      p 0.0005
+    tokens low    -> high      179.3 ->   438.1   2.44x  d  +5.34 large       p 0.0005
+
+==============================================================================
+Q5. Study wide Holm over all 81 cells per measure, alongside the
+    registered within cell correction.
+==============================================================================
+
+  cat: 0 of 81 cells survive study wide Holm; 10 more have a bootstrap interval excluding zero
+    smallest p anywhere in the study 0.00110; the most significant of 81 tests needs p < 0.000617
+    with 12 pairs the sign flipping test cannot return a p below 0.00049, so a study wide Holm survivor is out of reach by arithmetic, at any effect size
+
+  pct: 0 of 81 cells survive study wide Holm; 22 more have a bootstrap interval excluding zero
+    smallest p anywhere in the study 0.00110; the most significant of 81 tests needs p < 0.000617
+    with 12 pairs the sign flipping test cannot return a p below 0.00049, so a study wide Holm survivor is out of reach by arithmetic, at any effect size
+
+==============================================================================
+Q6. The 86 responses whose two measures disagree.
+==============================================================================
+  86 of 9720 responses, 0.88%
+
+  by model:
+    opus-5-5                 86 of  3240   2.65%
+
+  by effort:
+    low                      84 of  3240   2.59%
+    high                      2 of  3240   0.06%
+
+  by bias:
+    anchoring                21 of  1080   1.94%
+    advisor_attribution      18 of  1080   1.67%
+    mental_accounting        15 of  1080   1.39%
+    brand_salience            8 of  1080   0.74%
+    framing                   7 of  1080   0.65%
+    action_bias               7 of  1080   0.65%
+    disposition               5 of  1080   0.46%
+    price_path                3 of  1080   0.28%
+    home_bias                 2 of  1080   0.19%
+
+  by action:
+    HOLD                     86 of  4129   2.08%
+
+==============================================================================
+Q7. Variance decomposition of the continuous measure.
+==============================================================================
+model          effort     within   between  within share  mean entropy
+haiku-5-5      low        231.15    697.36         24.9%         0.354
+haiku-5-5      medium     287.19    583.15         33.0%         0.510
+haiku-5-5      high       298.94    591.13         33.6%         0.479
+sonnet-5-5     low         27.06    571.66          4.5%         0.054
+sonnet-5-5     medium      28.20    584.16          4.6%         0.053
+sonnet-5-5     high        98.79    559.57         15.0%         0.311
+opus-5-5       low         53.03    452.64         10.5%         0.147
+opus-5-5       medium      37.30    270.97         12.1%         0.057
+opus-5-5       high        32.05    254.68         11.2%         0.060
+
+wrote data/exploratory.json
