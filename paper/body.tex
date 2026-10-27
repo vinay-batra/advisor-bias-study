@@ -13,7 +13,10 @@ direction: pooled, these models are more willing to sell at a loss than at a
 gain, $+0.239$ $[+0.148, +0.331]$ on the categorical measure and $+13.4$
 $[+8.8, +18.0]$ percentage points of the position, where the pre-registered
 prediction was negative, though the reversal is carried by the two smaller
-models and appears in the strongest only as effort rises. Reasoning effort reduces the absolute effect in all
+models and appears in the strongest only as effort rises. A second wave of
+9{,}720 responses on two of those models reproduces the pattern at half that
+magnitude, which we measure to be regression to the mean, pooling to
+$+0.202$ $[+0.126, +0.278]$. Reasoning effort reduces the absolute effect in all
 nine qualifying cases, against a shuffled-label null of 0.0125 rather than
 the $2^{-9}$ a count would suggest, and it does so by compressing the spread
 of bias magnitudes across families: the mean falls detectably in the
@@ -24,8 +27,8 @@ visible. Measured the observational way on the same responses, with output
 tokens standing in for displayed deliberation, more reasoning goes with
 \textit{more} bias between items and with nothing at all within an item. We
 also report that \texttt{temperature} is unavailable on these models, which
-makes the fixed-temperature protocol used throughout this literature
-unexecutable, and give a repeated-sampling replacement.
+makes this literature's fixed-temperature protocol unexecutable, and give a
+repeated-sampling replacement.
 \end{abstract}
 
 \section{Introduction}
@@ -743,13 +746,11 @@ the effect; the remedy they point to is more items per family.
 \fi
 
 \ifsubmission
-That remedy was taken. A replication wave of
-9{,}720 responses, twelve further pairs per family on Haiku and Sonnet,
-reproduces the pattern, per cell effects correlating $+0.467$ and $+0.484$
-over 54 cells at $p$ below 0.001. The magnitudes attenuate, and the cause is
-measurable out of sample: none of the shrinkage is design wide, and all of it
-sits in the largest cells, where the top quartile loses half its magnitude
-and the other three do not move (Appendix~\ref{app:replication}).
+That remedy was taken, and it localises the attenuation the abstract
+reports. Per cell effects correlate $+0.467$ and $+0.484$ over the 54 cells
+both waves carry, and none of the shrinkage is design wide: all of it sits in
+the top quartile by wave 1 magnitude, which loses half of itself while the
+other three quartiles do not move (Appendix~\ref{app:replication}).
 \else
 \input{sec_replication}
 \fi
@@ -902,19 +903,17 @@ failure of coherence rather than of bias whose fix was more effort.
 
 \ifsubmission\else\input{sec_limitations}\input{sec_ethics}\fi
 
-\paragraph{What this does not settle.} Everything here is one vendor's
-models, and the compression mechanism is the claim likeliest to be specific
-to them, so the next step is a second model family exposing a comparable
-parameter. What made the three answers of Section~\ref{sec:lengthorlabel}
-separable at all was setting the budget before the model saw the item rather
-than reading how hard it said it thought, and that is available wherever the
-parameter is.
+\paragraph{What this does not settle.} What made the three answers of
+Section~\ref{sec:lengthorlabel} separable was setting the budget before the
+model saw the item rather than reading how hard it said it thought, which is
+available wherever the parameter is exposed. Whether any of it survives a
+second vendor is the first thing to check.
 
 \paragraph{Reproducibility.} Prompts, generator seed, raw responses and analysis code are available at
 \repourl. The pre-registration was committed before the first API call and
-amended twice, both times before any model was queried. Every number here is
-reproduced from the released response file by a deterministic script, named
-in Appendix~\ref{app:repro}.
+amended seven times, three of them after results had been read;
+Appendix~\ref{app:repro} dates every amendment and names the deterministic
+script behind each number here.
 
 % Everything after this point is outside an ACL page limit.
 \label{xbodyend}
@@ -1022,8 +1021,11 @@ in Appendix~\ref{app:repro}.
 \section{Reproducibility in detail}
 \label{app:repro}
 The confirmatory set is 9{,}720 responses, one row per \texttt{custom\_id}, in
-\texttt{data/responses.jsonl}; pilot data are in \texttt{data/pilot/} and are
-never pooled with it. The scripts under \texttt{analysis/} reproduce the
+\texttt{data/responses.jsonl}, and the replication wave is a further 9{,}720
+rows in \texttt{data/responses\_wave2.jsonl}, the partial Opus rows that
+\movedref{app:replication} excludes included, so that the exclusion can be
+checked. Pilot data are in \texttt{data/pilot/} and are never pooled with
+either. The scripts under \texttt{analysis/} reproduce the
 paper: \texttt{analyze.py} every pre-registered number in
 Section~\ref{sec:results} from that file; \texttt{exploratory.py} those
 labelled as not pre-registered; \texttt{mediator.py} the three designs of
@@ -1032,7 +1034,22 @@ aggregation of the disposition family quoted in the abstract, which checks
 itself against the registered per-cell figures before reporting; and
 \texttt{reasons.py} the reason-text measure of \movedref{app:reasons}
 with its validation against the four rounds of labels committed under
-\texttt{data/}. All are deterministic given the seeds recorded in them.
+\texttt{data/}; and \texttt{replication.py} every figure of
+\movedref{app:replication}, including the exclusion report it rests on. All
+are deterministic given the seeds recorded in them.
+
+\paragraph{The amendment ledger.} Amendments 1 and 2, both 2026-10-26 and
+before any model was queried, record the literature search that changed what
+this study claims to be first at and six faults found by reading the
+generated prompts. Amendment 3, after the pilot and before the confirmatory
+run, records that the stimuli could not measure anything and the redesign
+that fixed it; 3a records two measure definitions forced by writing the
+analysis code before the data landed. Amendments 4, 5 and 6, all 2026-10-27,
+came after results had been read: 4 declares the reason-text analysis
+exploratory, 5 declares that the replication wave was decided on after seeing
+wave 1, and 6 fixes the completeness rule that excludes the three partial
+Opus cells, written before any of their effects were computed. Each is dated
+in place and states what it changed and what it left alone.
 
 \section{Full prompt battery}
 \label{app:battery}

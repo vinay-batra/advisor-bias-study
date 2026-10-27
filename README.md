@@ -1,7 +1,10 @@
 # Behavioural bias in LLM portfolio advisors
 
 A measurement study. Nine behavioural finance biases, three models, three
-reasoning effort levels, matched pair design, mechanical grading.
+reasoning effort levels, matched pair design, mechanical grading. A
+pre-registered confirmatory wave of 9,720 responses, then a replication wave
+of another 9,720 that covers two of the three models because the API credit
+ran out partway.
 
 **Read `PREREGISTRATION.md` first.** It was locked before any model was
 queried and it fixes the hypotheses, the predicted directions and the
@@ -131,7 +134,10 @@ looks exactly like a model that is never biased.
 | Exploratory analysis, labelled as not registered | done |
 | Robustness: compression against regression to the mean | done |
 | Robustness: H10 against its own selection rule | done |
-| Paper written, compiles clean | done, `make -C paper check` |
+| Replication wave, twelve further pairs per family | done, haiku + sonnet complete |
+| Replication wave on opus | **unfunded, credit ran out, excluded whole** |
+| Replication analysis | done, `analysis/replication.py` |
+| Paper written, six build gates pass | done, `make -C paper check` |
 | Four follow-up reads listed at the end of `LITERATURE.md` | not started |
 | Repository URL for the reproducibility section | **needs a remote** |
 | Replace the preamble with the venue style files | not started |
@@ -201,6 +207,68 @@ estimate, so there it is a conjecture.
 
 Pilot numbers are in `data/pilot/` and are never pooled with the
 confirmatory run.
+
+### What the replication wave found
+
+Twelve further pairs per family, same nine families and three effort levels,
+fresh items from the same generator with per-wave seeds. Haiku and Sonnet
+came back complete, 1,080 of 1,080 per effort with no errors. All three Opus
+batches died on `invalid_request_error`, "Your credit balance is too low to
+access the Anthropic API": 443, 441 and 447 of 1,080 failed, leaving 37 of
+108 pairs per effort with both conditions present. Amendment 6, written
+before any Opus wave 2 effect was computed and keyed on coverage alone,
+excludes those three cells whole. The partial rows stay in
+`data/responses_wave2.jsonl` so the exclusion can be checked.
+
+**The pattern replicates.** Per-cell effects correlate $+0.467$ and $+0.484$
+across the 54 cells both waves carry, permutation $p$ of 0.0009 and 0.0005.
+Only 2 of 54 cells differ between waves by more than the pairs explain, 3.7%
+against the roughly 5% a true replication would produce.
+Wave 2's interval covers wave 1's point estimate in 41 and 43 of 54 cells,
+and of wave 1's cells with an interval clear of zero, 6 of 7 and 8 of 9 keep
+their sign.
+
+**Significance does not replicate, and could not have.** Wave 2 alone clears
+zero in 4 of 54 cells on each measure and nothing survives Holm, because it
+is the same size as wave 1 with the same permutation floor at twelve pairs.
+
+**The magnitudes attenuate, and the reason is measurable.** The disposition
+aggregate on the same cells falls from $+0.347$ to $+0.147$ and from
+$+18.375$ to $+7.728$, differences of $-0.200$ [$-0.375$, $-0.022$] and
+$-10.647$ [$-19.678$, $-1.611$], both excluding zero. That is **regression to
+the mean, not a failure to replicate**, and the second wave measures it
+rather than bracketing it:
+
+- Design-wide there is no attenuation at all. 28 of 54 cells came back
+  smaller on the categorical measure and 26 of 54 on the continuous one,
+  against 27 expected under no attenuation whatsoever.
+- Conditioning on size finds all of it. `rho(wave 1 magnitude, change in
+  magnitude)` is $-0.580$ and $-0.622$, permutation $p$ 0.0001 on both.
+- The top quartile by wave 1 magnitude shrank in 10 of 13 cells, mean change
+  $-0.117$ and $-5.821$. The other three quartiles moved $+0.009$ and
+  $+0.631$, which is nothing.
+
+This is what `analysis/robustness.py` could only bracket from inside one
+wave, because the sampling error it wants to subtract is estimated from the
+same twelve pairs that carry the effect.
+
+**What doubling the pairs bought, exactly.** Cells where a $p$ below 0.05 is
+attainable at all rose from 33 to 42 of 81 on the categorical measure and
+from 64 to 72 on the continuous one. Cells surviving study-wide Holm
+correction rose from one to two on the first and stayed at three on the
+second. The resolution limit is not the number twelve; it is the size of the
+design.
+
+**Both directions hold.** The abstract's disposition reversal is $+0.202$
+[$+0.126$, $+0.278$] pooled over both waves against $+0.239$ in wave 1
+alone, and the compression of the family spread still falls in 3 of the 4
+model-by-measure combinations wave 2 covers.
+
+**What it cannot settle.** Opus is absent, so the disposition sign-change
+defect, that Opus spans zero because its sign flips with effort, stands
+where wave 1 left it. And the two measures are two readings of one answer,
+not two independent tests, so the attenuation is one finding whose intervals
+exclude zero narrowly.
 
 ## Building the paper
 
