@@ -7,6 +7,20 @@
 \usepackage{natbib}
 \usepackage{hyperref}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{longtable}
+
+% The one place the repository URL is set. There is no remote yet, so this
+% is deliberately a visible placeholder rather than a plausible-looking URL:
+% a reproducibility claim that points at nothing is worse than no claim.
+% Set it here before submission and it updates everywhere.
+\newcommand{\repourl}{[repository URL to be added]}
+
+% Long schema field names set in \texttt do not hyphenate, so a single one
+% can push a line past the margin. \us allows a break after an underscore
+% without printing a hyphen, which a reader would misread as part of the
+% field name.
+\newcommand{\us}{\_\discretionary{}{}{}}
 
 \title{Does Deliberation Debias? Exogenous Reasoning Effort and
 Behavioural Finance Bias in\\Large Language Model Portfolio Advisors}
@@ -18,8 +32,27 @@ Behavioural Finance Bias in\\Large Language Model Portfolio Advisors}
 \maketitle
 
 \begin{abstract}
-% 150-250 words. Write this LAST, once the numbers exist. One sentence each:
-% problem / gap / what you did / what you found WITH NUMBERS / why it matters.
+Large language models are increasingly asked for advice about financial
+positions people already hold, and they are known to carry measurable
+behavioural bias. Whether deliberation removes it is unsettled, and the
+existing evidence is hard to read because it either compares different models,
+so that capability and deliberation move together, or infers deliberation from
+the model's own account of its reasoning. We set the reasoning budget
+exogenously through the API, at three levels, before the model sees the item,
+and measure nine families of normatively irrelevant cue against matched pairs
+that differ only in that cue. Across 9{,}720 responses from three models, the
+disposition effect runs opposite to the human direction: these models are more
+willing to sell at a loss than at a gain, $+0.239$ $[+0.148, +0.331]$ on a
+four-point scale and $+13.4$ $[+8.8, +18.1]$ percentage points of the
+position, where the pre-registered prediction was negative. Reasoning effort
+reduces the absolute effect in all ten model-family cases that qualified for
+the pre-registered test, and it does so by compressing the spread of bias
+magnitudes rather than lowering their mean. Within a fixed effort level,
+however, longer answers carry more bias, not less, so the budget an
+experimenter sets and the deliberation a model displays are not the same
+variable. We also report that \texttt{temperature} is unavailable on these
+models, which makes three prior protocols unexecutable, and give a
+repeated-sampling replacement.
 Language models are being deployed as financial advisors, and prior work has
 established that they reproduce several biases documented in human decision
 makers. Whether that bias can be reduced by making the model think harder is
@@ -33,7 +66,8 @@ fundamentals and differ only in a cue that standard theory says must not
 change the recommendation, we query three models at three exogenously set
 reasoning effort levels, five trials per cell, 9{,}720 recommendations in
 total.
-% RESULT SENTENCES GO HERE, with effect sizes and intervals.
+% Result sentences are in the abstract above and in the contributions list.
+% Keep them consistent with Section 5 if any number changes.
 Two of the nine families are new: one varies only whether the advisor
 recommended the position or inherited it, and one varies only the price path
 to an identical current price and cost basis. We further report that sampling
@@ -73,8 +107,11 @@ relies on the model's own account of its reasoning. The reasoning budget has
 not been manipulated as a treatment against a behavioural finance bias. That
 is this paper.
 
-% OPEN: one line previewing the headline number goes here once the
-% confirmatory run is complete.
+Across 9{,}720 responses the disposition effect runs opposite to the human
+direction, reasoning effort reduces the absolute effect in all ten cases that
+qualified for the pre-registered test, and within a fixed effort level the
+association between generated length and bias is positive rather than
+negative.
 
 The identification problem in prior work is worth stating precisely.
 \citet{bini2026behavioral} report that an indicator for self-reported
@@ -135,9 +172,9 @@ These are also the source of the human baselines in
 Section~\ref{sec:humanbaselines}, and the comparison is indicative rather
 than like for like, because a field study of brokerage accounts and a
 prompt battery are different instruments.
-% OPEN: every human rate quoted in Section 4.2 must come from the primary
-% paper, not from a summary of it, and the Odean rate is not yet verified
-% against the paper. Do not write a number here until it is.
+% Closed 2026-10-26. The Odean rates in Section 4.2 are read from Table I on
+% p.1783 of the primary paper, not from any summary of it. Any further human
+% rate added later must clear the same bar.
 
 \subsection{Behavioural bias in language models}
 That language models exhibit behavioural biases is established, and this
@@ -258,7 +295,11 @@ same difference is computed on a continuous co-primary measure, the
 percentage of the position the model recommends selling, which is reported
 alongside $s$ throughout.
 
-% Insert ONE full example pair here, verbatim. The rest go in the appendix.
+One pair is shown in full below. The rest are in
+Appendix~\ref{app:battery}, which prints one pair from every family and the
+manipulated cue in all 108.
+
+\input{example_pair}
 
 \subsection{Decision pressure}
 \label{sec:pressure}
@@ -339,7 +380,8 @@ confirmatory ones.
 \begin{table}[t]
   \centering
   \small
-  \begin{tabular}{@{}llp{3.5cm}cc@{}}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}p{2.3cm}p{2.7cm}p{4.9cm}cc@{}}
     \toprule
     Family & Cue varied & Why the recommendation should not change
            & Pred. & Status \\
@@ -426,8 +468,8 @@ answer on a substitute model and model identity is an independent variable.
 
 \subsection{Grading}
 The model answers through a constrained output schema with fields
-\texttt{action}, \texttt{pct\_of\_position\_to\_sell}, \texttt{confidence}
-and \texttt{one\_sentence\_reason}. Labels are therefore mechanical and no
+\texttt{action}, \texttt{pct\us of\us position\us to\us sell}, \texttt{confidence}
+and \texttt{one\us sentence\us reason}. Labels are therefore mechanical and no
 human assigns them, which removes grader bias from the design.
 
 Two schema limits are worth recording for anyone reproducing this. The API
@@ -477,9 +519,51 @@ quantity. Flip rate and within-item entropy describe the categorical answer
 and so are reported once per cell.
 
 \section{Results}
-% 1.5-2 pages. Numbers and figures only. No interpretation here.
+\label{sec:results}
+All 9{,}720 requested responses were collected and all 9{,}720 are usable.
+No response was refused, truncated, or unparseable, so the pre-registered
+exclusion rules removed nothing and every cell rests on its full complement
+of 12 pairs. Both dependent variables carry a valid value on 100\% of
+responses.
+
+\subsection{Manipulation check}
+The effort parameter changed what the models produced. Mean output tokens
+rise from \texttt{low} to \texttt{high} by a factor of 2.33 in Haiku, from
+296.4 to 691.0; by 2.91 in Sonnet, from 160.1 to 465.3; and by 2.44 in Opus,
+from 179.3 to 438.1. Every null reported below is therefore a null on the
+hypothesis rather than on the parameter, which is the distinction the
+pre-registered competing hypothesis turns on.
+
+One cell is an exception worth isolating now, because several later results
+depend on it. Sonnet's \texttt{medium} cell is not a distinct treatment
+level. It generates 163.4 mean output tokens against 160.1 at \texttt{low}, a
+standardised difference of $d = 0.06$, where every other adjacent contrast in
+every model is near or above $d = 1$. Its within-item entropy agrees, 0.053
+bits against 0.054, and so does its within-item share of variance, 4.6\%
+against 4.5\%. On three independent measures Sonnet's \texttt{medium} cell is
+a second copy of its \texttt{low} cell.
 
 \subsection{Bias incidence}
+Under the pre-registered decision rule, 10 of 81 model by effort by family
+cells show a non-zero effect on the categorical measure and 22 of 81 on the
+continuous measure. Four cells additionally clear Holm correction within
+their model and effort cell: Haiku at \texttt{low} effort on the disposition
+family, on both measures, at $+0.750$ $[+0.483, +1.033]$ and $+44.167$
+$[+28.500, +59.750]$; and Opus at \texttt{high} effort on anchoring at
+$+5.583$ $[+2.833, +9.333]$ and on mental accounting at $+5.217$ $[+2.167,
++8.967]$, both on the continuous measure. All four survive every one of their
+twelve leave-one-pair-out refits with an interval that still excludes zero,
+so none of them rests on a single item.
+
+Nothing survives a correction applied across all 81 cells at once, and that
+is a statement about resolution rather than about the effects. The smallest
+$p$ anywhere in the study is 0.0007; the most significant of 81 tests would
+need to clear 0.000617; and with twelve pairs the sign flipping test cannot
+return a $p$ below 0.00049 at any effect size whatever. A study-wide Holm
+survivor is therefore out of reach by arithmetic in this design. The
+pre-registered decision rule is the interval, which multiplicity does not
+touch.
+
 % Table: effect, 95% CI, p, flip rate, per bias per model at one effort.
 \begin{figure}[t]
   \centering
@@ -521,12 +605,83 @@ than in the gain arm, which is the negative direction registered for H1 in
 Table~\ref{tab:hypotheses}. Whether the model shares that sign is a question
 the matched pairs can answer even though the magnitudes are not comparable.
 
-% OPEN: the measured model rates go here, next to the sign comparison above,
-% once the confirmatory run is complete. Report the matched pair effect and
-% its interval, not a PGR/PLR analogue, and say plainly if the sign is
-% reversed.
+The models do not share that sign. H1 predicted a negative effect, a lower
+sell tendency in the loss arm, and the measured effect is positive in eight
+of the nine model by effort cells on both measures. The exception is Opus at
+\texttt{low} effort, discussed below. Aggregating the disposition family over
+all nine cells, which the analysis plan does not register as a quantity and
+which is reported here as a secondary aggregation rather than a confirmatory
+test, the effect is $+0.239$ $[+0.148, +0.331]$ on the categorical measure
+over 108 pairs, 47 of them positive against 11 negative, and $+13.376$
+$[+8.844, +18.104]$ on the continuous measure, 64 positive against 16
+negative. Per model, the aggregate is $+0.367$ $[+0.206, +0.533]$ in Haiku,
+$+0.328$ $[+0.178, +0.500]$ in Sonnet, and $+0.022$ $[-0.106, +0.144]$ in
+Opus.
+
+Read against Odean's sign, this is a reversal rather than an absence. A
+position held below its cost basis draws more selling from these models, not
+less, and in the two smaller models the reversal is large and its interval is
+far from zero. H1 is recorded as a failed directional prediction. The
+pre-registered sign in \texttt{analysis/directions.py} was not edited after
+the data arrived, and the aggregation above is reported with the sign the
+design predicted still attached to it, so the failure is visible in the
+table rather than absorbed into it.
+
+Two independent instruments already pointed this way.
+\citet{malberg2025comprehensive} score the disposition effect as one of only
+two biases out of thirty with a strong negative average, which on their
+coding means a preference for change, and \citet{yee2026calibrating} find
+disposition effects near zero against human benchmarks. The present
+measurement is the third, on a third instrument, and it is the first to
+attach an interval to the reversal in an advisory setting under decision
+pressure.
 
 \subsection{Reasoning effort}
+H10 is registered conditionally: for any family where a non-zero effect is
+found at \texttt{low}, the absolute effect at \texttt{high} will be smaller.
+Five families qualify on the categorical measure and five on the continuous
+measure, and in all ten the absolute effect at \texttt{high} is smaller than
+at \texttt{low}. On the categorical measure these are Haiku and Sonnet on
+disposition, falling from $+0.750$ to $+0.167$ and from $+0.383$ to $+0.117$,
+and Opus on framing, anchoring and brand salience, falling from $+0.300$ to
+$+0.017$, from $+0.233$ to $+0.050$, and from $-0.233$ to $-0.067$. On the
+continuous measure they are Haiku on disposition and home bias, from
+$+44.167$ to $+8.500$ and from $+11.617$ to $+4.000$, Sonnet on disposition,
+from $+18.500$ to $+4.167$, and Opus on framing and anchoring, from $+15.167$
+to $+1.750$ and from $+7.833$ to $+5.583$. Ten of ten in the predicted
+direction has probability $2^{-10}$, or 0.001, under a null that assigns each
+case an independent coin flip.
+
+H10-null, the competing hypothesis, is not supported on its own terms. The
+effort parameter raised generation by a factor of 2.33 to 2.91 and the
+recommendation changed with it, so the effect reported here is not confined
+to the justification.
+
+The reduction is not uniform across families, and the shape of the exception
+matters. Pooling all nine families, the slope of absolute effect per effort
+step is $-0.025$ $[-0.063, +0.014]$ in Haiku, $-0.006$ $[-0.046, +0.030]$ in
+Sonnet, and $-0.092$ $[-0.127, -0.056]$ in Opus on the categorical measure,
+with the corresponding continuous slopes $-1.831$ $[-3.907, +0.143]$,
+$-0.787$ $[-2.657, +0.880]$ and $-2.758$ $[-4.156, -1.371]$. Only Opus has a
+pooled slope whose interval excludes zero, on both measures. Contrasts of
+slopes exclude zero for Haiku against Opus, $+0.067$ $[+0.016, +0.119]$, and
+Sonnet against Opus, $+0.085$ $[+0.033, +0.136]$, on the categorical measure
+only; no contrast excludes zero on the continuous measure.
+
+A pooled slope near zero in Haiku alongside a 36-point collapse on its
+largest family can only happen if other families moved the other way, and
+they did. What falls with effort is the spread of the family effects, not
+their mean. On the continuous measure the standard deviation of the nine
+family effects falls from 12.91 to 2.91 in Haiku, from 5.06 to 1.56 in
+Sonnet, and from 3.82 to 2.41 in Opus; on the categorical measure from 0.22
+to 0.05, from 0.10 to 0.03, and from 0.08 to 0.04. All six fall.
+Bootstrapped over pairs, the fall excludes zero in four of the six: Haiku on
+both measures, $-0.160$ $[-0.231, -0.033]$ and $-10.002$ $[-14.210, -3.314]$,
+Opus on the categorical measure, $-0.047$ $[-0.133, -0.008]$, and Sonnet on
+the continuous measure, $-3.499$ $[-7.800, -0.293]$. Over the same range
+Haiku's largest family effect falls from 44.17 to 10.42 while its smallest
+falls only from 0.72 to 0.25.
+
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{../figures/fig2_effort.pdf}
@@ -535,9 +690,36 @@ the matched pairs can answer even though the magnitudes are not comparable.
 \end{figure}
 
 \subsection{The continuous measure}
-% Same two plots on pct_of_position_to_sell. The question these answer is
-% whether the graded measure moves where the four level one cannot, which is
-% the whole reason Amendment 3 added it.
+Amendment 3 added the continuous measure because the categorical scale was at
+ceiling in the pilot, and it earned its place. It finds 22 non-zero cells
+against the categorical measure's 10, and the gain is concentrated exactly
+where the categorical scale has least room. The four-point scale is
+effectively three-point in practice, because \texttt{BUY\_MORE} was never
+once returned by any model at any effort level, and each model concentrates
+on a single category: \texttt{SELL\_PARTIAL} on 80.8\% of Opus responses,
+\texttt{HOLD} on 63.2\% of Sonnet's, and a near-even split between those two
+in Haiku. Opus is the extreme case. Its categorical answer barely moves
+between conditions, so the categorical measure finds 3, 0 and 0 non-zero
+cells at \texttt{low}, \texttt{medium} and \texttt{high}, while the graded
+percentage inside that one category moves freely and finds 2, 6 and 5. Two of
+the four Holm surviving cells exist only on the continuous measure. This is
+the clearest vindication of Amendment 3: on the registered measure alone,
+the strongest model would have appeared almost bias-free at every effort
+level, and that appearance would have been an artifact of a scale with no
+room in it.
+
+The two measures agree on sign and ordering wherever both move, and they
+disagree on individual responses rarely and systematically. Eighty-six of
+9{,}720 responses, 0.88\%, pair a categorical answer with a contradictory
+percentage. Every one of the 86 is Opus; 84 of them are at \texttt{low}
+effort, a rate of 2.59\% against 0.06\% at \texttt{high}; and every one is a
+\texttt{HOLD} accompanied by a non-zero percentage to sell. These rows are
+flagged and kept on both measures, never reconciled, as registered. They also
+account for the one cell that breaks the disposition sign pattern: Opus at
+\texttt{low} effort is the only cell of nine with a negative disposition
+effect, and it is the cell in which the model's two answers are least
+coherent with each other.
+
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{../figures/fig4_forest_pct.pdf}
@@ -556,6 +738,27 @@ the matched pairs can answer even though the magnitudes are not comparable.
 \end{figure}
 
 \subsection{Response variability}
+Because \texttt{temperature} cannot be set on these models, repeated sampling
+replaces it and the resulting variability is reported as a result rather than
+treated as nuisance. Mean within-item entropy across five identical prompts
+separates the models more sharply than effort does: Opus sits between 0.057
+and 0.147 bits, Sonnet between 0.053 and 0.311, and Haiku between 0.354 and
+0.510. The within-item share of variance in the continuous measure runs from
+4.5\% in Sonnet at \texttt{low} effort to 33.6\% in Haiku at \texttt{high}.
+Most variance is between items, which is what an instrument that measures its
+stimulus should show, but a third of it is within item in Haiku, so a single
+sample per item would have been closer to a coin flip than to a measurement.
+
+The pre-registration singles out one combination as the worst outcome for
+deployment: an effect size that does not move while entropy falls, which
+would mean the model becoming more confident in the same biased answer. It
+does not occur. In Haiku and Sonnet entropy rises with effort, from 0.354 to
+0.479 and from 0.054 to 0.311, while their absolute effects fall or hold. In
+Opus entropy does fall, from 0.147 at \texttt{low} to 0.060 at
+\texttt{high}, but its absolute effect falls with it and is the one pooled
+slope whose interval excludes zero, so the rising confidence attaches to a
+less biased answer rather than to the same one.
+
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.7\linewidth]{../figures/fig3_entropy.pdf}
@@ -563,12 +766,114 @@ the matched pairs can answer even though the magnitudes are not comparable.
   \label{fig:entropy}
 \end{figure}
 
+\subsection{The budget and the behaviour are not the same variable}
+\label{sec:lengthorlabel}
+One further analysis is reported because it bears directly on the
+identification argument of Section~\ref{sec:deliberation}, and because its
+result is the opposite of what that argument would naively predict. It was
+written after the data were in hand and is not pre-registered.
+
+Within a single model and effort cell the effort label is constant, but
+generation length still varies widely from item to item. If deliberation
+itself is what reduces bias, then holding the label fixed, pairs on which the
+model happened to generate more should show less bias. They show more. The
+Spearman correlation between a pair's mean output tokens and its absolute
+effect, pooled across all nine cells with the cell means removed from both
+variables so that only within-cell variation contributes, is $+0.190$
+($p = 0.0001$) on the categorical measure and $+0.154$ ($p = 0.0001$) on the
+continuous measure, over 972 pairs. The relationship is positive in 17 of the
+18 cell by measure combinations and reaches $p < 0.05$ in eight of them.
+Between cells, bias falls as effort rises. Within cells, bias rises with
+length. The two slopes have opposite signs.
+
+Two readings survive this. The first is that the exogenous budget and the
+model's own allocation of tokens are distinct interventions with distinct
+effects. The second is reverse causation: an item that provokes bias also
+provokes a longer answer, so length is an index of item difficulty rather
+than of deliberation. We cannot separate them, and we do not claim to. What
+matters for the argument of this paper is that a design which measures
+deliberation by observing the model, whether through generated length or
+through the model's own report of its reasoning, is measuring a quantity
+whose association with bias runs the other way from the one an experimenter
+can set. That is not a refinement of the identification problem in
+\citet{bini2026behavioral}; it is a demonstration of it.
+
 \section{Discussion}
-% ~1 page. Interpret now.
-% What it means. Why it might happen. What it implies for anyone shipping an
-% LLM financial advisor. If effort does not debias, say so plainly: it means
-% deliberation improves the justification, not the decision, which is worse
-% for users than a visibly shallow answer.
+Three findings carry the paper, and they do not all point the same way.
+
+\paragraph{The disposition effect is reversed, not absent.} These models are
+more willing to recommend selling a position held below its cost basis than
+one held above it. The aggregate is $+0.239$ $[+0.148, +0.331]$ on the
+four-point scale and $+13.376$ $[+8.844, +18.104]$ percentage points of the
+position, where the pre-registered prediction, taken from the human
+literature, was negative in both. Human investors realise their winners about
+half again as often as their losers \citep{odean1998losses}; these models do
+the reverse, and in the two smaller models they do it by a wide margin. The
+finding is the third independent measurement to point this way, after
+\citet{malberg2025comprehensive} and \citet{yee2026calibrating}, and it is
+the first under decision pressure with an interval attached.
+
+This should temper a common framing. A model that is not loss averse is not
+thereby rational: it is differently biased, and in a way no human baseline
+anticipates. The practical consequence runs opposite to the usual worry. An
+advisor built on these models will not help a client cling to losers. It may
+instead talk them into realising losses they had no reason to realise, and in
+a taxable account, under a cash need, that is a real cost. We did not design
+the battery to detect that, and we flag it as the hypothesis our result most
+clearly generates rather than as something we have measured.
+
+\paragraph{Reasoning effort reduces bias where there is bias to reduce, and
+it works by compression.} H10 holds in all ten families that qualified for
+it, on both measures. But the mechanism is narrower than the hypothesis
+implies. What effort reliably reduces is the spread of bias magnitudes across
+families, not their mean: the largest effects collapse, the small ones do not
+move or drift slightly upward, and the nine families converge on a common
+small magnitude. Haiku's largest family effect falls from 44.17 to 10.42
+while its smallest falls from 0.72 to 0.25, and its pooled slope is
+indistinguishable from zero because those two movements cancel.
+
+Read as a claim about deployment, this is better news than a null and worse
+news than it first appears. Raising the effort budget is a real intervention
+on the recommendation, not only on its justification, which is what
+\citet{hu2026effort} would have predicted from their ceiling account and what
+the token counts here confirm they were right about as a description of
+generation. But a practitioner who raises the budget should expect the
+worst-behaved cue in their deployment to improve substantially and the
+well-behaved ones to improve little or not at all. Effort is a floor-raiser,
+not a general-purpose debiaser.
+
+\paragraph{Deliberation measured is not deliberation set.} The within-cell
+relationship between generation length and bias is positive while the
+between-cell relationship with the effort label is negative
+(Section~\ref{sec:lengthorlabel}). Whatever the correct causal reading of the
+within-cell slope, the two quantities cannot be used interchangeably, and the
+substantial literature that infers a debiasing role for deliberation from
+observed reasoning, including the 40\% figure in
+\citet{bini2026behavioral}, is identifying a different parameter from the one
+an experimenter controls. We think this is the most transferable result here.
+It costs nothing to set the budget exogenously on any model that exposes the
+parameter, and the exercise is not interchangeable with reading the model's
+own account of how hard it thought.
+
+\paragraph{Where capability and deliberation sit.} The pilot suggested that
+deliberation substitutes for model capability, with the weakest model gaining
+most and the strongest having nothing left to gain. The confirmatory data do
+not support that and we record the reversal rather than the original
+reading. Opus has the steepest pooled effort slope and the only one whose
+interval excludes zero on both measures. Effort did the most work in the
+strongest model, not the weakest. The one place the substitution story does
+hold is the single largest effect in the study, Haiku's disposition family,
+which is where the pilot's reading came from; generalising from it was our
+error, and the generalisation is what the full battery was for.
+
+\paragraph{A note on coherence under a low budget.} All 86 responses whose
+two measures contradict each other are Opus, and 84 are at \texttt{low}
+effort. That is a different failure from bias: the model says hold and then
+names a fraction of the position to sell. It is also the mechanism behind the
+one cell that breaks the disposition sign pattern. For anyone deploying a
+structured-output advisor, a low effort budget on a strong model bought
+incoherence between fields at 2.59\% of responses, and the fix was more
+effort, which took it to 0.06\%.
 
 \section{Limitations}
 % Keep these. Each one is a real constraint a reviewer will find anyway.
@@ -622,18 +927,42 @@ price path families are exploratory. Nothing here is investment advice and
 the author is not a licensed adviser.
 
 \section{Conclusion}
-% One paragraph. The finding, and one line of future work.
+Setting the reasoning budget before a model sees an item, rather than reading
+how hard it says it thought, changes what the measurement means. Across 9{,}720
+responses from three models at three effort levels on nine families of
+normatively irrelevant cue, the disposition effect runs opposite to the human
+direction, $+0.239$ $[+0.148, +0.331]$ on the categorical measure where the
+pre-registered prediction was negative; reasoning effort reduces the absolute
+effect in all ten families that qualified for the registered test; and it
+does so by compressing the spread of bias magnitudes rather than lowering
+their mean, so the worst-behaved cue improves most and the well-behaved ones
+barely move. The within-cell association between generated length and bias is
+positive while the between-cell association with the effort budget is
+negative, which means a design that infers deliberation from the model's own
+output is not measuring the quantity an experimenter can set. The obvious
+next step is a second model family that exposes a comparable parameter, since
+everything here is measured on one vendor's models and the compression
+mechanism is the claim most likely to be specific to them.
 
 \section*{Reproducibility}
 Prompts, generator seed, raw responses and analysis code are available at
-% REPO URL
-. The pre-registration was committed before the first API call.
+\repourl.
+The pre-registration was committed before the first API call and amended
+twice, both times before any model was queried, with the superseded
+generators left in the git history at the commits named in that file. The
+confirmatory set is 9{,}720 responses, one row per \texttt{custom\_id}, in
+\texttt{data/responses.jsonl}; pilot data are in \texttt{data/pilot/} and are
+never pooled with it. \texttt{analysis/analyze.py} reproduces every
+pre-registered number in Section~\ref{sec:results} from that file, and
+\texttt{analysis/exploratory.py} reproduces the analyses labelled as not
+pre-registered. Both are deterministic given the seeds recorded in them.
 
 \bibliographystyle{plainnat}
 \bibliography{refs}
 
 \appendix
 \section{Full prompt battery}
-% data/items.jsonl, rendered.
+\label{app:battery}
+\input{items_appendix}
 
 \end{document}
