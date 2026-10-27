@@ -7,6 +7,10 @@ reasoning effort levels, matched pair design, mechanical grading.
 queried and it fixes the hypotheses, the predicted directions and the
 analysis plan.
 
+`SUBMISSION.md` holds where the paper can go and what each venue needs.
+Every ACL-family deadline for 2026 has passed; the next is the ARR cycle in
+January 2027.
+
 ## The design in one paragraph
 
 Every item is a matched pair: two prompts identical in current price,
@@ -207,19 +211,39 @@ make -C paper check
 
 `tectonic` is a single binary that fetches the packages it needs on first
 run, so it does not want an administrator password and it is not the 5 GB
-MacTeX download. `make check` builds the PDF and then **fails** if there is
-an unresolved citation, a dangling cross reference or a line past the
-margin; a clean build prints one line saying so. Run it before sending the
-paper anywhere.
+MacTeX download. `make check` builds both PDFs and then **fails** on any of
+five things, which is the whole point of it. Run it before sending the paper
+anywhere.
+
+1. An unresolved citation, a dangling cross reference, a duplicate label or
+   a line past the margin.
+2. A submission body over the venue's page limit. `pagecheck.py` measures to
+   `\label{xbodyend}` rather than counting PDF pages, because references,
+   appendices, Limitations and the ethics statement do not count against an
+   ACL limit.
+3. A hardcoded "Section" or "Appendix" that would print against the wrong
+   kind of label in the other build. `branchaudit.py`; the fix is
+   `\movedref`, which picks the word from the build.
+4. A decimal figure in the paper that no released script produced.
+   `numaudit.py`, currently 207 of 207. It scans decimals only, so integer
+   counts still need a human.
+5. A submission PDF that identifies its author. `anonaudit.py` reads the
+   names and email out of `shared.tex`'s `\author` block and fails if any of
+   them, or any of six code hosts, reaches `main_acl.pdf`'s text layer or its
+   metadata. Needs the repo venv for pypdf.
 
 `paper/example_pair.tex` and `paper/items_appendix.tex` are generated from
 `data/items.jsonl` by `paper/render_items.py`, and `make` regenerates them.
 Editing either by hand is pointless because the next build overwrites it.
 
-Replace the preamble with the venue's own style files before submitting; the
-comment at the top of `main.tex` says which ones. The body is about 8,200
-words in the article class, which is well over a workshop limit, so expect
-to cut once the two-column style is in place.
+Two builds come out of one `body.tex`. `main.pdf` is the single-column
+reading copy with everything inline and the author's name on it.
+`main_acl.pdf` is the anonymous ACL two-column submission, whose body fits
+the 8-page limit at 7.97. Nothing is cut between them: the `\ifsubmission`
+switch in `shared.tex` decides whether a section prints where it was written
+or as a pointer into the appendix, and an ACL page limit covers the body
+alone, so material a reviewer can reach by reference moves rather than
+disappearing.
 
 ## Reproducing a published result
 
