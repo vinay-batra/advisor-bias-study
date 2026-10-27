@@ -6,7 +6,8 @@ move and I am quoting them, not reading your calendar.
 ## The short version
 
 Every venue I recommended earlier is closed. The next real deadline is the
-ACL Rolling Review cycle that opens in January 2027, about ten weeks out.
+ACL Rolling Review cycle whose submission deadline is 4 January 2027, ten
+weeks out.
 That is not a setback. It is the first time this paper has had slack in its
 schedule, and there is one thing worth spending the slack on.
 
@@ -33,11 +34,12 @@ limit, but the slot I pointed at had been gone for ten weeks.
 
 ## What is open
 
-**ACL Rolling Review, January 2027 cycle.** The ARR dates page lists "ACL
-2027, January 2027" with no exact day yet. On the 2026 pattern of five
-10-week cycles, expect a submission deadline in the first half of January.
-Reviews arrive about five weeks later, and an accepted paper commits to ACL
-2027 or any later venue that takes ARR reviews. This is the right target:
+**ACL Rolling Review, January 2027 cycle.** Confirmed 2026-10-27 from the
+ACL 2027 first call for papers: **ARR submission deadline 4 January 2027**,
+11:59 PM UTC-12:00 (anywhere on Earth), handled through ARR. The ACL
+commitment deadline is still listed as TBD. Reviews arrive about five weeks
+after submission, and an accepted paper commits to ACL 2027 or any later
+venue that takes ARR reviews. This is the right target:
 the paper is written to ACL format, it fits the limit, and ARR reviews are
 reusable even if the first commitment fails.
 
@@ -49,6 +51,21 @@ Two things to set up before then, both free and both now required:
 - An **anonymised archive** for `\repourl`. anonymous.4open.science mirrors a
   Git repository behind a random URL. The submission build will not accept a
   personal code host: `anonaudit.py` fails the build on one.
+
+### The two policies disagree about preprints, and the date decides it
+
+Checked 2026-10-27. ARR's own anonymity page says there is no anonymity
+period and that "authors are free to post and discuss non-anonymous
+preprints at any time", in force since the February 2024 cycle. The ACL 2027
+first call says the opposite: "no deanonymized preprint may be posted in the
+month prior to submission". Nothing on either page explains the conflict.
+
+Resolve it by not standing in the disputed window. With submission on 4
+January 2027, the stricter reading blacks out roughly 4 December 2026 to 4
+January 2027. A preprint posted before December is clear under either policy
+and the conflict never applies to you. A preprint posted in December might
+not be. If you want to post in that window, write to
+editors@aclrollingreview.org first.
 
 **SSRN, as an immediate preprint.** SSRN takes submissions from anyone with a
 free account and no endorsement, which matters because arXiv does not. This
