@@ -9,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{longtable}
+\usepackage{enumitem}
 
 % The one place the repository URL is set. There is no remote yet, so this
 % is deliberately a visible placeholder rather than a plausible-looking URL:
@@ -32,54 +33,36 @@ Behavioural Finance Bias in\\Large Language Model Portfolio Advisors}
 \maketitle
 
 \begin{abstract}
-Large language models are increasingly asked for advice about financial
-positions people already hold, and they are known to carry measurable
-behavioural bias. Whether deliberation removes it is unsettled, and the
-existing evidence is hard to read because it either compares different models,
-so that capability and deliberation move together, or infers deliberation from
-the model's own account of its reasoning. We set the reasoning budget
-exogenously through the API, at three levels, before the model sees the item,
-and measure nine families of normatively irrelevant cue against matched pairs
-that differ only in that cue. Across 9{,}720 responses from three models, the
-disposition effect runs opposite to the human direction: these models are more
-willing to sell at a loss than at a gain, $+0.239$ $[+0.148, +0.331]$ on a
-four-point scale and $+13.4$ $[+8.8, +18.1]$ percentage points of the
-position, where the pre-registered prediction was negative. Reasoning effort
-reduces the absolute effect in all ten model-family cases that qualified for
-the pre-registered test, and it does so by compressing the spread of bias
-magnitudes rather than lowering their mean: strongly and robustly in the
-weakest model, where no shuffle of the effort labels in 2{,}000 reproduces
-the observed compression, and inseparably from sampling error in the
-strongest. Within a fixed effort level,
-however, longer answers carry more bias, not less, so the budget an
-experimenter sets and the deliberation a model displays are not the same
-variable. We also report that \texttt{temperature} is unavailable on these
-models, which makes three prior protocols unexecutable, and give a
-repeated-sampling replacement.
-Language models are being deployed as financial advisors, and prior work has
-established that they reproduce several biases documented in human decision
-makers. Whether that bias can be reduced by making the model think harder is
-unsettled. The strongest existing evidence is correlational: a model that
-reports having reasoned analytically also answers more rationally, but the
-report and the answer are produced together, so the direction of causation is
-not identified. We manipulate the reasoning budget directly. Using a matched
-pair battery of nine behavioural finance biases, in which two prompts are
-identical in current price, cost basis, share count, position weight and
-fundamentals and differ only in a cue that standard theory says must not
-change the recommendation, we query three models at three exogenously set
-reasoning effort levels, five trials per cell, 9{,}720 recommendations in
-total.
-% Result sentences are in the abstract above and in the contributions list.
-% Keep them consistent with Section 5 if any number changes.
-Two of the nine families are new: one varies only whether the advisor
-recommended the position or inherited it, and one varies only the price path
-to an identical current price and cost basis. We further report that sampling
-parameters have been removed from the underlying API, which makes the
-fixed-temperature protocol used throughout this literature unexecutable, and
-we give a distributional protocol in its place.
+Language models are increasingly asked for advice about financial positions
+people already hold, and they carry measurable behavioural bias. Whether
+deliberation removes it is unsettled, because the available evidence either
+compares different models, so that capability and deliberation move together,
+or infers deliberation from the model's own account of its reasoning, which
+is produced by the same forward pass as the answer. We instead set the
+reasoning budget exogenously through the API, at three levels, before the
+model sees the item, and measure nine families of normatively irrelevant cue
+against matched pairs that differ only in that cue. Across 9{,}720 responses
+from three models the disposition effect runs opposite to the human
+direction: these models are more willing to sell at a loss than at a gain,
+$+0.239$ $[+0.148, +0.331]$ on the categorical measure and $+13.4$ $[+8.8,
++18.1]$ percentage points of the position, where the pre-registered
+prediction was negative. Reasoning effort reduces the absolute effect in all
+nine qualifying cases, against a shuffled-label null of 0.0125 rather than
+the $2^{-9}$ a count would suggest, and it does so by compressing the spread
+of bias magnitudes rather than lowering their mean: robustly in the weakest
+model, where no shuffle in 2{,}000 reproduces the compression, and
+inseparably from sampling error in the strongest. The exogenous manipulation
+is what makes this visible. Measured the observational way on the same
+responses, with output tokens standing in for displayed deliberation, more
+reasoning goes with \textit{more} bias between items and with nothing at all
+within an item. We also report that \texttt{temperature} is unavailable on
+these models, which makes the fixed-temperature protocol used throughout this
+literature unexecutable, and give a repeated-sampling replacement. Two of the
+nine families are new.
 \end{abstract}
 
 \section{Introduction}
+\label{sec:intro}
 Language models now sit inside the tools through which ordinary people make
 financial decisions, and they are increasingly asked not for a price or a
 definition but for a recommendation about a position someone already holds.
@@ -111,9 +94,9 @@ not been manipulated as a treatment against a behavioural finance bias. That
 is this paper.
 
 Across 9{,}720 responses the disposition effect runs opposite to the human
-direction, reasoning effort reduces the absolute effect in all ten cases that
-qualified for the pre-registered test, and within a fixed effort level the
-association between generated length and bias is positive rather than
+direction, reasoning effort reduces the absolute effect in all nine cases
+that qualified for the pre-registered test, and within a fixed effort level
+the association between generated length and bias is positive rather than
 negative.
 
 The identification problem in prior work is worth stating precisely.
@@ -128,6 +111,14 @@ contrast, is set before the model sees the item and is independent of what it
 goes on to say, which is what makes the comparison reported here an
 experiment rather than an association.
 
+That distinction is usually left as an argument. Here it can be measured,
+because the data holds both kinds of variable: the budget the experimenter
+set, and the tokens the model chose to spend. Section~\ref{sec:mediator}
+runs the paper's own analysis on the same responses with the second in place
+of the first, and the answer changes sign. The design is not a refinement of
+the observational one; on this data it is the difference between finding the
+effect and finding its opposite.
+
 Our contributions are:
 \begin{itemize}
   \item The first measurement, to our knowledge, of behavioural finance bias
@@ -140,6 +131,10 @@ Our contributions are:
         of sampling parameters from the API, with repeated sampling and
         bootstrap intervals in place of single deterministic draws, and
         within-item response entropy reported as a result.
+  \item A direct test of what that exogeneity buys, in which an endogenous
+        measure of displayed reasoning is substituted for the manipulated
+        budget on the same 9{,}720 responses and reverses the sign of the
+        result, locating the confound in the item.
   \item A pre-registered analysis plan committed before the first API call,
         together with the full prompt set, the raw responses and the
         analysis code.
@@ -832,6 +827,92 @@ states the mechanism as a finding about the weakest model and a conjecture
 about the others, and the remedy is more items per family rather than more
 trials per item, since the limiting quantity is the twelve pairs.
 
+\subsection{The same data, measured the observational way}
+\label{sec:mediator}
+The argument for setting the reasoning budget through the API, rather than
+measuring how much reasoning a response contains, is made in
+Section~\ref{sec:intro} on identification grounds: a measure read off the
+response is produced by the same forward pass as the answer, so it cannot
+separate reasoning that helped from reasoning that a hard item provoked. That
+argument can be tested here instead of asserted, because this data contains
+both variables. The effort parameter is exogenous, set before the model sees
+the item. Output tokens are endogenous, chosen by the model for each
+response. They are not the self-reported analytical-reasoning indicator used
+by \citet{bini2026behavioral}, but they are the same class of variable: a
+within-cell, model-chosen measure of how much reasoning a response contains,
+with no experimental control over it.
+
+The parameter does set reasoning volume, so the two variables are measuring
+the same construct. Output tokens rise from \texttt{low} to \texttt{high} by
+a factor of 2.33 in Haiku, 2.44 in Opus and 2.91 in Sonnet, and the
+distributions barely overlap: 0.1\% of Haiku's and Opus's \texttt{low} effort
+responses exceed the median \texttt{high} effort response, 0.0\% of Sonnet's,
+and in the other direction 0.0\%, 0.0\% and 3.5\%. A study of realised
+reasoning volume in this data is therefore a study of the same thing the
+parameter manipulates, and the two should agree.
+
+They do not. \texttt{analysis/mediator.py} runs the paper's own arithmetic
+three ways on the same 9{,}720 responses, with the same families, items and
+statistics, changing only which responses enter each pair mean.
+
+\begin{description}[leftmargin=1.2em,itemsep=2pt,topsep=3pt]
+  \item[Exogenous.] Compare effort levels. The mean absolute family effect
+    falls from \texttt{low} to \texttt{high} in all three models on both
+    measures, by $-0.120$, $-0.069$ and $-0.050$ on the categorical measure
+    for Opus, Sonnet and Haiku, and by $-2.628$, $-3.667$ and $-3.700$ on the
+    continuous one. Six of six.
+  \item[Endogenous, between items.] Inside one model by effort cell, split
+    the pairs at the cell's median token count and compare the halves.
+    Nothing is held fixed but the effort setting. Across the nine model by
+    effort cells the mean absolute effect is \textit{lower} in the heavier
+    half in one cell of nine, on both measures. Pooled over effort and
+    bootstrapped over pairs the contrast is positive in all three models on
+    both measures, and in Haiku on the categorical measure the interval
+    excludes zero in the wrong direction, $+0.066$ $[+0.014, +0.143]$.
+  \item[Endogenous, within item.] Inside one cell, split the five trials of
+    each single item at that item's own median token count. The stimulus, the
+    family, the company and the effort setting are identical across the
+    split. The contrast collapses: the mean absolute effect falls in four of
+    nine cells, which is what chance gives, and every pooled interval
+    contains zero, the largest being $-0.585$ $[-2.896, +1.999]$ for Haiku on
+    the continuous measure.
+\end{description}
+
+An observational study of these responses would thus have reported that
+reasoning makes the bias worse, or that it does nothing, depending on whether
+it conditioned on the item. The experiment reports that it reduces the bias,
+in every model and on both measures.
+
+The leverage figures rule out the obvious objection that the observational
+designs simply had less variation to work with. Both separate their halves by
+a similar amount, 49.5 and 53.6 output tokens in Opus, 59.6 and 61.2 in
+Sonnet, 132.0 and 155.1 in Haiku, which is between 0.19 and 0.39 of the gap
+the parameter opens. So the two observational designs have the same leverage
+as each other and less than the experiment. Lower leverage is a fair
+explanation of the within-item null, which should be read as consistent with
+low power rather than as evidence against the experiment. It is not an
+explanation of a sign reversal. Where the between-item design returns the
+wrong sign it is returning confounding, not noise.
+
+Because the two observational designs differ only in whether the item is held
+fixed, their disagreement locates that confounding in the item. Two item
+level properties move with the token count. Harder items draw more words and
+are more bias-prone, which is the confound usually named. The second is
+visible in the data and is less often named: the families themselves differ
+in how much the model writes about them, so splitting on tokens re-weights
+the cues being averaged. Mental accounting contributes 75.5\% of its
+responses to the heavy half and price path 68.2\%, while action bias
+contributes 28.0\% and framing 30.2\%. A measure of reasoning volume taken
+from the response is therefore also a measure of which cue was present, and
+no amount of care with observational data separates the two.
+
+What the within-item design cannot remove at all is the loop that motivates
+the design of this study. A response's recommendation and the length of its
+justification are produced together, so conditioning on length conditions on
+the answer. Setting the budget before the item is seen is the only one of the
+three designs that avoids this, and it is the only one that recovers an
+effect.
+
 \subsection{The continuous measure}
 Amendment 3 added the continuous measure because the categorical scale was at
 ceiling in the pilot, and it earned its place. It finds 22 non-zero cells
@@ -966,9 +1047,12 @@ the battery to detect that, and we flag it as the hypothesis our result most
 clearly generates rather than as something we have measured.
 
 \paragraph{Reasoning effort reduces bias where there is bias to reduce, and
-it works by compression.} H10 holds in all ten families that qualified for
-it, on both measures. But the mechanism is narrower than the hypothesis
-implies. What effort reduces is the spread of bias magnitudes across
+it works by compression.} H10 holds in all nine confirmatory cases that
+qualified for it, and in ten of the eleven that qualify once the exploratory
+families are included. But the mechanism is narrower than the hypothesis
+implies, and the evidence is weaker than the count implies: the shuffled
+label null for that pattern is 0.0125, not $2^{-9}$
+(Section~\ref{sec:h10null}). What effort reduces is the spread of bias magnitudes across
 families, not their mean: the largest effects collapse, the small ones do not
 move or drift slightly upward, and the nine families converge on a common
 small magnitude. Haiku's largest family effect falls from 44.17 to 10.42
@@ -1088,9 +1172,9 @@ responses from three models at three effort levels on nine families of
 normatively irrelevant cue, the disposition effect runs opposite to the human
 direction, $+0.239$ $[+0.148, +0.331]$ on the categorical measure where the
 pre-registered prediction was negative; reasoning effort reduces the absolute
-effect in all ten families that qualified for the registered test; and it
-does so by compressing the spread of bias magnitudes rather than lowering
-their mean, so the worst-behaved cue improves most and the well-behaved ones
+effect in all nine cases that qualified for the registered test, against a
+shuffled label null of 0.0125 for that pattern; and it does so by
+compressing the spread of bias magnitudes rather than lowering their mean, so the worst-behaved cue improves most and the well-behaved ones
 barely move. That mechanism is established in the weakest model, where it is
 large and survives both a correction for sampling error and a label-shuffling
 placebo, and left as a conjecture in the strongest, where the nine families
@@ -1098,7 +1182,10 @@ are not separable from one another once item to item variation is charged
 against the estimate. The within-cell association between generated length and bias is
 positive while the between-cell association with the effort budget is
 negative, which means a design that infers deliberation from the model's own
-output is not measuring the quantity an experimenter can set. The obvious
+output is not measuring the quantity an experimenter can set. Substituting
+the one for the other on these same responses reverses the sign of the
+headline result, which is the clearest statement we can make of what the
+manipulation buys. The obvious
 next step is a second model family that exposes a comparable parameter, since
 everything here is measured on one vendor's models and the compression
 mechanism is the claim most likely to be specific to them.

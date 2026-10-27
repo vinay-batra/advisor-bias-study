@@ -1,0 +1,162 @@
+  5 duplicate custom_ids resolved, usable row preferred
+9,720 usable responses
+
+Token counts by cell, and how far the parameter separates them
+  model    effort   n     mean    sd     median   p10    p90
+  opus     low     1080    179.3   22.7     178    157    200
+  opus     medium  1080    401.5   56.7     393    338    476
+  opus     high    1080    438.1   64.7     430    368    519
+  sonnet   low     1080    160.1   14.6     159    142    180
+  sonnet   medium  1080    163.4   28.6     161    143    181
+  sonnet   high    1080    465.3  143.3     465    290    637
+  haiku    low     1080    296.4  160.5     186    154    519
+  haiku    medium  1080    539.0  108.5     535    425    670
+  haiku    high    1080    691.0  137.1     683    528    867
+
+  Share of low effort responses above the median high effort
+  response, and of high effort responses below the median low
+  one. A clean manipulation drives both toward zero.
+  opus     low above high median   0.1%   high below low median   0.0%
+  sonnet   low above high median   0.0%   high below low median   3.5%
+  haiku    low above high median   0.1%   high below low median   0.0%
+
+Leverage on the token count, by design
+  Each figure is the gap in mean output tokens between the halves
+  the design compares, averaged over the three effort levels.
+  model    between-item  within-item  exogenous   ratio to exogenous
+  opus             49.5         53.6      258.8   0.19 / 0.21
+  sonnet           59.6         61.2      305.2   0.20 / 0.20
+  haiku           132.0        155.1      394.6   0.33 / 0.39
+
+Family composition of the between item halves
+  A family at 50% is split evenly and contributes equally to both.
+  disposition          heavy   600  light   450   heavy share  57.1%
+  framing              heavy   320  light   740   heavy share  30.2%
+  anchoring            heavy   630  light   440   heavy share  58.9%
+  home_bias            heavy   490  light   580   heavy share  45.8%
+  action_bias          heavy   300  light   770   heavy share  28.0%
+  mental_accounting    heavy   800  light   260   heavy share  75.5%
+  advisor_attribution  heavy   390  light   690   heavy share  36.1%
+  price_path           heavy   730  light   340   heavy share  68.2%
+  brand_salience       heavy   490  light   590   heavy share  45.4%
+
+==============================================================================
+Measure: categorical sell tendency
+==============================================================================
+
+1. Exogenous. The effort parameter, set before the model sees the item.
+   model     low              high             change
+   opus     mean   0.165 sd  0.088  mean   0.044 sd  0.038  mean  -0.120 sd  -0.049
+   sonnet   mean   0.120 sd  0.111  mean   0.052 sd  0.037  mean  -0.069 sd  -0.074
+   haiku    mean   0.167 sd  0.228  mean   0.117 sd  0.058  mean  -0.050 sd  -0.170
+
+2. Endogenous, between items. Light token items against heavy ones,
+   inside one effort level. Item difficulty is free to drive both.
+   model    effort   light            heavy            change
+   opus     low     mean   0.198 sd  0.153  mean   0.162 sd  0.136  mean  -0.036 sd  -0.017
+   opus     medium  mean   0.004 sd  0.011  mean   0.074 sd  0.062  mean  +0.071 sd  +0.051
+   opus     high    mean   0.013 sd  0.038  mean   0.076 sd  0.077  mean  +0.063 sd  +0.039
+   sonnet   low     mean   0.084 sd  0.114  mean   0.127 sd  0.166  mean  +0.043 sd  +0.051
+   sonnet   medium  mean   0.102 sd  0.099  mean   0.207 sd  0.216  mean  +0.106 sd  +0.117
+   sonnet   high    mean   0.069 sd  0.076  mean   0.076 sd  0.061  mean  +0.007 sd  -0.015
+   haiku    low     mean   0.191 sd  0.270  mean   0.274 sd  0.211  mean  +0.083 sd  -0.059
+   haiku    medium  mean   0.068 sd  0.047  mean   0.153 sd  0.061  mean  +0.086 sd  +0.014
+   haiku    high    mean   0.108 sd  0.144  mean   0.126 sd  0.104  mean  +0.019 sd  -0.039
+
+3. Endogenous, within item. Short responses against long ones to the
+   same item at the same effort. Item difficulty is held fixed.
+   model    effort   short            long             change
+   opus     low     mean   0.167 sd  0.088  mean   0.183 sd  0.117  mean  +0.016 sd  +0.028
+   opus     medium  mean   0.028 sd  0.036  mean   0.046 sd  0.044  mean  +0.019 sd  +0.008
+   opus     high    mean   0.051 sd  0.050  mean   0.037 sd  0.033  mean  -0.014 sd  -0.018
+   sonnet   low     mean   0.116 sd  0.114  mean   0.126 sd  0.119  mean  +0.010 sd  +0.006
+   sonnet   medium  mean   0.158 sd  0.134  mean   0.126 sd  0.155  mean  -0.032 sd  +0.020
+   sonnet   high    mean   0.074 sd  0.062  mean   0.079 sd  0.039  mean  +0.005 sd  -0.023
+   haiku    low     mean   0.185 sd  0.256  mean   0.181 sd  0.204  mean  -0.005 sd  -0.052
+   haiku    medium  mean   0.079 sd  0.061  mean   0.153 sd  0.116  mean  +0.074 sd  +0.055
+   haiku    high    mean   0.181 sd  0.112  mean   0.102 sd  0.075  mean  -0.079 sd  -0.037
+
+   Direction counts over the nine model by effort cells, where a
+   negative change is more reasoning going with less bias:
+     between items  mean bias falls in 1 of 9, spread falls in 4 of 9
+     within item    mean bias falls in 4 of 9, spread falls in 4 of 9
+
+   Pooled over the three effort levels, bootstrapped over pairs.
+   A negative interval is more reasoning going with less bias,
+   which is the direction the exogenous manipulation gives.
+   between items  opus     mean  +0.033 [ -0.016,  +0.085]   spread  +0.024 [ -0.026,  +0.095]
+   between items  sonnet   mean  +0.051 [ -0.015,  +0.112]   spread  +0.055 [ -0.030,  +0.131]
+   between items  haiku    mean  +0.066 [ +0.014,  +0.143]   spread  -0.033 [ -0.070,  +0.086]
+   within item    opus     mean  +0.006 [ -0.016,  +0.032]   spread  +0.006 [ -0.035,  +0.025]
+   within item    sonnet   mean  -0.008 [ -0.042,  +0.016]   spread  +0.002 [ -0.035,  +0.038]
+   within item    haiku    mean  -0.001 [ -0.051,  +0.048]   spread  -0.013 [ -0.068,  +0.035]
+
+==============================================================================
+Measure: percent of position to sell
+==============================================================================
+
+1. Exogenous. The effort parameter, set before the model sees the item.
+   model     low              high             change
+   opus     mean   6.144 sd  4.057  mean   3.517 sd  2.551  mean  -2.628 sd  -1.506
+   sonnet   mean   5.991 sd  5.366  mean   2.324 sd  1.655  mean  -3.667 sd  -3.711
+   haiku    mean   9.117 sd 13.696  mean   5.417 sd  3.088  mean  -3.700 sd -10.608
+
+2. Endogenous, between items. Light token items against heavy ones,
+   inside one effort level. Item difficulty is free to drive both.
+   model    effort   light            heavy            change
+   opus     low     mean   7.631 sd  5.967  mean   5.886 sd  4.664  mean  -1.745 sd  -1.303
+   opus     medium  mean   2.437 sd  2.330  mean   5.830 sd  3.478  mean  +3.393 sd  +1.148
+   opus     high    mean   3.147 sd  2.741  mean   4.108 sd  3.797  mean  +0.960 sd  +1.056
+   sonnet   low     mean   4.341 sd  5.584  mean   6.908 sd  7.638  mean  +2.567 sd  +2.054
+   sonnet   medium  mean   4.718 sd  5.440  mean  10.661 sd 10.483  mean  +5.943 sd  +5.044
+   sonnet   high    mean   2.458 sd  2.029  mean   2.905 sd  3.919  mean  +0.447 sd  +1.890
+   haiku    low     mean  11.351 sd 17.870  mean  13.013 sd 11.402  mean  +1.662 sd  -6.468
+   haiku    medium  mean   3.323 sd  2.794  mean   6.988 sd  3.324  mean  +3.665 sd  +0.530
+   haiku    high    mean   5.464 sd  6.724  mean   5.876 sd  4.801  mean  +0.412 sd  -1.923
+
+3. Endogenous, within item. Short responses against long ones to the
+   same item at the same effort. Item difficulty is held fixed.
+   model    effort   short            long             change
+   opus     low     mean   6.102 sd  3.629  mean   6.732 sd  5.299  mean  +0.630 sd  +1.670
+   opus     medium  mean   3.648 sd  1.835  mean   4.019 sd  2.920  mean  +0.370 sd  +1.085
+   opus     high    mean   4.032 sd  3.241  mean   2.917 sd  2.458  mean  -1.116 sd  -0.783
+   sonnet   low     mean   5.648 sd  5.393  mean   6.317 sd  5.722  mean  +0.669 sd  +0.329
+   sonnet   medium  mean   7.605 sd  6.963  mean   6.591 sd  7.520  mean  -1.014 sd  +0.557
+   sonnet   high    mean   2.454 sd  2.506  mean   3.333 sd  2.881  mean  +0.880 sd  +0.375
+   haiku    low     mean  10.858 sd 12.798  mean  10.185 sd 13.340  mean  -0.673 sd  +0.542
+   haiku    medium  mean   3.588 sd  3.628  mean   6.829 sd  5.496  mean  +3.241 sd  +1.868
+   haiku    high    mean   8.819 sd  5.564  mean   4.676 sd  3.377  mean  -4.144 sd  -2.187
+
+   Direction counts over the nine model by effort cells, where a
+   negative change is more reasoning going with less bias:
+     between items  mean bias falls in 1 of 9, spread falls in 3 of 9
+     within item    mean bias falls in 4 of 9, spread falls in 2 of 9
+
+   Pooled over the three effort levels, bootstrapped over pairs.
+   A negative interval is more reasoning going with less bias,
+   which is the direction the exogenous manipulation gives.
+   between items  opus     mean  +0.869 [ -1.290,  +2.640]   spread  +0.300 [ -1.780,  +3.126]
+   between items  sonnet   mean  +3.024 [ -0.149,  +5.755]   spread  +3.190 [ -1.166,  +6.760]
+   between items  haiku    mean  +1.815 [ -0.524,  +5.680]   spread  -2.787 [ -4.686,  +3.298]
+   within item    opus     mean  -0.048 [ -1.069,  +0.990]   spread  +0.667 [ -1.106,  +1.297]
+   within item    sonnet   mean  +0.080 [ -1.406,  +1.012]   spread  +0.419 [ -1.517,  +1.929]
+   within item    haiku    mean  -0.585 [ -2.896,  +1.999]   spread  +0.119 [ -3.292,  +2.932]
+
+==============================================================================
+What this settles
+==============================================================================
+
+  The exogenous manipulation and the endogenous measure are not two routes
+  to the same number. Whichever way the endogenous split comes out, it is
+  measured on the same 9,720 responses as the exogenous result, with the
+  same families, the same items and the same arithmetic, so a disagreement
+  between them cannot be attributed to sample, instrument or analysis.
+
+  The within item split removes item difficulty, which is the confound an
+  observational mediator analysis is usually accused of and the one its
+  authors can most easily rebut. What it cannot remove is the loop that
+  matters most here: a response's answer and the length of its justification
+  are produced together, so conditioning on length conditions on the answer.
+  No amount of care with observational data fixes that. Setting the budget
+  before the item is seen does.
+

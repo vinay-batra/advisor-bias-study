@@ -368,3 +368,34 @@ standard treatment would be better than inventing the argument from scratch.
 Look for Barnett, van der Pols and Dobson on regression to the mean, and for
 the shrinkage literature on selecting on a noisy baseline. Not yet read, and
 the placebo stands on its own in the meantime.
+
+## The endogeneity objection is now measured, not argued
+
+Added 2026-10-26, after `analysis/mediator.py`.
+
+Through the writing of the paper, the case against Bini et al.'s mediator was
+an argument from the structure of a forward pass: a self-reported reasoning
+indicator and the answer it describes are emitted together, so the
+association between them identifies nothing. Reviewers can grant that and
+still ask how much it matters in practice, and until now the honest answer
+was that we did not know.
+
+We do now, on our own data. `output_tokens` is not their self-report, but it
+is the same class of variable, and the effort parameter separates its
+distribution almost completely, so the two are measuring one construct.
+Substituting the endogenous measure for the manipulated one, with every other
+element of the analysis held fixed, moves the headline from bias falling in
+six of six model by measure combinations to bias falling in one of nine cells
+with the one significant interval pointing the wrong way. Conditioning on the
+item removes the reversal and leaves nothing.
+
+This is the strongest single argument in the paper for its design, and it
+cost no additional API spend. It also gives the related-work section a
+sharper claim than "their mediator is endogenous": on data where both
+variables exist, the endogenous one returns the opposite sign.
+
+Worth noting for the discussion: this does not show that Bini et al.'s
+specific finding is wrong. Their mediator, their items and their models are
+all different. It shows that the class of design cannot be relied on to
+recover the sign, which is a claim about method rather than about their
+result, and the paper should say so in exactly those terms.

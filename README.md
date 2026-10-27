@@ -43,7 +43,8 @@ analysis/directions.py    pre-registered condition order and predicted signs
 analysis/analyze.py       bootstrap CIs, permutation tests, effort trends
 analysis/exploratory.py   seven questions the prereg does not cover
 analysis/robustness.py    is the compression regression to the mean?
-analysis/h10_placebo.py   is H10's ten of ten evidence, or the selection rule?
+analysis/h10_placebo.py   is H10's count evidence, or the selection rule?
+analysis/mediator.py      the same data measured the observational way
 analysis/figures.py       the five paper figures
 scripts/selftest.py       proves the analysis recovers a planted effect
 scripts/pilot.py          a few live pairs, printed side by side
@@ -141,11 +142,38 @@ $+13.4$ [$+8.8$, $+18.1$] percentage points. The models are more willing to
 sell at a loss than at a gain, where H1 predicted the human direction.
 `analysis/directions.py` was deliberately not edited.
 
-**H10 holds in all ten qualifying cases.** Five families qualify on each
-measure and in all ten the absolute effect at `high` is smaller than at
-`low`. How much that is worth is the subject of `analysis/h10_placebo.py`,
+**H10 holds in all nine qualifying confirmatory cases**, and in ten of the
+eleven cases that qualify once the two exploratory families are included. The
+one failure is `haiku price_path` on the categorical measure, $-0.083$ at
+`low` against $-0.100$ at `high`. An earlier draft of this file and of the
+paper said ten of ten, which was reached by counting an exploratory family
+that supports H10 while omitting the exploratory family that does not.
+
+How much the count is worth is the subject of `analysis/h10_placebo.py`,
 because the hypothesis selects families on a noisy baseline and then asks
-whether a second measurement is smaller, which shrinks on its own.
+whether a second measurement is smaller, which shrinks on its own. Measured
+by shuffling the effort labels, a qualifying case shrinks with probability
+0.654 rather than 0.500, and the probability that every qualifying case
+shrinks is 0.0125 rather than the $2^{-9}$ a coin-flip null would give.
+
+**The exogenous manipulation is not a refinement of the observational
+design; it is the difference between a result and its opposite.**
+`analysis/mediator.py` reruns the paper's own arithmetic on the same 9,720
+responses with `output_tokens`, which the model chooses, standing in for the
+effort parameter, which the experimenter sets. The parameter separates the
+token distributions almost completely, so the two are measuring the same
+construct. They disagree anyway. The exogenous comparison finds bias falling
+in six of six model by measure combinations. Splitting pairs at the cell
+median token count finds bias falling in one of nine cells, with Haiku's
+categorical interval excluding zero in the wrong direction, $+0.066$
+[$+0.014$, $+0.143$]. Splitting the five trials of a single item at that
+item's own median finds nothing, four of nine with every interval covering
+zero. Both observational splits have 0.19 to 0.39 of the parameter's
+leverage on the token count, which explains a null but not a sign reversal.
+The confound sits in the item: harder items draw more words and are more
+bias-prone, and the families themselves differ in how much the model writes
+about them, from 28.0% of action bias responses in the heavy half to 75.5%
+of mental accounting.
 
 **Effort compresses rather than removes.** The spread of the nine family
 effects falls with effort in all six model by measure combinations while the
