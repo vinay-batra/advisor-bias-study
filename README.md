@@ -212,7 +212,7 @@ make -C paper check
 `tectonic` is a single binary that fetches the packages it needs on first
 run, so it does not want an administrator password and it is not the 5 GB
 MacTeX download. `make check` builds both PDFs and then **fails** on any of
-five things, which is the whole point of it. Run it before sending the paper
+six things, which is the whole point of it. Run it before sending the paper
 anywhere.
 
 1. An unresolved citation, a dangling cross reference, a duplicate label or
@@ -225,9 +225,17 @@ anywhere.
    kind of label in the other build. `branchaudit.py`; the fix is
    `\movedref`, which picks the word from the build.
 4. A decimal figure in the paper that no released script produced.
-   `numaudit.py`, currently 207 of 207. It scans decimals only, so integer
-   counts still need a human.
-5. A submission PDF that identifies its author. `anonaudit.py` reads the
+   `numaudit.py`, currently 207 of 207. It scans decimals only.
+5. An integer count the paper states out of a total that nobody has
+   verified. `intaudit.py` extracts every "N of M" from the prose and holds
+   the set against `intclaims.txt`, which records how each of the current 17
+   was checked. A new or edited count fails the build until someone places
+   it, and a manifest line nothing claims any more fails too. Six further
+   counts take their total from an earlier clause rather than stating it;
+   those are listed on every run and cannot be keyed. Building this found
+   three wrong counts, all of them a count of cells reported as a count of
+   something larger.
+6. A submission PDF that identifies its author. `anonaudit.py` reads the
    names and email out of `shared.tex`'s `\author` block and fails if any of
    them, or any of six code hosts, reaches `main_acl.pdf`'s text layer or its
    metadata. Needs the repo venv for pypdf.
