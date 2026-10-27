@@ -1,0 +1,58 @@
+\movedhead{The pooled disposition figure, by model}
+\label{sec:disposition}\label{app:disposition}
+The abstract states the disposition reversal once, over the whole study,
+because the direction is a claim about these models rather than about one
+cell of a design that varies model and effort. That pooling is a secondary
+aggregation and not a registered quantity, and it is not uniform across the
+three models. The figures below come from \texttt{analysis/aggregate.py},
+which imports the bootstrap, the seed and the matched pair definition from
+the registered script and changes only the grouping.
+
+\begin{table}[t]
+  \centering
+  \footnotesize
+  \begin{tabular}{lrl}
+    \toprule
+                     & Effect & 95\% CI \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Categorical, sell tendency}} \\
+    Haiku            & $+0.367$  & $[+0.211, +0.533]$ \\
+    Sonnet           & $+0.328$  & $[+0.172, +0.494]$ \\
+    Opus             & $+0.022$  & $[-0.106, +0.144]$ \\
+    All three pooled & $+0.239$  & $[+0.148, +0.331]$ \\
+    \midrule
+    \multicolumn{3}{l}{\textit{Continuous, percentage points}} \\
+    Haiku            & $+21.194$ & $[+12.722, +30.389]$ \\
+    Sonnet           & $+15.556$ & $[+8.111, +23.667]$ \\
+    Opus             & $+3.378$  & $[-2.567, +9.350]$ \\
+    All three pooled & $+13.376$ & $[+8.826, +18.037]$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{The disposition family pooled over effort, by model, and over
+  both factors. Positive is the reversal: more willing to sell the position
+  held below its cost basis. Each model rests on 36 matched pairs and the
+  pooled row on 108. Produced by \texttt{analysis/aggregate.py}, which
+  verifies itself against the registered per-cell figures before reporting.}
+  \label{tab:disposition}
+\end{table}
+
+Two of the three models carry the reversal with an interval clear of zero on
+both measures. Opus does not, and the reason is not that Opus is unbiased on
+this family. Its effect changes sign as effort rises: on the continuous
+measure it runs $-6.417$ at \texttt{low}, $+9.133$ at \texttt{medium} and
+$+7.417$ at \texttt{high}, and on the categorical measure $-0.183$, $+0.133$
+and $+0.117$. Pooling over effort averages one negative cell against two
+positive ones and returns almost nothing. The absolute effect still falls
+monotonically, which is what H10 asserts, so these cells are among the nine
+qualifying falls; the fall simply passes through zero instead of stopping
+short of it. At \texttt{low} effort Opus is the one cell in the study that
+points the human way on this family, and it is also the only model whose
+disposition sign the manipulation moves.
+
+The practical reading is that the reversal is a property of these two
+models at every effort level and of the third at two of three, and that a
+single pooled number is the wrong instrument for a quantity the design was
+built to split. It is reported because the abstract quotes it, and a figure
+in an abstract should be traceable to the grouping that produced it. The
+registered unit of analysis is the cell, in Figure~\ref{fig:forest} and the
+per-cell tables.

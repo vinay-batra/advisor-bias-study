@@ -9,10 +9,11 @@ reasoning budget exogenously through the API, at three levels, before the
 model sees the item, and measure nine families of normatively irrelevant cue
 against matched pairs that differ only in that cue. Across 9{,}720 responses
 from three models the disposition effect runs opposite to the human
-direction: these models are more willing to sell at a loss than at a gain,
-$+0.239$ $[+0.148, +0.331]$ on the categorical measure and $+13.4$ $[+8.8,
-+18.0]$ percentage points of the position, where the pre-registered
-prediction was negative. Reasoning effort reduces the absolute effect in all
+direction: pooled, these models are more willing to sell at a loss than at a
+gain, $+0.239$ $[+0.148, +0.331]$ on the categorical measure and $+13.4$
+$[+8.8, +18.0]$ percentage points of the position, where the pre-registered
+prediction was negative, though the reversal is carried by the two smaller
+models and appears in the strongest only as effort rises. Reasoning effort reduces the absolute effect in all
 nine qualifying cases, against a shuffled-label null of 0.0125 rather than
 the $2^{-9}$ a count would suggest, and it does so by compressing the spread
 of bias magnitudes across families: the mean falls detectably in the
@@ -550,22 +551,19 @@ three independent measures it is a second copy of its \texttt{low} cell
 Under the pre-registered decision rule, 10 of 81 model by effort by family
 cells show a non-zero effect on the categorical measure and 22 of 81 on the
 continuous measure; Figure~\ref{fig:forest} shows the categorical cells at
-\texttt{high} effort. Four cells additionally clear Holm correction within
-their model and effort cell: Haiku at \texttt{low} effort on the disposition
-family, on both measures, at $+0.750$ $[+0.483, +1.033]$ and $+44.167$
-$[+28.500, +59.750]$; and Opus at \texttt{high} effort on anchoring at
-$+5.583$ $[+2.833, +9.333]$ and on mental accounting at $+5.217$ $[+2.167,
-+8.967]$, both on the continuous measure. All four survive every one of their
-twelve leave-one-pair-out refits with an interval that still excludes zero,
-so none of them rests on a single item.
+\texttt{high} effort.
 
-Nothing survives a correction applied across all 81 cells at once, and that
-is a statement about resolution rather than about the effects: the smallest
-$p$ anywhere is 0.0007, the most significant of 81 tests would need to clear
-0.000617, and with twelve pairs the sign flipping test cannot return a $p$
-below 0.00049 at any effect size. A study-wide Holm survivor is out of reach
-by arithmetic here, and the pre-registered decision rule is the interval,
-which multiplicity does not touch.
+\ifsubmission
+Four cells additionally clear Holm correction within their model and effort
+cell, and each survives all twelve of its leave-one-pair-out refits with an
+interval that still excludes zero. Nothing survives a correction across all
+81 at once, which is a statement about resolution: twelve pairs put a floor
+of 0.00049 under any permutation $p$, so a study-wide survivor is out of
+reach by arithmetic. The registered decision rule is the interval, which
+multiplicity does not touch (\movedref{app:incidence}).
+\else
+\input{sec_incidence}
+\fi
 
 % Table: effect, 95% CI, p, flip rate, per bias per model at one effort.
 \ifsubmission
@@ -587,6 +585,15 @@ which multiplicity does not touch.
   irrelevant cue changed nothing.}
   \label{fig:forest}
 \end{figure}
+\fi
+
+\ifsubmission
+The figure the abstract quotes pools over model and effort, which the design
+varies, and it hides a split: wide in Haiku and Sonnet at every effort, and
+in Opus indistinguishable from zero, its sign changing as effort rises
+(\movedref{app:disposition}).
+\else
+\input{sec_disposition}
 \fi
 
 \ifsubmission
@@ -812,8 +819,10 @@ Three findings carry the paper, and they do not all point the same way.
 \paragraph{The disposition effect is reversed, not absent.} These models are
 more willing to recommend selling a position held below its cost basis than
 one held above it, on both measures, where the pre-registered prediction
-taken from the human literature was negative in both, and in the two smaller
-models the margin is wide. This is the third independent measurement to point
+taken from the human literature was negative in both. The margin is wide in
+the two smaller models; in Opus the pooled effect is indistinguishable from
+zero because its sign changes with effort, negative at \texttt{low} and
+positive above it (\movedref{app:disposition}). This is the third independent measurement to point
 this way, after \citet{malberg2025comprehensive} and
 \citet{yee2026calibrating}, and the first under decision pressure with an
 interval attached.
@@ -926,6 +935,12 @@ in Appendix~\ref{app:repro}.
 
 \section{Sonnet's medium cell}
 \input{sec_sonnetmedium}
+
+\section{Bias incidence in detail}
+\input{sec_incidence}
+
+\section{The pooled disposition figure, by model}
+\input{sec_disposition}
 
 \section{The nine qualifying cases}
 \input{sec_h10cases}
