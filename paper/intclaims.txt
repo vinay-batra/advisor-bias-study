@@ -1,0 +1,27 @@
+# Every integer count the paper states out of a total, and how it was checked.
+# intaudit.py fails if the paper claims a pair that is not here, or if a pair
+# here is no longer claimed. A new or edited count therefore has to be
+# verified before the build passes, which is the whole point of the file: the
+# counts were audited by hand once, on 2026-10-26, and three of them were
+# wrong. One audit does not hold for the next edit.
+#
+# Format: n/m  one line on how it was checked.
+# A pair stated in several places is one line; the note covers all of them.
+
+1/3    the three ways mediator.py runs the paper's arithmetic (exogenous, between items, within item), not a data count. Setting the budget before the item is seen is the one of the three with no path from the answer back to the regressor.
+1/9    mediator_output.txt:81 and :132, "between items mean bias falls in 1 of 9", on both measures.
+2/3    aggregate_output.json: Haiku +0.367 [+0.211,+0.533] and +21.194 [+12.722,+30.389], Sonnet +0.328 [+0.172,+0.494] and +15.556 [+8.111,+23.667] are clear of zero on both measures; Opus +0.022 [-0.106,+0.144] and +3.378 [-2.567,+9.350] span zero on both.
+3/6    robustness_output.txt:44, "3/6 after also removing item to item variation within a family". The three are Haiku on both measures and Sonnet on the continuous, from the per-combination lines at :14-:41. sec_limitations states the complement, the three where it does not survive.
+4/9    mediator_output.txt:82 and :133, "within item mean bias falls in 4 of 9", on both measures.
+5/6    two different sixes. robustness_output.txt:86, dropping framing leaves 5/6 of the model by measure combinations. And Haiku on the continuous measure: its three largest families fall and five of the remaining six rise, from the per-family cells in confirmatory_output.txt.
+6/6    robustness_output.txt:43 for the spread falling in 6/6 raw, and mediator_output.txt:49-51 and :100-102 for the mean absolute family effect falling in all three models on both measures (-0.120, -0.069, -0.050 and -2.628, -3.667, -3.700).
+8/9    robustness_output.txt:84-93, the nine leave-one-family-out rows: eight hold 6/6 and framing gives 5/6.
+10/10  not a measurement. The hypothetical count the paper declines to report, reached by dropping the one qualifying case that moves against H10.
+10/11  h10_placebo_output.txt:20, "including the two exploratory families: 10 of 11 shrink", with the failing case named at :21.
+10/81  recounted from confirmatory_output.txt: of the 81 categorical cells, 10 have a bootstrap interval excluding zero.
+17/18  recounted from exploratory_output.txt:10-28: 17 of the 18 cell by measure rho values are positive, the exception being Opus low on the continuous measure at -0.135. Eight of the 18 reach p < 0.05.
+22/81  recounted from confirmatory_output.txt: of the 81 continuous cells, 22 have a bootstrap interval excluding zero.
+24/24  data/pilot/pressure_out.txt:32-33, arm E: "winner_is_A chose A 12/12" and "winner_is_B chose A 12/12". The companion claim that all 72 continuous responses answered exactly 50.0 is screen_out.txt:28-33, two blocks of 36/36.
+28/36  recomputed from data/pilot/dv_probe_raw.json, arm C_neutral_weight: 36 responses, 28 with rec_w equal to cur_w. No released log prints this one, which is why it is recomputed here rather than cited.
+86/9720 exploratory_output.txt:148, "86 of 9720 responses, 0.88%", with :151-:153 giving all 86 in Opus, 84 at low and 2 at high.
+124/432 pilot decision-pressure run: the continuous weight moved off the current weight in 124 of 432 responses.
