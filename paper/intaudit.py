@@ -45,7 +45,12 @@ NUM = r"(?:\d+(?:\{,\}\d{3}|,\d{3})*|" + "|".join(WORDS) + r")"
 # another number, so "one of the nine families" cannot pair across a comma
 # into the next clause.
 DET = r"(?:(?:the|its|their|those|these|other|remaining|possible|first|last)\s+)*"
-CLAIM = re.compile(rf"\b({NUM})\s+of\s+{DET}({NUM})\b", re.I)
+# "one cell of nine" says the same thing as "one of nine cells" and has to key
+# to the same pair, so the unit is allowed to sit between the two numbers.
+UNIT = (r"(?:cells?|families|family|models?|rows?|combinations?|measures?"
+        r"|pairs?|cases?|responses?|trials?|items?|levels?)")
+CLAIM = re.compile(
+    rf"\b({NUM})\s+(?:{UNIT}\s+)?of\s+{DET}({NUM})\b", re.I)
 # "Every one of the 86 is Opus" asserts 86 of 86, not 1 of 86, and the same
 # goes for "each one of". The quantifier before the number decides.
 ALL_OF = re.compile(r"\b(?:every|each)\s+$", re.I)
