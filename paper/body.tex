@@ -15,14 +15,17 @@ $[+8.8, +18.0]$ percentage points of the position, where the pre-registered
 prediction was negative, though the reversal is carried by the two smaller
 models and appears in the strongest only as effort rises. A second wave of
 9{,}720 responses on two of those models reproduces the pattern at half that
-magnitude, which we measure to be regression to the mean, pooling to
-$+0.202$ $[+0.126, +0.278]$. Reasoning effort reduces the absolute effect in all
+magnitude, which we measure to be regression to the mean rather than a
+failure to replicate: the slope of wave 2 on wave 1 across cells is $+0.46$
+and $+0.48$, so a little under half of a first-wave effect was the item draw
+rather than the model, and the waves pool to $+0.202$ $[+0.126, +0.278]$. Reasoning effort reduces the absolute effect in all
 nine qualifying cases, against a shuffled-label null of 0.0125 rather than
 the $2^{-9}$ a count would suggest, and it does so by compressing the spread
 of bias magnitudes across families: the mean falls detectably in the
-strongest model alone, and the compression itself is robust in the weakest,
-where no shuffle in 2{,}000 reproduces it, and inseparable from sampling
-error in the strongest. The exogenous manipulation is what makes this
+strongest model alone, the compression is robust in the weakest, where no
+shuffle in 2{,}000 reproduces it, and inseparable from sampling error in the
+strongest, and the second wave roughly halves it in the weakest model and
+loses it in the other. The exogenous manipulation is what makes this
 visible. Measured the observational way on the same responses, with output
 tokens standing in for displayed deliberation, more reasoning goes with
 \textit{more} bias between items and with nothing at all within an item. We
@@ -843,16 +846,17 @@ measured.
 \paragraph{Reasoning effort reduces bias where there is bias to reduce, and
 it works by compression.} H10 holds in every qualifying case, but the
 count overstates the evidence: the shuffled label null for the pattern is
-0.0125, not $2^{-9}$ (\movedref{sec:h10null}). What effort reliably
-reduces is the spread of bias magnitudes across families, the largest effects
-collapsing while the small ones hold or drift slightly upward. Whether the
-mean falls with it depends on the model, detectably only in Opus. The
-mechanism is uneven in the same direction (\movedref{sec:rtm}): in Haiku
-the compression is large and survives both a correction for sampling error
-and a placebo no shuffle of the effort labels reached, while in Opus the nine
-families are not separable once item to item variation is charged against the
-estimate, so there the falling spread is consistent with compression without
-establishing it. The model giving the cleanest evidence for the mechanism is
+0.0125, not $2^{-9}$ (\movedref{sec:h10null}). What effort
+reduces, where it reduces anything, is the spread of bias magnitudes across
+families, the largest effects collapsing while the small ones hold or drift
+slightly upward. Whether the mean falls with it depends on the model,
+detectably only in Opus, and the second wave keeps the compression only in
+Haiku (\movedref{sec:replication}). The
+mechanism is uneven in the same direction (\movedref{sec:rtm}): large in
+Haiku, where it survives both a correction for sampling error and a placebo
+no shuffle of the effort labels reached, and in Opus a fall in a spread whose
+families are not separable once item variation is charged against the
+estimate, which is consistent with compression without establishing it. The model giving the cleanest evidence for the mechanism is
 therefore not the one giving the cleanest evidence for the reduction.
 
 For deployment this is better news than a null and worse than it first
@@ -903,12 +907,6 @@ failure of coherence rather than of bias whose fix was more effort.
 \fi
 
 \ifsubmission\else\input{sec_limitations}\input{sec_ethics}\fi
-
-\paragraph{What this does not settle.} What made the three answers of
-Section~\ref{sec:lengthorlabel} separable was setting the budget before the
-model saw the item rather than reading how hard it said it thought, which is
-available wherever the parameter is exposed. Whether any of it survives a
-second vendor is the first thing to check.
 
 \paragraph{Reproducibility.} Prompts, generator seed, raw responses and analysis code are available at
 \repourl. The pre-registration was committed before the first API call and

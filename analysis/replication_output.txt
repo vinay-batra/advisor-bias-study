@@ -99,7 +99,12 @@ Standard deviation of the nine absolute family effects, per model and effort.
     wave 1  sonnet-5-5 low   5.059  medium   6.581  high   1.561   low to high  -3.499   falls
     wave 2  sonnet-5-5 low   3.183  medium   2.668  high   3.144   low to high  -0.039   falls
 
-  out of sample the spread still falls in 3 of 4 model by measure combinations wave 2 covers
+  out of sample the spread falls in 3 of 4 model by measure combinations wave 2 covers, by
+    pct_to_sell    haiku-5-5        -4.008   wave 1 gave  -10.002
+    sell_tendency  haiku-5-5        -0.085   wave 1 gave   -0.160
+    pct_to_sell    sonnet-5-5       -0.039   wave 1 gave   -3.499
+    sell_tendency  sonnet-5-5       +0.020   wave 1 gave   -0.070
+  a count is the weakest reading of these: judge each against the spreads above it.
 
 ==============================================================================
 The abstract's claim, by wave: disposition pooled over model and effort

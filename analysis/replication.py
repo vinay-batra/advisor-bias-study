@@ -423,9 +423,20 @@ def compression(per_wave, shared):
     last = max(per_wave)
     n = [o for o in out if o["wave"] == last]
     print()
-    print(f"  out of sample the spread still falls in "
-          f"{sum(1 for o in n if o['falls'])} of {len(n)} model by measure "
-          f"combinations wave 2 covers")
+    # A sign counted is not a fall observed. Reporting the count alone lets
+    # a change of -0.039 on spreads near three stand beside one of -4.008,
+    # so the magnitudes are printed under it and the paper reads those.
+    falls = [o for o in n if o["falls"]]
+    print(f"  out of sample the spread falls in {len(falls)} of {len(n)} "
+          f"model by measure combinations wave 2 covers, by")
+    for o in sorted(n, key=lambda o: o["low_to_high"]):
+        w1 = next((q["low_to_high"] for q in out
+                   if q["measure"] == o["measure"] and q["model"] == o["model"]
+                   and q["wave"] == 1), float("nan"))
+        print(f"    {o['measure']:<14} {o['model'].replace('claude-', ''):<14}"
+              f" {o['low_to_high']:+8.3f}   wave 1 gave {w1:+8.3f}")
+    print("  a count is the weakest reading of these: judge each against the "
+          "spreads above it.")
     return out
 
 

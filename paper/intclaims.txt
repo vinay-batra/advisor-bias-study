@@ -44,7 +44,6 @@
 30/108   recounted the same way, rejection rate at most 0.10.
 138/138  recomputed over all four label files: the detector predicts 138 rejections among the 229 hand labelled reasons and the hand label agrees with all 138. Not 24 per round as the draw suggests, because a round drawn under an earlier detector reclassifies under the final one.
 2/54   replication_output.txt, "heterogeneity 2/54 cells differ between waves by more than the pairs explain", on both measures. The 3.7 per cent on the same line is the same fact.
-3/4    replication_output.txt, "out of sample the spread still falls in 3 of 4 model by measure combinations wave 2 covers". The four are Haiku and Sonnet on each measure, from the per-wave spread rows above it; the one that rises is Sonnet's categorical spread, +0.020 against wave 1's fall of -0.070.
 4/54   replication_output.txt, the "Wave 2 alone" reading: "54 cells, 4 with an interval clear of zero, 0 surviving Holm" on sell_tendency and the identical figure on pct_to_sell.
 6/7    replication_output.txt, sell_tendency: "wave 1 significant 7 cells, of which 6 keep the sign in wave 2 and 1 are significant again". The continuous measure's 8 of 9 is the 8/9 line above, which the leave-one-family-out count also uses.
 10/13  replication_output.txt, "top quartile 10/13 shrank", on both measures. Thirteen is 54 cells divided into quartiles, which the script floors.

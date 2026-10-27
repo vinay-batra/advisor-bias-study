@@ -247,6 +247,13 @@ rather than bracketing it:
 - The top quartile by wave 1 magnitude shrank in 10 of 13 cells, mean change
   $-0.117$ and $-5.821$. The other three quartiles moved $+0.009$ and
   $+0.631$, which is nothing.
+- **The compression result does not survive wave 2 in Sonnet.** Haiku's fall
+  from `low` to `high` goes $-0.160$ to $-0.085$ categorically and $-10.002$
+  to $-4.008$ continuously, so it halves like everything else. Sonnet's
+  categorical spread *rises* ($+0.020$ against a wave 1 fall of $-0.070$) and
+  its continuous fall is $-0.039$ on spreads near 3, which is nothing. The
+  script counts "3 of 4 falls"; the paper declines that count and says so.
+  Opus, whose compression was already the most fragile, is not covered.
 - All of it in one number: the slope of wave 2 on wave 1 across the 54 cells
   is $+0.462$ [$+0.205$, $+0.639$] and $+0.480$ [$+0.221$, $+0.633$], so the
   share of a wave 1 effect that was signal rather than a favourable item draw
