@@ -45,13 +45,15 @@ The null for H10
     qualifying cases per shuffle: mean 11.48, range 6 to 20
     a single qualifying case shrinks with probability 0.6545
     p(every qualifying case shrinks) = 0.0125
-    the coin flip null would say 0.0005 for 11 cases, which is wrong by 26x
+    the coin flip at the 9 observed cases says 0.0020, which is wrong by 6.4x   <- the paper quotes this
+    at the 11 cases a shuffle qualifies on average it says 0.0005, wrong by 26x (diagnostic only)
 
   all nine families
     qualifying cases per shuffle: mean 13.76, range 7 to 22
     a single qualifying case shrinks with probability 0.7059
     p(every qualifying case shrinks) = 0.0200
-    the coin flip null would say 0.0001 for 14 cases, which is wrong by 328x
+    the coin flip at the 11 observed cases says 0.0005, which is wrong by 41.0x   <- the paper quotes this
+    at the 14 cases a shuffle qualifies on average it says 0.0001, wrong by 328x (diagnostic only)
 
 ==============================================================================
 What this does to the paper's claim
@@ -61,6 +63,6 @@ What this does to the paper's claim
   own: the cells that clear the filter are the ones whose noise
   pointed away from zero. The null probability of a single case
   shrinking is about 0.69, not 0.5, so 2^-n overstates the
-  evidence by more than an order of magnitude. The pattern is
+  evidence several fold at the counts observed. The pattern is
   still unlikely under the null, and that is what the paper
   should claim, with this number rather than the coin flip.

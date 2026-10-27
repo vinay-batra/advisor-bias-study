@@ -186,6 +186,8 @@ def main():
         print(f"  the case that fails: {o[0]} {SHORT[o[1]]} {o[2]}, "
               f"{o[3]:+.3f} to {o[4]:+.3f}")
 
+    n_obs = {"confirmatory only": len(cf), "all nine families": len(obs)}
+
     nq, ns, _ = apply_h10(rows, rng)
     print(f"\n  recomputed here with an independent bootstrap: "
           f"{ns} of {nq} (see observed_from_registered)")
@@ -237,9 +239,19 @@ def main():
         print(f"    a single qualifying case shrinks with probability "
               f"{rate:.4f}")
         print(f"    p(every qualifying case shrinks) = {allp:.4f}")
-        print(f"    the coin flip null would say {0.5 ** round(mq):.4f} "
-              f"for {round(mq)} cases, which is wrong by "
-              f"{allp / max(0.5 ** round(mq), 1e-12):.0f}x")
+        # Two coin-flip comparisons, and only the first belongs in prose.
+        # The paper's claim is about the cases it observed, so that is the
+        # count its coin flip has to be evaluated at. The second line is a
+        # property of the shuffled distribution, which qualifies more cases
+        # than the real data does; quoting its ratio against a count the
+        # study never observed is what made the appendix contradict itself.
+        n = n_obs[tag]
+        print(f"    the coin flip at the {n} observed cases says "
+              f"{0.5 ** n:.4f}, which is wrong by "
+              f"{allp / 0.5 ** n:.1f}x   <- the paper quotes this")
+        print(f"    at the {round(mq)} cases a shuffle qualifies on average "
+              f"it says {0.5 ** round(mq):.4f}, wrong by "
+              f"{allp / max(0.5 ** round(mq), 1e-12):.0f}x (diagnostic only)")
 
     print("\n" + "=" * 78)
     print("What this does to the paper's claim")
@@ -249,7 +261,7 @@ def main():
     print("  own: the cells that clear the filter are the ones whose noise")
     print("  pointed away from zero. The null probability of a single case")
     print("  shrinking is about 0.69, not 0.5, so 2^-n overstates the")
-    print("  evidence by more than an order of magnitude. The pattern is")
+    print("  evidence several fold at the counts observed. The pattern is")
     print("  still unlikely under the null, and that is what the paper")
     print("  should claim, with this number rather than the coin flip.")
 
