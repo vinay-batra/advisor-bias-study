@@ -25,3 +25,21 @@
 28/36  recomputed from data/pilot/dv_probe_raw.json, arm C_neutral_weight: 36 responses, 28 with rec_w equal to cur_w. No released log prints this one, which is why it is recomputed here rather than cited.
 86/9720 exploratory_output.txt:148, "86 of 9720 responses, 0.88%", with :151-:153 giving all 86 in Opus, 84 at low and 2 at high.
 124/432 pilot decision-pressure run: the continuous weight moved off the current weight in 124 of 432 responses.
+
+# The reason text section, added 2026-10-27. Each pair was recomputed from
+# data/responses.jsonl and the four label files by a script separate from
+# analysis/reasons.py's own printing, so a stale literal in that file's prose
+# would not agree. One did: it said 96 of 96, which was the count under an
+# earlier version of the patterns, and the recount gave 138. The literal is
+# now computed rather than written.
+0/1080   reasons_output.txt:62, brand_salience under STRUCTURAL_PROBE, and recounted directly over the 1,080 brand_salience reasons.
+1/1080   reasons_output.txt:61, action_bias, recounted the same way.
+2/1080   reasons_output.txt:60, framing, recounted the same way. The three probes are deliberately over-inclusive, so these are upper bounds on how often the manipulation is referred to.
+2/7      the two of the seven high-rejection significant cells that also carry significant_holm in data/results.json: Opus high anchoring and Opus high mental_accounting. Recounted from results.json against the per-cell rejection rates.
+6/30     of the 30 cells whose rejection rate is at most 0.10, the six with a bootstrap interval excluding zero. Recounted from results.json.
+7/18     reasons_output.txt, the starred rows of the effort slope table, counted directly: Opus disposition, home_bias and mental_accounting; Sonnet disposition, mental_accounting and price_path; Haiku advisor_attribution.
+7/24     of the 24 cells whose rejection rate is at least 0.90, the seven with a bootstrap interval excluding zero. Recounted from results.json.
+12/18    reasons_output.txt, "12 of 18 model by family combinations reject more at high effort than at low", and recounted as mean(high) > mean(low) over the 18 model by family cells.
+24/108   recounted: of the 108 cells (6 nameable families x 3 models x 3 efforts x 2 measures), 24 have a rejection rate of at least 0.90. The rate does not depend on the measure, so these are 12 distinct cells counted on both.
+30/108   recounted the same way, rejection rate at most 0.10.
+138/138  recomputed over all four label files: the detector predicts 138 rejections among the 229 hand labelled reasons and the hand label agrees with all 138. Not 24 per round as the draw suggests, because a round drawn under an earlier detector reclassifies under the final one.

@@ -1,4 +1,8 @@
-\movedhead{The budget and the behaviour are not the same variable}
+% No \movedhead here, unlike the other moved sections. body.tex prints this
+% heading in both builds, because sec:mediator and sec:lengthorlabel are
+% referenced from shared prose and so have to resolve to a Section in both.
+% A \movedhead as well set the title twice in the reading build, as an empty
+% subsection followed by the real one.
 \label{app:mediator}
 The argument for setting the reasoning budget through the API rather than
 measuring how much reasoning a response contains is made in

@@ -552,12 +552,27 @@ def audit(corpus):
                   f"{v['n_called_rejects']:>9.0f} "
                   f"{v['est_true_rejects']:>11.0f}")
         print()
-        print("  Precision is 1.000 on every round and on every family: the")
-        print("  detector has never once called a rejection that the hand")
-        print("  label disagreed with, across 96 of them. Recall is about two")
-        print("  thirds. Both together say every rejection rate below is a")
-        print("  floor, and that the floor sits roughly a third under the")
-        print("  rate itself.")
+        # Counted rather than written in. An earlier version of this file
+        # stated the total in the prose, and the number went stale the next
+        # time the patterns changed: a round drawn under an older detector
+        # reclassifies under a newer one, so the count of predicted
+        # rejections across the labelled rows is not fixed by the draw.
+        tp = pred = 0
+        for _, lp, _ in ROUND_FILES:
+            if not os.path.exists(lp):
+                continue
+            for r in json.load(open(lp))["labels"]:
+                if r["label"] is None:
+                    continue
+                if classify(r["reason"], r["bias"]) == "rejects":
+                    pred += 1
+                    tp += r["label"] == "rejects"
+        out["precision_all_rounds"] = dict(tp=tp, predicted=pred)
+        print(f"  Precision is 1.000 on every round and on every family, and")
+        print(f"  {tp} of {pred} across all four: the detector has never once")
+        print("  called a rejection the hand label disagreed with. Recall is")
+        print("  about two thirds in the sample and six sevenths reweighted.")
+        print("  Both together say every rejection rate below is a floor.")
 
     print()
     print("  Recall by model, the one way the headline ordering could be an")

@@ -31,12 +31,11 @@ Detector audit against hand labels
   price_path                  1.000    0.710       430         606
   ALL                         1.000    0.857      3120        3640
 
-  Precision is 1.000 on every round and on every family: the
-  detector has never once called a rejection that the hand
-  label disagreed with, across 96 of them. Recall is about two
-  thirds. Both together say every rejection rate below is a
-  floor, and that the floor sits roughly a third under the
-  rate itself.
+  Precision is 1.000 on every round and on every family, and
+  138 of 138 across all four: the detector has never once
+  called a rejection the hand label disagreed with. Recall is
+  about two thirds in the sample and six sevenths reweighted.
+  Both together say every rejection rate below is a floor.
 
   Recall by model, the one way the headline ordering could be an
   artifact of the regexes rather than a property of the models.

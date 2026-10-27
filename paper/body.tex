@@ -724,9 +724,8 @@ half even when effort does nothing. Shuffling the effort labels within model
 and item over 400 replicates and running the registered rule on each puts
 that rate at 0.654 on the confirmatory families and 0.706 across all nine,
 and the probability that every qualifying case shrinks at 0.0125 and 0.0200,
-so the coin-flip null overstates the evidence by a factor of six.
-Appendix~\ref{app:h10null} gives the two features of the measurement that cut
-in opposite directions.
+a factor of six on the coin-flip null.
+Appendix~\ref{app:h10null} gives the two features that cut the other way.
 \else
 \input{sec_h10null}
 \fi
@@ -760,8 +759,8 @@ any effort level, and each model concentrates on a single category. Opus is
 the extreme case: its categorical answer barely moves, so that measure finds
 3, 0 and 0 non-zero cells across the three effort levels while the graded
 percentage inside the one category finds 2, 6 and 5. On the registered
-measure alone the strongest model would have looked almost bias-free at every
-level, an artifact of a scale with no room in it. The two measures agree on
+measure alone the strongest model would have looked almost bias-free, an
+artifact of a scale with no room in it. The two measures agree on
 sign and ordering wherever both move and disagree on 86 of 9{,}720 responses,
 every one an Opus \texttt{HOLD} carrying a non-zero percentage to sell and 84
 of them at \texttt{low} effort; those rows are kept and never reconciled, as
@@ -783,6 +782,11 @@ fall with it (Appendix~\ref{app:variability}).
 \input{sec_variability}
 \fi
 
+% Printed in both builds, and sec_mediator.tex carries no \movedhead of its
+% own as a result. The two labels are referenced from shared prose, so they
+% have to resolve to a Section in the reading build as well as the
+% submission one, which means the heading they attach to has to exist in
+% both.
 \subsection{The budget and the behaviour are not the same variable}
 \label{sec:lengthorlabel}
 \label{sec:mediator}
@@ -790,29 +794,22 @@ fall with it (Appendix~\ref{app:variability}).
 This data can test the identification argument of
 Section~\ref{sec:deliberation} rather than assert it, because it holds both
 variables: the effort parameter, set before the model sees the item, and
-output tokens, chosen by the model for each response. Running the paper's own
-arithmetic three ways on the same 9{,}720 responses, changing only which
-responses enter each pair mean, gives three different answers. None of this
-subsection is pre-registered.
-
-Set exogenously, the mean absolute family effect falls in six of six model by
-measure combinations. Read observationally across items inside a fixed effort
-cell, bias is \textit{higher} where the model wrote more, Spearman $+0.190$
-categorical and $+0.154$ continuous over 972 pairs, and the one median split
-interval that excludes zero does so the wrong way. Read observationally
-within a single item, where stimulus, family, company and effort are
-identical and only the model's sample to sample choice of length differs,
-nothing survives: four of nine cells fall, which is chance, and every pooled
-interval covers zero. Low power cannot account for the reversal, since both
-observational designs separate their halves by 0.19 to 0.39 of the gap the
-parameter opens, which produces a null but not a sign. Token count is instead
-an item property twice over: harder items draw more words and are more
-bias-prone, and the families differ in how much the model writes about them,
-so splitting on tokens re-weights the cues averaged.
-Appendix~\ref{app:mediator} gives the three designs in full.
+output tokens, chosen by the model. Running the paper's own arithmetic three
+ways on the same 9{,}720 responses, changing only which responses enter each
+pair mean, gives three answers, and none of this subsection is
+pre-registered. Set exogenously, the mean absolute family effect falls in six
+of six model by measure combinations. Read observationally across items, bias
+is \textit{higher} where the model wrote more, Spearman $+0.190$ categorical
+and $+0.154$ continuous over 972 pairs. Read within a single item, where only
+the model's sample to sample choice of length differs, nothing survives: four
+of nine cells fall, which is chance. Token count is an item property twice
+over, so splitting on it re-weights the cues averaged.
+Appendix~\ref{app:mediator} gives all three designs.
 \else
 \input{sec_mediator}
 \fi
+
+\ifsubmission\else\input{sec_reasons}\fi
 
 \section{Discussion}
 Three findings carry the paper, and they do not all point the same way.
@@ -874,6 +871,17 @@ combinations to one of nine cells, with the only interval excluding zero
 pointing the wrong way. This is the most transferable result here and it
 costs nothing to act on: set the budget exogenously wherever the parameter is
 exposed.
+
+The same gap opens between what these advisors say and what they do. A
+detector over all 9{,}720 one-sentence reasons, hand validated at 138 of 138 on
+rejections (\movedref{app:reasons}), finds that dismissal of the manipulated
+cue rises with capability and effort yet does not predict the behaviour: of
+the 24 of 108 cells that dismiss the cue in at
+least 90\% of their reasons, 7 of 24 move with it anyway, among them both
+Opus cells that survive Holm correction anywhere in the study, and the rank
+correlation between dismissal rate and absolute effect across 54 cells is
+$-0.161$ and $-0.071$. An audit that reads an advisor's explanation and finds
+the right words has established that the right words were produced.
 
 \ifsubmission
 Two further notes are in Appendix~\ref{app:discnotes}. The pilot's reading
@@ -951,6 +959,9 @@ in Appendix~\ref{app:repro}.
 
 \section{The budget and the behaviour are not the same variable}
 \input{sec_mediator}
+
+\section{What the advisor says about the cue}
+\input{sec_reasons}
 
 \section{The nine families with their normative justification}
 \label{app:hypothesesfull}

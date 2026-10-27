@@ -844,6 +844,10 @@
         "n_called_rejects": 3120.0
       }
     },
+    "precision_all_rounds": {
+      "tp": 138,
+      "predicted": 138
+    },
     "recall_by_model": {
       "opus": {
         "n_labelled": 22,
