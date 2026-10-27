@@ -54,6 +54,42 @@ Agreement between the waves
       the second figure is bounded by wave 2's own power, which is wave 1's: twelve pairs, the same floor. The sign is what a wave this size can replicate.
 
 ==============================================================================
+Is the difference between the waves regression to the mean?
+==============================================================================
+Not pre-registered. The items are new, so wave 1's draw is not shared with wave 2's.
+
+  sell_tendency
+    every cell           28/54 came in smaller in wave 2, against 27 under no attenuation at all
+    conditional on size  rho(wave 1 magnitude, change in magnitude) -0.580 (permutation p 0.0001)
+    top quartile         10/13 shrank, mean change -0.117
+    the other three      18/41 shrank, mean change +0.009
+
+  pct_to_sell
+    every cell           26/54 came in smaller in wave 2, against 27 under no attenuation at all
+    conditional on size  rho(wave 1 magnitude, change in magnitude) -0.622 (permutation p 0.0001)
+    top quartile         10/13 shrank, mean change -5.821
+    the other three      16/41 shrank, mean change +0.631
+
+==============================================================================
+The compression of the family spread, by wave
+==============================================================================
+Standard deviation of the nine absolute family effects, per model and effort.
+
+  sell_tendency
+    wave 1  haiku-5-5  low   0.215  medium   0.045  high   0.055   low to high  -0.160   falls
+    wave 2  haiku-5-5  low   0.145  medium   0.075  high   0.060   low to high  -0.085   falls
+    wave 1  sonnet-5-5 low   0.105  medium   0.132  high   0.035   low to high  -0.070   falls
+    wave 2  sonnet-5-5 low   0.069  medium   0.054  high   0.089   low to high  +0.020   RISES
+
+  pct_to_sell
+    wave 1  haiku-5-5  low  12.913  medium   2.719  high   2.911   low to high -10.002   falls
+    wave 2  haiku-5-5  low   7.425  medium   3.734  high   3.417   low to high  -4.008   falls
+    wave 1  sonnet-5-5 low   5.059  medium   6.581  high   1.561   low to high  -3.499   falls
+    wave 2  sonnet-5-5 low   3.183  medium   2.668  high   3.144   low to high  -0.039   falls
+
+  out of sample the spread still falls in 3 of 4 model by measure combinations wave 2 covers
+
+==============================================================================
 The abstract's claim, by wave: disposition pooled over model and effort
 ==============================================================================
 Not a registered quantity. It pools across two factors the design varies.

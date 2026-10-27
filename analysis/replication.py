@@ -42,6 +42,7 @@ import collections
 import json
 import math
 import os
+import statistics
 import sys
 
 sys.path.insert(0, ".")
@@ -203,6 +204,118 @@ def diff_ci(a, b, n=N_BOOT, alpha=0.05):
             for _ in range(n))
         k = max(0, min(n - 1, int(round(alpha / 2 * (n - 1)))))
         return draws[k], draws[n - 1 - k]
+
+
+def regression_to_mean(agree):
+    """How much of a large wave 1 cell was the item draw rather than the model.
+
+    The design-wide question first: across every cell both waves carry, does
+    wave 2 come in smaller? If attenuation were a property of the second
+    wave, most cells would shrink. The count is reported before anything is
+    conditioned on, because a general attenuation and regression to the mean
+    predict the same thing for the largest cells and opposite things here.
+
+    Then the conditional question. Regression to the mean says the cells that
+    shrink are the ones whose wave 1 estimate was largest, because a large
+    estimate at twelve pairs is partly a large true effect and partly a
+    favourable item draw, and only the first half comes back. That is a
+    correlation between the wave 1 magnitude and the change in magnitude, and
+    it is measured here rather than argued for: the items are new, so nothing
+    about wave 1's draw is shared with wave 2's.
+
+    The quartile split is the same fact in the units a reader uses. It is
+    reported as a mean change rather than a ratio because a ratio of two
+    noisy small numbers in the lower quartiles is unstable and says nothing.
+
+    Not pre-registered. It could not have been: it needs a second wave.
+    """
+    print()
+    print("=" * 78)
+    print("Is the difference between the waves regression to the mean?")
+    print("=" * 78)
+    print("Not pre-registered. The items are new, so wave 1's draw is not "
+          "shared with wave 2's.")
+    out = {}
+    for mname in MEASURES:
+        sub = [a for a in agree if a["measure"] == mname]
+        big = [abs(a["w1_effect"]) for a in sub]
+        change = [abs(a["w2_effect"]) - abs(a["w1_effect"]) for a in sub]
+        shrank = sum(1 for c in change if c < 0)
+        rho, p_rho = perm_corr(big, change)
+        order = sorted(range(len(sub)), key=lambda i: -big[i])
+        q = max(len(order) // 4, 1)
+        top, rest = order[:q], order[q:]
+        t_mean = mean([change[i] for i in top])
+        r_mean = mean([change[i] for i in rest])
+        t_shrank = sum(1 for i in top if change[i] < 0)
+        r_shrank = sum(1 for i in rest if change[i] < 0)
+        print()
+        print(f"  {mname}")
+        print(f"    every cell           {shrank}/{len(sub)} came in smaller "
+              f"in wave 2, against {len(sub) / 2:.0f} under no attenuation "
+              f"at all")
+        print(f"    conditional on size  rho(wave 1 magnitude, change in "
+              f"magnitude) {rho:+.3f} (permutation p {p_rho:.4f})")
+        print(f"    top quartile         {t_shrank}/{len(top)} shrank, "
+              f"mean change {snap(t_mean):+.3f}")
+        print(f"    the other three      {r_shrank}/{len(rest)} shrank, "
+              f"mean change {snap(r_mean):+.3f}")
+        out[mname] = dict(n_cells=len(sub), n_smaller=shrank, rho=rho,
+                          rho_p=p_rho, top_quartile_n=len(top),
+                          top_quartile_shrank=t_shrank,
+                          top_quartile_mean_change=snap(t_mean),
+                          rest_n=len(rest), rest_shrank=r_shrank,
+                          rest_mean_change=snap(r_mean))
+    return out
+
+
+def compression(per_wave, shared):
+    """Does the effort compression of the family spread hold on new items.
+
+    The paper's second finding is that the spread of the nine family effects
+    within a model narrows as effort rises, measured as the standard
+    deviation of the nine absolute family effects. The spread at low effort
+    is the largest single number in the study, so it is exactly the quantity
+    the regression above says should come back smaller, and the replication
+    has to be read with that in hand rather than against it.
+    """
+    print()
+    print("=" * 78)
+    print("The compression of the family spread, by wave")
+    print("=" * 78)
+    print("Standard deviation of the nine absolute family effects, per "
+          "model and effort.")
+    models = sorted({k[1] for k in shared})
+    out = []
+    for mname in MEASURES:
+        print()
+        print(f"  {mname}")
+        for mdl in models:
+            for w in sorted(per_wave):
+                sds = []
+                for e in config.EFFORTS:
+                    fam = [abs(mean(per_wave[w][k])) for k in per_wave[w]
+                           if k[0] == mname and k[1] == mdl and k[2] == e]
+                    sds.append(statistics.pstdev(fam) if len(fam) > 1
+                               else float("nan"))
+                if any(math.isnan(v) for v in sds):
+                    continue
+                fall = sds[-1] - sds[0]
+                print(f"    wave {w}  {mdl.replace('claude-', ''):<10} "
+                      + "  ".join(f"{e} {v:7.3f}"
+                                  for e, v in zip(config.EFFORTS, sds))
+                      + f"   low to high {fall:+7.3f}"
+                      f"   {'falls' if fall < 0 else 'RISES'}")
+                out.append(dict(measure=mname, model=mdl, wave=w,
+                                spreads=[snap(v) for v in sds],
+                                low_to_high=snap(fall), falls=fall < 0))
+    last = max(per_wave)
+    n = [o for o in out if o["wave"] == last]
+    print()
+    print(f"  out of sample the spread still falls in "
+          f"{sum(1 for o in n if o['falls'])} of {len(n)} model by measure "
+          f"combinations wave 2 covers")
+    return out
 
 
 def print_reading(rows, label, note):
@@ -396,6 +509,9 @@ def main():
             w1_significant_same_sign=directional,
             w1_significant_replicated=strict)
 
+    rtm = regression_to_mean(agree)
+    spreads = compression(per_wave, shared)
+
     # The abstract leads with the disposition effect pooled over model and
     # effort, so that is the one number in the paper most exposed to a
     # failed replication. It is reported per wave for the same reason the
@@ -507,7 +623,8 @@ def main():
                waves=sorted(config.WAVES),
                readings={str(k): v for k, v in readings.items()},
                agreement=agree, summary=summary, power=gain,
-               disposition_aggregate=head)
+               disposition_aggregate=head,
+               regression_to_mean=rtm, compression=spreads)
     with open(OUT_JSON, "w") as f:
         json.dump(out, f, indent=2)
     print(f"\nwrote {OUT_JSON}")
