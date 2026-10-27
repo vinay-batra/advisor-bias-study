@@ -1,8 +1,8 @@
 # SSRN posting package
 
 Everything the SSRN submission form asks for, written out to paste. Posting
-itself needs the author's own account, so this file stops at the point where
-only he can act.
+itself needs your own account, so this file stops at the point where only
+you can act.
 
 ## What SSRN is, in one paragraph
 
@@ -33,22 +33,14 @@ Does Deliberation Debias? Exogenous Reasoning Effort and Behavioural Finance Bia
 
 ## Abstract
 
-### Short version (1,469 characters, fallback)
+Plain text, math markup stripped. SSRN does not publish an abstract character
+limit anywhere I could find on 2026-10-27, and I am not inventing one. The
+nearest real evidence is the submission form for SSRN's Financial Economics
+Network at NYU Stern, which asks for 500 words or less; the long version is
+about 330 words, so it clears that. Paste the long one. The short one exists
+only so that a refusal at the live form does not turn into trimming by hand.
 
-Plain text, no math markup, 2,147 characters and about 330 words.
-
-SSRN does not publish an abstract character limit anywhere I could find on
-2026-10-27, and I am not going to invent one. The nearest real evidence is the
-submission form for SSRN's Financial Economics Network at NYU Stern, which
-asks for 500 words or less. At 330 words this clears that. If the live form
-refuses it anyway, paste the short version below instead of trimming at the
-keyboard.
-
-Language models are increasingly asked for advice about financial positions people already hold, and they carry measurable behavioural bias. Whether deliberation removes it is unsettled: the available evidence either compares different models, so capability and deliberation move together, or infers deliberation from the model's own account of its reasoning, produced by the same forward pass as the answer.
-
-We set the reasoning budget exogenously through the API, at three levels, before the model sees the item, and measure nine families of normatively irrelevant cue against matched pairs differing only in that cue. Across 9,720 responses from three models the disposition effect runs opposite to the human direction: these models are more willing to sell at a loss than at a gain, +0.239 [+0.148, +0.331] on a four-point sell-tendency measure, where the pre-registered prediction was negative. A second wave of 9,720 responses reproduces the pattern at half that magnitude, which we measure to be regression to the mean rather than a failure to replicate: the slope of wave 2 on wave 1 is +0.46, so a little under half of a first-wave effect was the item draw. Reasoning effort reduces the absolute effect in all nine qualifying confirmatory cases, and it does so by compressing the spread of bias magnitudes across families rather than by lowering their mean. Measured observationally instead, with output tokens standing in for deliberation, the sign reverses.
-
-### Long version (2,147 characters, use this one first)
+### Long version, 2,147 characters. Use this one.
 
 Language models are increasingly asked for advice about financial positions people already hold, and they carry measurable behavioural bias. Whether deliberation removes it is unsettled, because the available evidence either compares different models, so that capability and deliberation move together, or infers deliberation from the model's own account of its reasoning, produced by the same forward pass as the answer.
 
@@ -61,6 +53,12 @@ A second wave of 9,720 responses on two of those models reproduces the pattern a
 Reasoning effort reduces the absolute effect in all nine qualifying confirmatory cases, against a shuffled-label null of 0.0125 rather than the 1-in-512 a count would suggest. It does so by compressing the spread of bias magnitudes across families rather than by lowering their mean.
 
 The exogenous manipulation is what makes this visible. Measured the observational way on the same responses, with output tokens standing in for displayed deliberation, more reasoning goes with more bias between items and with nothing at all within an item. We also report that temperature is unavailable on these models, which makes this literature's fixed-temperature protocol unexecutable, and give a repeated-sampling replacement.
+
+### Short version, 1,469 characters. Fallback only.
+
+Language models are increasingly asked for advice about financial positions people already hold, and they carry measurable behavioural bias. Whether deliberation removes it is unsettled: the available evidence either compares different models, so capability and deliberation move together, or infers deliberation from the model's own account of its reasoning, produced by the same forward pass as the answer.
+
+We set the reasoning budget exogenously through the API, at three levels, before the model sees the item, and measure nine families of normatively irrelevant cue against matched pairs differing only in that cue. Across 9,720 responses from three models the disposition effect runs opposite to the human direction: these models are more willing to sell at a loss than at a gain, +0.239 [+0.148, +0.331] on a four-point sell-tendency measure, where the pre-registered prediction was negative. A second wave of 9,720 responses reproduces the pattern at half that magnitude, which we measure to be regression to the mean rather than a failure to replicate: the slope of wave 2 on wave 1 is +0.46, so a little under half of a first-wave effect was the item draw. Reasoning effort reduces the absolute effect in all nine qualifying confirmatory cases, and it does so by compressing the spread of bias magnitudes across families rather than by lowering their mean. Measured observationally instead, with output tokens standing in for deliberation, the sign reverses.
 
 ## Keywords
 
@@ -82,13 +80,13 @@ finds this.
 
 ## Which PDF to upload
 
-`paper/main.pdf`, the single-column reading build. It carries the author name
-and the filled repository URL, which is what SSRN wants.
+`paper/main.pdf`, the single-column reading build. It carries your name and the
+filled repository URL, which is what SSRN wants.
 
 **Not `paper/main_acl.pdf`.** That one is anonymised for review, so it has no
 author on it and its repository URL is still a placeholder.
 
-## What only he can do
+## What only you can do
 
 1. Create the SSRN account, if there is not one already.
 2. Upload, paste the fields above, submit. SSRN moderates before the paper
