@@ -132,6 +132,31 @@ That is your call and it is the one decision in this file I cannot make for
 you. The battery, the grading and the analysis all run unchanged on more
 items, so the work is a collection run and a rebuild, not a rewrite.
 
+## The anonymous mirror has a trap in it
+
+Checked 2026-10-27, after pushing the repo to a private GitHub remote
+(`vinay-batra/advisor-bias-study`).
+
+anonymous.4open.science works by fetching a GitHub URL and redacting terms
+you list in **text** files. Its own documentation says images and PDFs are
+served unchanged. Two consequences:
+
+- **`paper/main.pdf` would leak you.** It is the reading build and it is
+  supposed to carry your name, which `anonaudit.py` says in so many words
+  while checking only `main_acl.pdf`. The redaction pass does not touch it.
+  Mirroring the repo as it stands hands a reviewer a PDF with your name on
+  it, and the submission gate will not catch it, because the gate checks the
+  build and not the archive. Exclude `paper/main.pdf` from the mirror, or
+  untrack it before mirroring.
+- **A private repo probably does not unblock the gate.** The service fetches
+  from a GitHub URL, so it needs read access. Nothing in its documentation
+  says it can reach a private repository. Either make the repo public before
+  the January deadline, or test the mirror against the private one early
+  enough to find out, not in deadline week.
+
+Neither of these is urgent in October. Both are cheap now and expensive on 3
+January.
+
 ## Placeholders still in the paper
 
 Both are deliberate and both are visible in the PDF, so neither can ship by
