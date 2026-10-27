@@ -95,10 +95,27 @@ accident.
   `[anonymised archive URL to be added]` and the reading build `[repository
   URL to be added]`. There is no git remote yet; creating one is a publishing
   decision and I have not made it for you.
-- Nothing else. `make check` passes five gates: body under 8 pages,
+- Nothing else. `make check` passes six gates: body under 8 pages,
   cross-reference wording correct in both builds, every decimal traceable to
-  a script, no overfull lines or dangling references, and the submission PDF
-  free of your name, your email and any code host.
+  a script, every integer count out of a total placed in
+  `paper/intclaims.txt` with how it was verified, no overfull lines or
+  dangling references, and the submission PDF free of your name, your email
+  and any code host.
+
+### If you do make the repo public, it is already safe to
+
+Checked 2026-10-27, because git history cannot be unpublished:
+
+- `.env` has never been tracked. Only `.env.example` is, and it holds
+  `sk-ant-...` as a placeholder.
+- No key-shaped string appears in any commit, on any branch, anywhere in
+  history. Searched every reachable commit for `sk-ant-` followed by twenty
+  or more key characters: nothing.
+- 109 tracked files, 11 MB. The bulk is `data/responses.jsonl` at 7.6 MB,
+  which is the release, not an accident.
+
+That makes `git remote add` plus a push the whole job, with nothing to
+rewrite first. It is still your call whether to do it.
 
 ## Sources
 
