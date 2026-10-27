@@ -5,6 +5,7 @@ rejoined through data/index.json. Never by position.
 
 Usage:
     python run/collect.py            # poll until every batch has ended
+    python run/collect.py --wave 2   # the extension's batches
     python run/collect.py --once     # one pass, then exit
 """
 
@@ -17,7 +18,8 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import config
-from run.common import load_items, parse_custom_id, read_index, client
+from run.common import (load_items, parse_custom_id, read_index, client,
+                        wave as wave_paths)
 
 
 def extract(msg):
@@ -67,19 +69,22 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--interval", type=int, default=60)
+    ap.add_argument("--wave", type=int, default=1)
     args = ap.parse_args()
 
-    with open(config.BATCH_STATE_PATH) as f:
+    w = wave_paths(args.wave)
+    with open(w["batches"]) as f:
         state = json.load(f)
-    index = read_index()
-    items = {it["item_id"]: it for it in load_items()}
+    index = read_index(w["index"])
+    items = {it["item_id"]: it for it in load_items(w["items"])}
     item_ids = index["items"]
+    offset = index.get("id_offset", 0)
     models = index["models"]
     cli = client()
 
     done = set()
-    if os.path.exists(config.RESPONSES_PATH):
-        with open(config.RESPONSES_PATH) as f:
+    if os.path.exists(w["responses"]):
+        with open(w["responses"]) as f:
             for line in f:
                 done.add(json.loads(line)["custom_id"])
         print(f"{len(done):,} responses already on disk")
@@ -97,12 +102,12 @@ def main():
                 continue
 
             n = 0
-            with open(config.RESPONSES_PATH, "a") as out:
+            with open(w["responses"], "a") as out:
                 for res in cli.messages.batches.results(info["batch_id"]):
                     if res.custom_id in done:
                         continue
                     item_idx, model_idx, effort, trial = parse_custom_id(res.custom_id)
-                    item = items[item_ids[item_idx]]
+                    item = items[item_ids[item_idx - offset]]
                     row = dict(
                         custom_id=res.custom_id,
                         item_id=item["item_id"],
@@ -113,6 +118,7 @@ def main():
                         model=models[model_idx],
                         effort=effort,
                         trial=trial,
+                        wave=args.wave,
                     )
                     if res.result.type == "succeeded":
                         row.update(extract(res.result.message))
@@ -125,12 +131,12 @@ def main():
                     done.add(res.custom_id)
                     n += 1
             info["collected"] = True
-            with open(config.BATCH_STATE_PATH, "w") as f:
+            with open(w["batches"], "w") as f:
                 json.dump(state, f, indent=2)
             print(f"collected {cell}: {n:,} rows")
 
         if not pending:
-            print(f"\nall batches collected -> {config.RESPONSES_PATH}")
+            print(f"\nall batches collected -> {w['responses']}")
             return
         print(" | ".join(pending))
         if args.once:

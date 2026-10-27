@@ -313,6 +313,11 @@ def brand_salience(rng, c):
     return out
 
 
+# How many times build_wave may redraw one pair before giving up. The space
+# is 2,520 combinations per family, so a run that needs more than a handful
+# is a bug, not bad luck.
+MAX_REDRAWS = 50
+
 FAMILIES = [
     ("disposition", disposition, "confirmatory"),
     ("framing", framing, "confirmatory"),
@@ -326,8 +331,42 @@ FAMILIES = [
 ]
 
 
+def _assemble(bias, pair_id, status, c, built):
+    """Attach the decision pressure and the question to one built pair.
+
+    The cash need is scaled to the account, which is stated in the header and
+    identical across the conditions of a pair. Asserting that identity here is
+    what guarantees the pressure sentence cannot differ between the two arms.
+    """
+    accts = {_account_size(prompt) for _, prompt, _ in built}
+    assert len(accts) == 1, f"{pair_id}: account differs across arms"
+    need = round(accts.pop() * 0.10 / 1000) * 1000
+    tail = "\n\n" + PRESSURE.format(need=need) + "\n\n" + QUESTION_TEXT
+    out = []
+    for cond, prompt, meta in built:
+        prompt = prompt.replace("[[TAIL]]", tail)
+        assert "[[TAIL]]" not in prompt
+        out.append(Scenario(
+            bias=bias,
+            pair_id=pair_id,
+            condition=cond,
+            item_id=f"{pair_id}_{cond}",
+            prompt=prompt,
+            normative="invariance",
+            status=status,
+            meta=dict(meta, cash_need=need, company=c["name"]),
+        ))
+    return out
+
+
 def build_items(pairs_per_bias, seed):
-    """Generate the full battery. Deterministic given the seed."""
+    """Generate the wave 1 battery. Deterministic given the seed.
+
+    Kept exactly as it was when the 216 wave 1 items were generated and
+    collected, because data/items.jsonl has to stay reproducible from this
+    function. It is not prefix stable, which is why it cannot be asked for
+    more: see build_wave.
+    """
     rng = random.Random(seed)
     items = []
     for bias, fn, status in FAMILIES:
@@ -337,28 +376,59 @@ def build_items(pairs_per_bias, seed):
         rng.shuffle(pool)
         for i in range(pairs_per_bias):
             c = pool[i % len(pool)]
-            pair_id = f"{bias}_{i:03d}"
-            built = fn(rng, c)
-            # The cash need is scaled to the account, which is stated in the
-            # header and identical across the conditions of a pair. Asserting
-            # that identity here is what guarantees the pressure sentence
-            # cannot differ between the two arms.
-            accts = {_account_size(prompt) for _, prompt, _ in built}
-            assert len(accts) == 1, f"{pair_id}: account differs across arms"
-            need = round(accts.pop() * 0.10 / 1000) * 1000
-            tail = "\n\n" + PRESSURE.format(need=need) + "\n\n" + QUESTION_TEXT
-            for cond, prompt, meta in [(c_, p_.replace("[[TAIL]]", tail), m_)
-                                       for c_, p_, m_ in built]:
-                assert "[[TAIL]]" not in prompt
-                meta = dict(meta, cash_need=need)
-                items.append(Scenario(
-                    bias=bias,
-                    pair_id=pair_id,
-                    condition=cond,
-                    item_id=f"{pair_id}_{cond}",
-                    prompt=prompt,
-                    normative="invariance",
-                    status=status,
-                    meta=dict(meta, company=c["name"]),
-                ))
+            items += _assemble(bias, f"{bias}_{i:03d}", status, c, fn(rng, c))
+    return items
+
+
+def build_wave(wave, pairs_per_bias, seed, avoid=()):
+    """An independent later wave, prefix stable by construction.
+
+    build_items cannot simply be asked for more pairs. One generator feeds
+    every family in sequence, so twelve extra disposition pairs move
+    framing's company pool and every draw after it. Measured, not assumed:
+    build_items(24, SEED) reproduces 24 of the 216 wave 1 items and changes
+    the other 192, which would strand the responses already collected for
+    them.
+
+    Seeding per (seed, wave, family) removes both couplings. A family's items
+    depend on nothing another family drew, and pair i is the same item
+    whether twelve or forty are asked for, so a third wave can extend the
+    second the way the second cannot extend the first. The wave sits in the
+    pair id, so ids never collide and the analysis sees one more matched pair
+    per family rather than a second study.
+
+    `avoid` is the prompts of every earlier wave. A pair that reproduces one
+    of them is drawn again, because the item space is smaller than it looks:
+    a family varies only company, price, share count and weight, which is
+    2,520 combinations, so across two waves of twelve pairs a collision is
+    about a one in ten event per family and one turned up in the first wave 2
+    draw. An exact duplicate would not be a new item, and the replication
+    claim rests on the items being new. Rejection keeps the draw
+    deterministic and leaves the company walk alone: only the figures are
+    drawn again, so the counterbalancing across companies still holds.
+    """
+    if wave < 2:
+        raise ValueError("wave 1 is build_items, and it is already collected")
+    seen = set(avoid)
+    items = []
+    for bias, fn, status in FAMILIES:
+        # A string seed, because Random rejects a tuple, and str seeding is
+        # stable across runs and interpreters: it hashes the bytes rather
+        # than calling hash().
+        rng = random.Random(f"{seed}:wave{wave}:{bias}")
+        pool = COMPANIES[:]
+        rng.shuffle(pool)
+        for i in range(pairs_per_bias):
+            c = pool[i % len(pool)]
+            pair_id = f"{bias}_w{wave}_{i:03d}"
+            for attempt in range(MAX_REDRAWS):
+                built = _assemble(bias, pair_id, status, c, fn(rng, c))
+                if not any(it.prompt in seen for it in built):
+                    break
+            else:
+                raise RuntimeError(
+                    f"{pair_id}: {MAX_REDRAWS} draws all duplicated an "
+                    f"earlier item; the family's item space is exhausted")
+            seen.update(it.prompt for it in built)
+            items += built
     return items

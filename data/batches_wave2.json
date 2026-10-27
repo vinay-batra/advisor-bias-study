@@ -1,0 +1,80 @@
+{
+  "claude-opus-5-5|low": {
+    "batch_id": "msgbatch_01MJWzWAd9f4sW9L3YNADPpP",
+    "model": "claude-opus-5-5",
+    "effort": "low",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2
+  },
+  "claude-opus-5-5|medium": {
+    "batch_id": "msgbatch_01MbBxpEnqJnx73cWXdjwt6W",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2
+  },
+  "claude-opus-5-5|high": {
+    "batch_id": "msgbatch_013GxCtQQLD8MDvjd3f8yX9C",
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2
+  },
+  "claude-sonnet-5-5|low": {
+    "batch_id": "msgbatch_01JSL27kkLfqVgydrzs8Xcqm",
+    "model": "claude-sonnet-5-5",
+    "effort": "low",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2,
+    "collected": true
+  },
+  "claude-sonnet-5-5|medium": {
+    "batch_id": "msgbatch_01QggjmC8B9mkKTfvaFmXCt2",
+    "model": "claude-sonnet-5-5",
+    "effort": "medium",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2,
+    "collected": true
+  },
+  "claude-sonnet-5-5|high": {
+    "batch_id": "msgbatch_01YYtMMxVWHgACcMreRrrXX8",
+    "model": "claude-sonnet-5-5",
+    "effort": "high",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2,
+    "collected": true
+  },
+  "claude-haiku-5-5|low": {
+    "batch_id": "msgbatch_01SEK2cZUFqQgKzefZ9MUF8R",
+    "model": "claude-haiku-5-5",
+    "effort": "low",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2,
+    "collected": true
+  },
+  "claude-haiku-5-5|medium": {
+    "batch_id": "msgbatch_01MASMErdXbXgJNQtHZX8j85",
+    "model": "claude-haiku-5-5",
+    "effort": "medium",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2,
+    "collected": true
+  },
+  "claude-haiku-5-5|high": {
+    "batch_id": "msgbatch_0174L8waTS5fQkHS8jDvV8XE",
+    "model": "claude-haiku-5-5",
+    "effort": "high",
+    "trials": 5,
+    "n_requests": 1080,
+    "wave": 2,
+    "collected": true
+  }
+}

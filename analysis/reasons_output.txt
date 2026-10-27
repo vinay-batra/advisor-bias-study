@@ -1,0 +1,178 @@
+  5 duplicate custom_ids resolved, usable row preferred
+9,720 usable reasons
+
+==============================================================================
+Detector audit against hand labels
+==============================================================================
+  Four rounds, each drawn under a different seed and disjoint from
+  the ones before it. The first reading of each of the middle two
+  found a bug in the patterns rather than a limit of the measure,
+  and fixing it spent that round, so only the last row is
+  validation. The three before it are a fit to their own tuning
+  data and are shown so the difference is visible.
+
+  round     n  agree  rejects P  rejects R   role
+  dev1     60  1.000      1.000      1.000   development
+  dev2     60  1.000      1.000      1.000   development
+  dev3     55  1.000      1.000      1.000   development
+  test     54  0.778      1.000      0.667   VALIDATION, patterns frozen
+
+  Reweighted to the corpus, from the validation round only.
+  The draw takes 4 reasons from the stratum the detector
+  called rejects and 3 from each of the other two, so the
+  sample's own recall is not the corpus recall.
+
+  family                  precision   recall  called R  est true R
+  disposition                 1.000    0.994       714         719
+  anchoring                   1.000    0.990      1063        1074
+  home_bias                   1.000    1.000       142         142
+  mental_accounting           1.000    0.888       462         520
+  advisor_attribution         1.000    0.533       309         579
+  price_path                  1.000    0.710       430         606
+  ALL                         1.000    0.857      3120        3640
+
+  Precision is 1.000 on every round and on every family: the
+  detector has never once called a rejection that the hand
+  label disagreed with, across 96 of them. Recall is about two
+  thirds. Both together say every rejection rate below is a
+  floor, and that the floor sits roughly a third under the
+  rate itself.
+
+  Recall by model, the one way the headline ordering could be an
+  artifact of the regexes rather than a property of the models.
+  Validation round only: the development rounds were tuned until
+  they scored 1.000, so pooling them would answer nothing. The
+  counts are small, so this settles the direction, not the size.
+
+  model     true R  caught   recall    rate  corrected
+  opus          19      12    0.632   0.759      0.928
+  sonnet        12       9    0.750   0.437      0.496
+  haiku          5       3    0.600   0.249      0.261
+
+  Lowest recall: haiku. The measured ordering is opus > sonnet > haiku,
+  and after correction it is opus > sonnet > haiku.
+
+==============================================================================
+The structural families: does the reason refer to the manipulation at all
+==============================================================================
+  A deliberately generous pattern, scanned over every reason in the
+  family. These three manipulations have no object in the prompt
+  for a reason to name, and the count is what that looks like.
+  framing                  2 of 1,080 reasons (0.19%)
+  action_bias              1 of 1,080 reasons (0.09%)
+  brand_salience           0 of 1,080 reasons (0.00%)
+
+==============================================================================
+What the reason says about the cue, over the nameable families
+==============================================================================
+  model    effort        n   silent    cites   rejects
+  opus     low         720    0.239    0.043     0.718
+  opus     medium      720    0.206    0.024     0.771
+  opus     high        720    0.183    0.028     0.789
+  sonnet   low         720    0.564    0.042     0.394
+  sonnet   medium      720    0.542    0.047     0.411
+  sonnet   high        720    0.443    0.053     0.504
+  haiku    low         720    0.747    0.021     0.232
+  haiku    medium      720    0.722    0.026     0.251
+  haiku    high        720    0.706    0.032     0.263
+
+==============================================================================
+Rejection rate by family and effort, with a bootstrap over pairs
+==============================================================================
+
+  disposition
+    opus     low 0.77 [+0.71,+0.83]  med 0.97 [+0.94,+0.99]  hig 0.99 [+0.97,+1.00]
+    sonnet   low 0.59 [+0.53,+0.67]  med 0.68 [+0.59,+0.77]  hig 0.77 [+0.70,+0.83]
+    haiku    low 0.34 [+0.29,+0.39]  med 0.42 [+0.35,+0.48]  hig 0.42 [+0.37,+0.48]
+
+  anchoring
+    opus     low 1.00 [+1.00,+1.00]  med 0.99 [+0.97,+1.00]  hig 0.99 [+0.97,+1.00]
+    sonnet   low 0.97 [+0.93,+1.00]  med 0.96 [+0.93,+0.98]  hig 1.00 [+1.00,+1.00]
+    haiku    low 0.99 [+0.97,+1.00]  med 0.98 [+0.95,+1.00]  hig 0.98 [+0.96,+1.00]
+
+  home_bias
+    opus     low 0.30 [+0.22,+0.38]  med 0.43 [+0.38,+0.48]  hig 0.44 [+0.39,+0.48]
+    sonnet   low 0.00 [+0.00,+0.00]  med 0.00 [+0.00,+0.00]  hig 0.00 [+0.00,+0.00]
+    haiku    low 0.00 [+0.00,+0.00]  med 0.01 [+0.00,+0.03]  hig 0.00 [+0.00,+0.00]
+
+  mental_accounting
+    opus     low 0.80 [+0.70,+0.89]  med 0.88 [+0.79,+0.93]  hig 0.92 [+0.88,+0.96]
+    sonnet   low 0.29 [+0.18,+0.40]  med 0.33 [+0.21,+0.47]  hig 0.60 [+0.47,+0.72]
+    haiku    low 0.01 [+0.00,+0.03]  med 0.00 [+0.00,+0.00]  hig 0.03 [+0.00,+0.07]
+
+  advisor_attribution
+    opus     low 0.70 [+0.57,+0.82]  med 0.65 [+0.55,+0.76]  hig 0.69 [+0.62,+0.77]
+    sonnet   low 0.15 [+0.06,+0.26]  med 0.10 [+0.03,+0.18]  hig 0.16 [+0.08,+0.24]
+    haiku    low 0.01 [+0.00,+0.03]  med 0.06 [+0.01,+0.12]  hig 0.06 [+0.02,+0.11]
+
+  price_path
+    opus     low 0.74 [+0.67,+0.82]  med 0.71 [+0.64,+0.77]  hig 0.70 [+0.62,+0.78]
+    sonnet   low 0.37 [+0.28,+0.43]  med 0.39 [+0.29,+0.48]  hig 0.50 [+0.43,+0.58]
+    haiku    low 0.04 [+0.01,+0.08]  med 0.05 [+0.02,+0.09]  hig 0.08 [+0.03,+0.15]
+
+==============================================================================
+Does effort buy rejection? high minus low, per model x family
+==============================================================================
+  The difference is in the same pair level units, bootstrapped over
+  the pairs of the high cell and the low cell independently, so the
+  interval is a difference of two independent cell means.
+
+  model    family                    low   high  high-low               interval
+  opus     disposition              0.77   0.99    +0.225 [+0.158, +0.292]  *
+  opus     anchoring                1.00   0.99    -0.008 [-0.025, +0.000]
+  opus     home_bias                0.30   0.44    +0.142 [+0.058, +0.233]  *
+  opus     mental_accounting        0.80   0.92    +0.117 [+0.017, +0.225]  *
+  opus     advisor_attribution      0.70   0.69    -0.008 [-0.142, +0.142]
+  opus     price_path               0.74   0.70    -0.042 [-0.158, +0.067]
+  sonnet   disposition              0.59   0.77    +0.175 [+0.075, +0.258]  *
+  sonnet   anchoring                0.97   1.00    +0.033 [+0.000, +0.075]
+  sonnet   home_bias                0.00   0.00    +0.000 [+0.000, +0.000]
+  sonnet   mental_accounting        0.29   0.60    +0.308 [+0.125, +0.475]  *
+  sonnet   advisor_attribution      0.15   0.16    +0.008 [-0.117, +0.133]
+  sonnet   price_path               0.37   0.50    +0.133 [+0.033, +0.250]  *
+  haiku    disposition              0.34   0.42    +0.083 [+0.000, +0.158]
+  haiku    anchoring                0.99   0.98    -0.008 [-0.033, +0.017]
+  haiku    home_bias                0.00   0.00    +0.000 [+0.000, +0.000]
+  haiku    mental_accounting        0.01   0.03    +0.017 [-0.017, +0.050]
+  haiku    advisor_attribution      0.01   0.06    +0.050 [+0.008, +0.108]  *
+  haiku    price_path               0.04   0.08    +0.042 [-0.017, +0.117]
+
+  12 of 18 model by family combinations reject more at high effort than at low, 7 with an interval excluding zero
+
+==============================================================================
+Stated rejection against measured effect: the dissociation
+==============================================================================
+  The question this section exists to answer. A cell where the
+  model names the manipulated cue and discounts it in almost every
+  reason it gives, and whose recommendation still moves with that
+  cue, is a cell where the verbal rejection is not doing the work.
+  If stated reasoning were a guard against the bias, these cells
+  would not exist. They are the direct test of the assumption that
+  reading a model's explanation tells you whether it was biased.
+
+  measure        model   eff  family               reject   effect           interval    holm
+  pct_to_sell    opus    medi disposition            0.97    +9.13 [  +2.47, +16.67]  0.2345
+  pct_to_sell    opus    low  anchoring              1.00    +7.83 [  +2.75, +13.33]  0.1503
+  pct_to_sell    opus    high disposition            0.99    +7.42 [  +1.50, +14.42]  0.1785
+  pct_to_sell    opus    medi anchoring              0.99    +6.40 [  +2.83, +10.67]  0.0873
+  pct_to_sell    opus    high anchoring              0.99    +5.58 [  +2.83,  +9.33]  0.0189  HOLM
+  pct_to_sell    opus    high mental_accounting      0.92    +5.22 [  +2.17,  +8.97]  0.0408  HOLM
+  sell_tendency  opus    low  anchoring              1.00    +0.23 [  +0.05,  +0.45]  0.9935
+
+  24 of 108 cells reject the cue in at least 90%
+  of their reasons. 7 of those still show an effect
+  whose bootstrap interval excludes zero, and 2 survive Holm across
+  the whole family of tests. For contrast, of the 30 cells that
+  essentially never name the cue, 6 show such an
+  effect. Rejection in the reason text is not what separates a
+  biased cell from an unbiased one.
+
+==============================================================================
+Association with the measured effect, across cells
+==============================================================================
+  NOT identified, and reported as an association. The reason text
+  and the recommendation come from one forward pass.
+  sell_tendency    rho -0.161 over 54 nameable family cells (rejection rate against absolute effect)
+  pct_to_sell      rho -0.071 over 54 nameable family cells (rejection rate against absolute effect)
+
+wrote analysis/reasons_output.json

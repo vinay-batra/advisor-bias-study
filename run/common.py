@@ -12,8 +12,16 @@ EFFORT_LETTER = {"low": "l", "medium": "m", "high": "h", "xhigh": "x", "max": "X
 LETTER_EFFORT = {v: k for k, v in EFFORT_LETTER.items()}
 
 
-def load_items():
-    with open(config.ITEMS_PATH) as f:
+def wave(n):
+    """The paths and the item index offset for one wave."""
+    try:
+        return config.WAVES[n]
+    except KeyError:
+        raise SystemExit(f"no wave {n} in config.WAVES")
+
+
+def load_items(path=None):
+    with open(path or config.ITEMS_PATH) as f:
         return [json.loads(line) for line in f]
 
 
@@ -33,19 +41,25 @@ def parse_custom_id(cid):
     )
 
 
-def write_index(items):
-    """Persist the index -> item_id mapping so results can be rejoined."""
+def write_index(items, path="data/index.json", id_offset=0):
+    """Persist the index -> item_id mapping so results can be rejoined.
+
+    The offset is stored beside the mapping rather than inferred, because a
+    collector reading a custom_id of i1000 has no other way to know whether
+    that is item 1000 of one wave or item 0 of a wave offset by a thousand.
+    """
     idx = {
         "models": config.MODELS,
         "items": [it["item_id"] for it in items],
+        "id_offset": id_offset,
     }
-    with open("data/index.json", "w") as f:
+    with open(path, "w") as f:
         json.dump(idx, f, indent=2)
     return idx
 
 
-def read_index():
-    with open("data/index.json") as f:
+def read_index(path="data/index.json"):
+    with open(path) as f:
         return json.load(f)
 
 

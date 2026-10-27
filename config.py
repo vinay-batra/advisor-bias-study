@@ -64,3 +64,26 @@ RESPONSE_SCHEMA = {
 ITEMS_PATH = "data/items.jsonl"
 RESPONSES_PATH = "data/responses.jsonl"
 BATCH_STATE_PATH = "data/batches.json"
+
+# Matched pairs added per bias by each later wave.
+PAIRS_PER_BIAS_LATER = 12
+
+# Waves. Wave 1 is the registered battery and is already collected; a later
+# wave adds independently generated pairs to every family and is analysed by
+# the same code. PREREGISTRATION.md, under Deviations, records why wave 2
+# exists and what it is not allowed to change.
+#
+# id_offset keeps batch custom_ids unique across waves. A custom_id carries
+# the item's index, not its id, so without an offset wave 2's first item and
+# wave 1's first item would both be i0000 and the deduplication in
+# analysis/analyze.py would treat one as a duplicate of the other.
+WAVES = {
+    1: dict(items=ITEMS_PATH, responses=RESPONSES_PATH,
+            index="data/index.json", batches=BATCH_STATE_PATH,
+            pairs=PAIRS_PER_BIAS, id_offset=0),
+    2: dict(items="data/items_wave2.jsonl",
+            responses="data/responses_wave2.jsonl",
+            index="data/index_wave2.json",
+            batches="data/batches_wave2.json",
+            pairs=PAIRS_PER_BIAS_LATER, id_offset=1000),
+}

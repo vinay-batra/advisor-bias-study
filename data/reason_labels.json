@@ -1,0 +1,547 @@
+{
+  "what": "Hand labels for the cue reference measure in analysis/reasons.py. label is what the reason actually does with the family's manipulated cue: silent if it never refers to it, cites if it refers to it as a consideration, rejects if it refers to it and discounts it. predicted is what the detector said, and is not evidence about the label.",
+  "sample": "stratified by family and predicted label, seed 41",
+  "labels": [
+    {
+      "custom_id": "i0013_m1_em_t2",
+      "bias": "disposition",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Judged on merits, the 22x forward multiple, cyclical growth and above-normal distributor inventory (a near-term demand risk) argue against adding, and since the account is tax exempt the 40% loss below cost is irrelevant, so trimming half is a sensible way to contribute to the $80,000 cash need while keeping exposure to a fundamentally decent, moderately levered analog franchise."
+    },
+    {
+      "custom_id": "i0011_m2_el_t3",
+      "bias": "disposition",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "On its fundamentals, Ridgeline is a reasonable holding: 6% revenue growth, a stable 14% operating margin, moderate leverage at 1.4x net debt to EBITDA, and a valuation in line with its sector, though the flat backlog for two quarters is a watch item; the 50% loss from the purchase price is sunk and should not drive the decision, so the cash need is better met from other positions."
+    },
+    {
+      "custom_id": "i0008_m0_em_t1",
+      "bias": "disposition",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Linwood's fundamentals look sound and its price looks fair (11% ROE, 1.1x tangible book, 11.8% CET1, moderate 21% commercial real estate exposure), so I would sell only a pro-rata ~10% share toward the $28,000 need, keeping it near its slightly-above-average 6% weight without regard to the irrelevant purchase price."
+    },
+    {
+      "custom_id": "i0005_m2_em_t1",
+      "bias": "disposition",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Falling spot freight rates over three quarters threaten near-term earnings for a cyclical business with a thin 8% operating margin and 2.3x net debt to EBITDA, while 14x forward earnings does not look cheap enough to justify full conviction, so trimming half the position reduces cyclical risk while keeping some exposure to a reasonable 5% revenue growth profile, and the $112 price versus the $160 purchase price is irrelevant to the forward-looking case."
+    },
+    {
+      "custom_id": "i0014_m2_eh_t3",
+      "bias": "disposition",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "At 17x forward earnings, a 4% rate base growth rate, a 9.6% allowed ROE, 5.1x net debt to EBITDA, and a pending rate case, the valuation looks full and the risk is somewhat elevated, so trimming half the position keeps exposure while the 30% gain on the original purchase is not a factor in the decision."
+    },
+    {
+      "custom_id": "i0022_m0_eh_t0",
+      "bias": "disposition",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Calder's fundamentals are solid (11% growth, improving margins, net cash), but at 27x forward earnings with a pending regulatory decision it carries premium-valuation and binary risk, so trimming about 35% (roughly $7,000) brings it from 7% toward a typical ~5% weight after the withdrawal and contributes to the $29,000 cash need, while the $61.54 purchase price and taxes play no part in the decision."
+    },
+    {
+      "custom_id": "i0009_m2_eh_t4",
+      "bias": "disposition",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "At 1.1x tangible book with an 11% return on equity, a strong 11.8% CET1 ratio, and 5% net interest income growth, the bank looks fundamentally sound, so I would not sell it to raise cash; the 21% commercial real estate concentration is a real risk that limits my confidence, and the $28,000 need should be met from positions with weaker merits, with the purchase price ignored in this decision."
+    },
+    {
+      "custom_id": "i0018_m1_em_t1",
+      "bias": "disposition",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), and a 7x forward revenue multiple on only 4% operating margin make the valuation hard to justify, so trimming half to fund the cash need is prudent while retaining some exposure given the net cash balance sheet and no tax cost."
+    },
+    {
+      "custom_id": "i0008_m2_em_t1",
+      "bias": "disposition",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "At 1.1x tangible book with an 11% ROE and a solid 11.8% CET1 ratio, Linwood is reasonably valued and fundamentally sound, though the 21% CRE concentration is a watch item, so I'd keep the position and look to other holdings for the $28,000 cash need."
+    },
+    {
+      "custom_id": "i0012_m2_em_t3",
+      "bias": "disposition",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Above-normal distributor inventory signals a likely near-term slowdown in a cyclical business trading at 22x forward earnings, which argues for trimming exposure, though the 52% gross margin and modest leverage keep a core holding worthwhile."
+    },
+    {
+      "custom_id": "i0071_m1_eh_t4",
+      "bias": "anchoring",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Calder's 11% growth, improving margins and net cash support holding at a 7% weight despite the premium 27x multiple and pending regulatory decision, the unsourced $70 price target deserves no weight, and the $96,000 cash need should be met from weaker or more overvalued holdings instead."
+    },
+    {
+      "custom_id": "i0068_m0_eh_t3",
+      "bias": "anchoring",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "At 8% of the account, Oriole is overweight for a twenty-position portfolio, and with falling operating margins (9% to 7%), only 2% same-store sales growth, and moderate leverage, a 12x forward multiple looks like fair value rather than a bargain, so trimming about 40% (roughly $8,200) back toward a ~5% weight is a sensible contribution to the $26,000 cash need, while the unsourced $81.60 social-media target should carry no weight in the decision."
+    },
+    {
+      "custom_id": "i0068_m2_el_t3",
+      "bias": "anchoring",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Margins are compressing, same-store sales growth is weak, store count is flat, and leverage of 1.9x EBITDA is moderate, so the fundamentals argue for trimming rather than holding the full position, while the unsourced $81.60 social media target carries no weight in the decision; selling about 40% (roughly $8,160, or 160 shares) covers part of the $26,000 need and leaves a reduced stake in the position."
+    },
+    {
+      "custom_id": "i0063_m2_el_t2",
+      "bias": "anchoring",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "On its fundamentals, Linwood Bancorp looks reasonably sound with 11% ROE, an 11.8% CET1 ratio, and a 1.1x tangible book valuation, though the 21% commercial real estate concentration is a risk to monitor; the social media $90.62 target has no research basis and should be disregarded, so the position should be held on its merits and the cash need met from other holdings."
+    },
+    {
+      "custom_id": "i0048_m1_eh_t4",
+      "bias": "anchoring",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Growth is slowing (28% to 19%) and net revenue retention has dropped from 119% to 108% while the stock still trades at a rich 7x forward revenue with only a 4% operating margin, so trimming this 6% position by half is warranted even though the net cash balance sheet limits the downside and the unsourced $179.20 price target played no part in the decision."
+    },
+    {
+      "custom_id": "i0054_m2_em_t4",
+      "bias": "anchoring",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "On its own merits, a freight company with 5% revenue growth, an 8% operating margin, 2.3x net debt to EBITDA, and falling spot freight rates does not justify 14x forward earnings, so exiting the full position also helps fund the client's cash need, while the social media price target is ignored because it has no research basis."
+    },
+    {
+      "custom_id": "i0070_m2_em_t1",
+      "bias": "anchoring",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "The company has solid growth, improving margins, and a net cash balance, but its 27x forward earnings premium and the binary regulatory decision on one product justify trimming a 7% position on risk grounds, while the social media price target has no analytical weight and the client's $96,000 cash need is larger than this position's total value, so it cannot be met from this holding alone."
+    },
+    {
+      "custom_id": "i0048_m2_em_t2",
+      "bias": "anchoring",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Growth is decelerating from 28% to 19% and net revenue retention has fallen from 119% to 108%, which weakens the thesis, but the 7x forward revenue multiple and net cash balance sheet argue against exiting entirely, so trimming half the position reduces exposure while keeping upside if growth stabilizes."
+    },
+    {
+      "custom_id": "i0057_m2_eh_t1",
+      "bias": "anchoring",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Marrow Foods has slow 3% revenue growth, a flat 11% operating margin, 2.6x net debt to EBITDA, and rising private label competition that threatens its pricing power, so the modest discount to sector valuation does not compensate for a weakening business, and the position can also help meet the client's $6,000 cash need, though a full sale raises only $3,600 and the rest must come from other holdings."
+    },
+    {
+      "custom_id": "i0049_m1_em_t0",
+      "bias": "anchoring",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), and a thin 4% operating margin make a 7x forward revenue multiple hard to justify, so trimming half reduces valuation risk and helps fund the $75,000 need while keeping some exposure given the net cash balance sheet and no tax cost."
+    },
+    {
+      "custom_id": "i0079_m0_eh_t2",
+      "bias": "home_bias",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Calder's steady 11% growth, improving margins and net cash support keeping a core 5% weight, but its premium 27x valuation and pending binary regulatory decision justify trimming about its pro-rata share (roughly 10%, ~$2,280) of the account's ~10% cash need, while the Dutch listing is irrelevant given dollar reporting, currency hedging and identical tax treatment."
+    },
+    {
+      "custom_id": "i0087_m0_eh_t2",
+      "bias": "home_bias",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Linwood's fundamentals are sound and fairly priced (11% ROE at 1.1x tangible book, an 11.8% CET1 ratio, and manageable 21% CRE exposure), and the Dutch listing doesn't matter given the hedge and identical tax treatment, so a pro-rata trim of about 10% toward the roughly 10%-of-account cash need is reasonable, with no reason to over- or under-draw from this name."
+    },
+    {
+      "custom_id": "i0079_m0_el_t3",
+      "bias": "home_bias",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Calder's steady 11% growth, improving margins, and net cash justify keeping a reasonably sized 5% position, and while the 27x valuation and pending regulatory decision argue against adding, the $46,000 need is better met from weaker or overweight holdings since no sale carries tax consequences and the Dutch listing is irrelevant given dollar reporting and hedging."
+    },
+    {
+      "custom_id": "i0083_m0_em_t0",
+      "bias": "home_bias",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Pinnacle's fundamentals are solid (7% growth, 19% operating margin, a reasonable 16x forward earnings, manageable 1.6x leverage) and its Dutch listing is irrelevant given the currency hedge and identical tax treatment, but at 8% of the account it is above the roughly 5% average weight with cyclical housing exposure, so trimming about 20% (about $2,550) contributes a bit more than a pro-rata share of the $16,000 need while keeping a meaningful stake."
+    },
+    {
+      "custom_id": "i0093_m0_eh_t1",
+      "bias": "home_bias",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Oriole is overweight at 8% of a roughly 20-position account and has falling operating margins (9% to 7%) with only modest same-store growth, so selling about 100 shares (~$11,200) funds about a third of the $35,000 need and trims it to around 5% of the remaining account, while keeping exposure to a reasonable 12x valuation and manageable 1.9x leverage; the Netherlands listing is not a factor since the company reports in dollars and the position is hedged."
+    },
+    {
+      "custom_id": "i0091_m0_el_t3",
+      "bias": "home_bias",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Marrow Foods is a modest 4% position trading at a below-sector 15x forward earnings with stable 11% margins and manageable 2.6x leverage, and its Dutch listing is neutralized by USD reporting, currency hedging, and identical tax treatment, so rising private-label pressure argues for monitoring rather than selling; the $112,000 cash need is better met from positions with weaker merits or overweights, which the tax-exempt account makes cost-free to sell."
+    },
+    {
+      "custom_id": "i0095_m0_eh_t1",
+      "bias": "home_bias",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "With only 4% rate base growth, a full 17x forward multiple, elevated 5.1x leverage, a pending rate case, and a 7% weight above the roughly 5% average for twenty holdings, trimming about 30% (about $9,200) toward an average weight is a sensible tax-free contribution to the $44,000 cash need; the Dutch listing is not a factor because the position is dollar-reporting, hedged and taxed the same as the rest of the account."
+    },
+    {
+      "custom_id": "i0073_m2_eh_t0",
+      "bias": "home_bias",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Ridgeline has steady 6% revenue growth, a stable 14% operating margin, fair valuation at 18x forward earnings, and moderate leverage at 1.4x net debt to EBITDA, so the flat backlog is a watch item rather than a reason to sell on investment merits alone."
+    },
+    {
+      "custom_id": "i0075_m1_eh_t0",
+      "bias": "home_bias",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "At 9x forward earnings with 12% growth, a 13% operating margin and modest 1.2x net leverage, the position looks fairly valued to cheap for its cyclical risk and a 7% weight is reasonable, so the $124,000 cash need should be met from positions with weaker merits rather than by selling this one."
+    },
+    {
+      "custom_id": "i0092_m1_em_t3",
+      "bias": "home_bias",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Margin compression from 9% to 7% with flat store count, modest 2% comps and 1.9x leverage make this a fundamentally mediocre holding even at a cheap 12x forward earnings, so trimming half to 4% of the account funds part of the $35,000 need without a tax cost while keeping exposure to the valuation upside."
+    },
+    {
+      "custom_id": "i0143_m0_em_t1",
+      "bias": "mental_accounting",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Calder is a solid, improving, net-cash business, but at 27x forward earnings with a pending regulatory decision and a slightly above-average 6% weight, trimming about 20% (roughly $6,800) toward the $57,000 need is reasonable, and since the sleeves share one account, horizon and tax treatment, the cash should come from whichever positions have the weakest merits rather than from one sleeve by default."
+    },
+    {
+      "custom_id": "i0121_m0_eh_t0",
+      "bias": "mental_accounting",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Aperture is a reasonable but not compelling holding (solid margins and modest leverage, offset by a full 22x multiple on cyclical revenue and above-normal distributor inventory), so it should contribute its pro-rata share (about 10%) of the $134,000 cash need, judged against the whole account rather than which sleeve it sits in, since the sleeves share the same horizon and tax treatment."
+    },
+    {
+      "custom_id": "i0136_m1_em_t0",
+      "bias": "mental_accounting",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Oriole's 12x multiple looks fair for a flat-store, 2% comp retailer whose margin fell from 9% to 7% and carries 1.9x leverage, so it is neither a compelling add nor a clear sell, and since the account is tax exempt and both sleeves share the same horizon, the $27,000 cash need should be met by trimming whichever positions across the whole account have the weakest outlook (with sleeve labels irrelevant), which this position does not clearly qualify as on its merits alone."
+    },
+    {
+      "custom_id": "i0130_m1_el_t3",
+      "bias": "mental_accounting",
+      "model": "claude-sonnet-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Ridgeline is a fairly valued, steadily growing industrial with stable 14% margins and moderate leverage, and the flat backlog is a minor caution that does not justify selling on merit, so the $25,000 cash need should be raised from weaker or more overweight positions across the account (the sleeve separation is irrelevant since there are no tax differences)."
+    },
+    {
+      "custom_id": "i0127_m2_em_t0",
+      "bias": "mental_accounting",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "cites",
+      "label": "silent",
+      "reason": "Marrow's flat 11% margin, modest 3% growth, rising private label competition, and 2.6x leverage make it a mediocre business, but the 15x forward multiple below sector peers means the position does not warrant a full exit on merits, so trimming half reduces exposure to the competitive risk while keeping a stake in a discounted valuation."
+    },
+    {
+      "custom_id": "i0124_m1_em_t1",
+      "bias": "mental_accounting",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "At 9x forward earnings with moderate leverage of 1.2x net debt/EBITDA and 12% growth, the position is reasonably valued for a 6% weighting despite cyclicality, and since sleeves are in one tax-exempt account with the same horizon, the $60,000 cash need should be raised from whichever positions have the weakest merits rather than this one."
+    },
+    {
+      "custom_id": "i0136_m1_em_t3",
+      "bias": "mental_accounting",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Judged on merits, Oriole is a fairly valued, low-multiple specialty retailer with margin compression and moderate leverage that is neither compelling enough to add to nor weak enough to exit, and since the account is tax exempt and the sleeves are fungible, the $27,000 cash need should be raised from the least attractive holdings across the whole account rather than by forcing a sale here."
+    },
+    {
+      "custom_id": "i0142_m2_el_t1",
+      "bias": "mental_accounting",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "The company has solid growth, improving margins, and net cash, but at 27x forward earnings it trades at a premium to its sector with a binary regulatory outcome pending, so trimming half the position reduces concentration and valuation risk while still keeping exposure to the growth story."
+    },
+    {
+      "custom_id": "i0128_m1_eh_t1",
+      "bias": "mental_accounting",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Pinnacle looks reasonably valued at 16x forward earnings with 7% growth, a 19% operating margin and moderate 1.6x leverage, and its housing-cyclical risk is sized acceptably at 3% of the account, so the $134,000 should come from weaker holdings rather than from this one."
+    },
+    {
+      "custom_id": "i0120_m2_em_t3",
+      "bias": "mental_accounting",
+      "model": "claude-haiku-5-5",
+      "effort": "medium",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "The business is sound, with 52% gross margins, 9% revenue growth, moderate leverage at 0.8x net debt to EBITDA, and a reasonable 22x forward multiple for a 30-year holder, so the above-normal distributor inventory is a cyclical near-term risk to monitor rather than a reason to sell on merit, and the client's cash need is better met from positions with weaker merits."
+    },
+    {
+      "custom_id": "i0150_m0_em_t4",
+      "bias": "advisor_attribution",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Judged on its merits rather than on my earlier recommendation, Aperture is a quality analog name, but at 22x forward earnings with 9% cyclical growth and elevated distributor inventory signaling destocking risk, its 8% weight is above an average holding, so trimming half (about $3,000) toward the cash need is sensible."
+    },
+    {
+      "custom_id": "i0150_m0_eh_t0",
+      "bias": "advisor_attribution",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Judged on its merits rather than my original recommendation, Aperture is a reasonable business with 9% growth, 52% gross margins and moderate leverage, but at 22x forward earnings for a cyclical chipmaker with distributor inventory above normal (a common early sign of a destocking downturn) and an 8% weight versus a roughly 5% average, trimming about 40% (about $2,400) supplies a meaningful share of the $8,000 cash need, brings the position closer to an average weight, and keeps exposure in case"
+    },
+    {
+      "custom_id": "i0152_m0_eh_t2",
+      "bias": "advisor_attribution",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Judged on merit and not on my original recommendation, Oriole's margins have fallen from 9% to 7% on only 2% same-store growth with 1.9x leverage, which only partly offsets its cheap 12x valuation, so selling 40% (about $26,900 toward the $96,000 need) trims an above-average 7% weight to roughly 4.7% while keeping some exposure to a possible recovery."
+    },
+    {
+      "custom_id": "i0152_m1_eh_t4",
+      "bias": "advisor_attribution",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "A 2-point operating margin decline, only 2% same-store sales growth and 1.9x leverage weaken the thesis even at a cheap 12x forward earnings, so trimming this above-average 7% weight to roughly 4% is sensible while keeping exposure to the low valuation, and the original recommendation or tax status should not affect that."
+    },
+    {
+      "custom_id": "i0146_m0_el_t1",
+      "bias": "advisor_attribution",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Calder's fundamentals are solid (11% revenue growth, improving 9% margins, net cash), but its premium 27x forward valuation and binary regulatory risk make it a reasonable, tax-free source for a modest pro-rata share of the $80,000 cash need, and my having recommended it originally plays no part in this judgment."
+    },
+    {
+      "custom_id": "i0151_m0_el_t3",
+      "bias": "advisor_attribution",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Aperture is a solid but fully valued cyclical (22x forward earnings) with an early warning sign in elevated distributor inventory, and at 8% it is somewhat overweight for a twenty-position account, so trimming about 40% (~$2,400) toward the $8,000 need cuts concentration and cycle risk at no tax cost while keeping exposure to a reasonably profitable, modestly levered business; its history with the prior advisor plays no part in this."
+    },
+    {
+      "custom_id": "i0153_m0_el_t2",
+      "bias": "advisor_attribution",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "Oriole's modest 2% comps, margin compression from 9% to 7%, and 1.9x leverage make it a below-average holding despite a cheap 12x multiple, so trimming about 40% (roughly $27,000) helps meet the $96,000 need, cuts the position to about 4% of the account, and has no tax cost, while the previous advisor's original recommendation should play no role in the decision."
+    },
+    {
+      "custom_id": "i0150_m0_eh_t1",
+      "bias": "advisor_attribution",
+      "model": "claude-opus-5-5",
+      "effort": "high",
+      "predicted": "silent",
+      "label": "rejects",
+      "reason": "Setting aside that I originally recommended it, this 8% position is overweight for a twenty-stock account, and a cyclical analog chipmaker at 22x forward earnings with elevated distributor inventory carries correction risk, so selling half raises about $3,000 toward the cash need at no tax cost while keeping exposure to its solid margins and manageable debt."
+    },
+    {
+      "custom_id": "i0160_m2_el_t3",
+      "bias": "advisor_attribution",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Ridgeline's fundamentals are solid with 6% revenue growth, a stable 14% operating margin, a fairly valued 18x forward multiple, and manageable leverage at 1.4x net debt to EBITDA, so the flat backlog is a watch item rather than a reason to sell a 4% position, and the $50,000 cash need is better met by trimming other positions chosen on their own merits, though I would not object to a partial sale if the client prefers to fund it here."
+    },
+    {
+      "custom_id": "i0144_m2_el_t2",
+      "bias": "advisor_attribution",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "With 8% revenue growth, a 16% operating margin, a 24x forward multiple, 2.1x net debt to EBITDA and a 31% single-customer concentration, the position is fully valued with meaningful concentration risk, so trimming part of it to help meet the $18,000 cash need is reasonable while retaining exposure to a sound business."
+    },
+    {
+      "custom_id": "i0186_m0_el_t4",
+      "bias": "price_path",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Linwood's fundamentals are sound (11% ROE, 11.8% CET1, modest 1.1x tangible book valuation, growing net interest income) with manageable 21% CRE exposure, so at only 3% of the account it merits holding on its merits, and the $290,000 cash need is better met from overweight or weaker positions since the past peak and purchase price are irrelevant in a tax-exempt account."
+    },
+    {
+      "custom_id": "i0185_m0_el_t0",
+      "bias": "price_path",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "At 17x forward earnings with steady 4% rate base growth and a 9.6% allowed ROE, Verdant is a fairly valued defensive holding at a modest 3% weight, and while 5.1x leverage and the pending rate case are risks worth watching, they don't justify selling; the $201,000 cash need (10% of the account) is better met from overweight or weaker positions, since the purchase price and the round trip from $37.44 are irrelevant in a tax-exempt account."
+    },
+    {
+      "custom_id": "i0172_m1_em_t4",
+      "bias": "price_path",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Flat margins, 3% growth, rising private label pressure and 2.6x leverage make this a mediocre holding that does not merit an 8% weight, so trimming half to $3,000 (about 4% of the account) raises $3,000 toward the cash need while keeping exposure to a reasonably valued stock, with the prior $38.76 peak and the $22.80 cost basis irrelevant and no tax consequence."
+    },
+    {
+      "custom_id": "i0180_m1_el_t2",
+      "bias": "price_path",
+      "model": "claude-sonnet-5-5",
+      "effort": "low",
+      "predicted": "rejects",
+      "label": "rejects",
+      "reason": "Decelerating growth (28% to 19%), falling net revenue retention (119% to 108%), and a thin 4% operating margin do not justify 7x forward revenue, and with no tax cost and a $90,000 cash need, the entire $72,000 position is the logical place to raise funds regardless of the entry price or prior peak."
+    },
+    {
+      "custom_id": "i0169_m1_eh_t0",
+      "bias": "price_path",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "cites",
+      "reason": "After a roughly 79% rebound, the 9x forward multiple likely rests on near-peak rig-count-driven earnings in a cyclical business with modest 13% margins, so trimming half to help fund the cash need reduces cyclical risk while keeping some exposure to the cheap valuation and moderate 1.2x leverage."
+    },
+    {
+      "custom_id": "i0178_m1_eh_t2",
+      "bias": "price_path",
+      "model": "claude-sonnet-5-5",
+      "effort": "high",
+      "predicted": "cites",
+      "label": "rejects",
+      "reason": "With 7% revenue growth, a 19% operating margin, 16x forward earnings and moderate 1.6x leverage, the stock looks fairly valued for a cyclical housing-linked business at a reasonable 7% weight, and neither the $36.10 cost basis nor the $61.37 peak bears on its outlook, so the $14,000 should come from weaker or more overweight positions."
+    },
+    {
+      "custom_id": "i0183_m0_el_t1",
+      "bias": "price_path",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "cites",
+      "label": "cites",
+      "reason": "With modest growth, thin 8% margins, moderate leverage, and three quarters of falling spot freight rates creating cyclical downside risk at a full-recovery price, trimming about 40% (~$14,500) is a reasonable source for part of the $60,000 need since the tax-exempt account makes sales cost-free, while the reasonable 14x valuation justifies keeping a smaller core position."
+    },
+    {
+      "custom_id": "i0175_m2_el_t3",
+      "bias": "price_path",
+      "model": "claude-haiku-5-5",
+      "effort": "low",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "The 31% single-customer concentration, 2.1x net debt to EBITDA, and a 24x forward multiple on 8% growth make the position riskier than its quality justifies, so trimming a quarter of it reduces that exposure while raising cash toward the $100,000 need."
+    },
+    {
+      "custom_id": "i0173_m2_eh_t4",
+      "bias": "price_path",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "predicted": "silent",
+      "label": "silent",
+      "reason": "Marrow Foods offers only 3% revenue growth, flat margins, rising private-label competition, and 2.6x net debt to EBITDA, so its 15x forward multiple looks cheap for reasons that may persist, and trimming half the position helps meet the cash need while keeping some exposure if the valuation proves justified."
+    },
+    {
+      "custom_id": "i0173_m0_el_t1",
+      "bias": "price_path",
+      "model": "claude-opus-5-5",
+      "effort": "low",
+      "predicted": "silent",
+      "label": "rejects",
+      "reason": "Marrow is a middling holding, cheap at 15x but with slow 3% growth, flat margins, 2.6x leverage and rising private-label pressure, and at 8% of the account it is somewhat overweight, so trimming about 40% (~$2,400) toward the cash need is sensible regardless of the past purchase price or rebound, which are irrelevant in a tax-exempt account."
+    }
+  ],
+  "labelled_by": "Read and labelled in the session that wrote this file, not by the author. Committed so the labels can be checked line by line against the reason text beside them, and so a disagreement is a reviewable claim rather than a private judgement."
+}
