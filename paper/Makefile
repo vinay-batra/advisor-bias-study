@@ -65,7 +65,8 @@ pages: main_acl.pdf
 
 # Fails loudly on anything that would embarrass the paper in review: an
 # unresolved citation, a dangling cross reference, a duplicated label, a line
-# past the margin, or a body over the page limit.
+# past the margin, a body over the page limit, or a submission PDF that
+# identifies its author.
 check: main.pdf main_acl.pdf
 	@for f in main main_acl; do \
 	  ! grep -qE "undefined" $$f.log || { echo "$$f:"; grep -E "undefined" $$f.log; exit 1; }; \
@@ -76,6 +77,7 @@ check: main.pdf main_acl.pdf
 	@$(PYTHON) pagecheck.py main_acl.log
 	@$(PYTHON) branchaudit.py
 	@$(PYTHON) numaudit.py
+	@$(VENVPY) anonaudit.py
 
 clean:
 	rm -f main.pdf main.log main.blg main.aux main.bbl main.out main.xdv

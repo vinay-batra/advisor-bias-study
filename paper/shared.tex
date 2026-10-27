@@ -19,11 +19,19 @@
 % document class, geometry and bibliography style; everything below is the
 % same paper, so it lives here rather than in two places that can drift.
 
-% The one place the repository URL is set. There is no remote yet, so this
-% is deliberately a visible placeholder rather than a plausible-looking URL:
-% a reproducibility claim that points at nothing is worse than no claim.
-% Set it here before submission and it updates everywhere.
-\newcommand{\repourl}{[repository URL to be added]}
+% The one place the repository URL is set. There is no remote yet, so both
+% values are deliberately visible placeholders rather than plausible-looking
+% URLs: a reproducibility claim that points at nothing is worse than no
+% claim. They differ by build on purpose. A repository on a personal account
+% identifies the author as surely as a byline, and [review] does not touch
+% the body, so the submission needs an anonymising mirror
+% (anonymous.4open.science, or the venue's own supplementary upload) while the
+% reading copy can carry the real one. anonaudit.py fails the build if a code
+% host reaches the submission PDF, which is the one way this goes wrong at
+% four in the morning.
+\newcommand{\repourl}{\ifsubmission%
+[anonymised archive URL to be added]\else%
+[repository URL to be added]\fi}
 
 % Long schema field names set in \texttt do not hyphenate, so a single one
 % can push a line past the margin. \us allows a break after an underscore
