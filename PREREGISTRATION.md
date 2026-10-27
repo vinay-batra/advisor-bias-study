@@ -412,3 +412,70 @@ effort levels inside the budget, and the trials within a pair reduce response
 noise without adding resolution to the paired test. Fewer families with more
 pairs each would have produced a test capable of supporting the significance
 claims the analysis plan anticipated.
+
+### Amendment 4, 2026-10-27 UTC, after the confirmatory results were read
+
+**The reason text analysis is exploratory and was not registered.** It is
+reported in the paper as `What the advisor says about the cue` and produced by
+`analysis/reasons.py`. Nothing in the registered plan mentions the
+`one_sentence_reason` field as an outcome, no prediction was recorded for it,
+and the idea came from reading the confirmatory results. It is labelled
+exploratory wherever it appears and it carries no confirmatory weight.
+
+Two properties of it should be read before the numbers are.
+
+The measure is a hand validated regex classifier, not a model or a human
+coder. Its error profile is stated rather than assumed: four rounds of hand
+labels, 229 reasons, drawn under separate seeds and disjoint from each other,
+and the labels are committed in `data/reason_labels*.json` with the reason
+text beside them so any one of them can be disputed. Precision on rejections
+is 138 of 138. Recall is 0.667 in the final sample and 0.857 reweighted to the
+corpus, so every rejection rate reported is a floor. Only the fourth round is
+validation: reading each of the two middle rounds exposed a defect in the
+patterns, and repairing a round against its own labels spends it.
+
+The effect of effort on rejection is identified, because effort is set through
+the API before the model sees the item, and it is the same exogenous contrast
+the registered design rests on. The association between rejection and the
+measured bias is not identified, and it is reported as an association. The
+reason and the recommendation are produced in one forward pass, so neither is
+prior to the other, which is the objection this paper raises to reading
+`bini2026behavioral`'s self reported reasoning indicator as a treatment. It
+applies here with equal force and the paper says so in both places.
+
+### Amendment 5, 2026-10-27 UTC, after the confirmatory results were read
+
+**A second wave of 9,720 responses was collected, and was decided on after
+seeing wave 1.** This is a deviation of the kind that most needs declaring,
+so the reasoning is recorded in full.
+
+The reason is power, and specifically the property recorded as discovered
+item 5 above: at twelve matched pairs per family the sign flipping test cannot
+reach 0.05 in most cells, because its resolution comes from the pairs that
+moved. Wave 2 adds twelve further pairs per family at the same nine families,
+three models and three effort levels, built by `battery/build.py --wave 2`
+with per family seeds derived from the wave number, so the new items are
+drawn from the same generator and the same distribution rather than being
+hand picked. Pooled at twenty four pairs the permutation floor halves in
+exponent, which is what makes a Holm cleared claim reachable at all.
+
+Three things follow from the fact that wave 1 was read first.
+
+Wave 1 results are reported unchanged. The numbers in the paper that come from
+wave 1 are the numbers wave 1 gave, and nothing in them is revised, dropped or
+re-estimated in the light of wave 2.
+
+Wave 2 is reported three ways: wave 1 alone, wave 2 alone, and pooled. Wave 2
+alone is an out of sample replication on items no analysis had seen, which is
+the stronger reading and the one a reader should weigh. The pooled analysis is
+the powered one. Where they disagree the disagreement is the finding and the
+paper states it as such; a replication that fails is the most informative
+result this extension could produce and it will not be buried in a pooled
+average.
+
+The analysis code is unchanged. Wave 2 runs through the same
+`analysis/analyze.py` with the same registered rule, the same bootstrap seed
+and the same matched pair definition. Running it on wave 1 alone must
+reproduce the committed outputs exactly, and that reproduction is the
+regression test that the wave machinery did not quietly alter the registered
+analysis.
