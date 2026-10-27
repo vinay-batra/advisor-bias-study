@@ -877,7 +877,7 @@ failure of coherence rather than of bias whose fix was more effort.
 \input{sec_discnotes}
 \fi
 
-\ifsubmission\else\input{sec_limitations}\fi
+\ifsubmission\else\input{sec_limitations}\input{sec_ethics}\fi
 
 \paragraph{What this does not settle.} Everything here is one vendor's
 models, and the compression mechanism is the claim likeliest to be specific
@@ -900,10 +900,13 @@ in Appendix~\ref{app:repro}.
 % still pending and stops moving when the body shrinks.
 \par\penalty0
 \makeatletter\message{^^JBODYFILL page=\thepage\space col=\if@firstcolumn 1\else 2\fi\space used=\the\pagetotal\space of=\the\pagegoal^^J}\makeatother
+% ACL puts Limitations and the ethics statement after the body and before
+% the references. Both sit after \label{xbodyend}, so neither counts
+% against the page limit.
+\ifsubmission\input{sec_limitations}\input{sec_ethics}\fi
+
 \ifsubmission\else\bibliographystyle{plainnat}\fi
 \bibliography{refs}
-
-\ifsubmission\input{sec_limitations}\fi
 
 \appendix
 

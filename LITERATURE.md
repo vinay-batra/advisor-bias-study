@@ -173,6 +173,12 @@ medium does not contradict. The full effort profile gets reported either way.
   imbalanced argument scenarios. Finds preferences for technology, large-cap
   and contrarian positions, escalating into confirmation bias. Measures
   preference over assets, not normative invariance, and has no owned position.
+  This entry was once duplicated in `refs.bib` as `lee2025aiview`, which
+  asserted a sixth ICAIF and a venue DOI the record does not support. The
+  duplicate is gone and the surviving entry claims no volume, ordinal or page
+  range, because the arXiv page carries an acceptance line but no venue DOI.
+  Recorded here rather than in the entry's own note, which renders in the
+  paper, where a reader can do nothing with it.
 - CogBias, Huang et al., arXiv 2604.01366. Four bias families, steering and
   mitigation, three models. No finance domain, no effort manipulation.
 - Weerasekara et al., arXiv 2608.05166. Nine biases by eight frontier models
