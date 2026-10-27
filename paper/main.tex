@@ -47,7 +47,10 @@ four-point scale and $+13.4$ $[+8.8, +18.1]$ percentage points of the
 position, where the pre-registered prediction was negative. Reasoning effort
 reduces the absolute effect in all ten model-family cases that qualified for
 the pre-registered test, and it does so by compressing the spread of bias
-magnitudes rather than lowering their mean. Within a fixed effort level,
+magnitudes rather than lowering their mean: strongly and robustly in the
+weakest model, where no shuffle of the effort labels in 2{,}000 reproduces
+the observed compression, and inseparably from sampling error in the
+strongest. Within a fixed effort level,
 however, longer answers carry more bias, not less, so the budget an
 experimenter sets and the deliberation a model displays are not the same
 variable. We also report that \texttt{temperature} is unavailable on these
@@ -674,7 +677,9 @@ they did. What falls with effort is the spread of the family effects, not
 their mean. On the continuous measure the standard deviation of the nine
 family effects falls from 12.91 to 2.91 in Haiku, from 5.06 to 1.56 in
 Sonnet, and from 3.82 to 2.41 in Opus; on the categorical measure from 0.22
-to 0.05, from 0.10 to 0.03, and from 0.08 to 0.04. All six fall.
+to 0.05, from 0.10 to 0.03, and from 0.08 to 0.04. All six fall, although
+Section~\ref{sec:rtm} shows that the count alone is weaker evidence than it
+appears and the magnitudes are stronger.
 Bootstrapped over pairs, the fall excludes zero in four of the six: Haiku on
 both measures, $-0.160$ $[-0.231, -0.033]$ and $-10.002$ $[-14.210, -3.314]$,
 Opus on the categorical measure, $-0.047$ $[-0.133, -0.008]$, and Sonnet on
@@ -688,6 +693,75 @@ falls only from 0.72 to 0.25.
   \caption{Absolute effect against reasoning effort.}
   \label{fig:effort}
 \end{figure}
+
+\subsection{Is the compression regression to the mean?}
+\label{sec:rtm}
+A falling spread has an innocent explanation that would account for the whole
+result. Each family effect is estimated from twelve pairs with five trials an
+arm, so each carries sampling error; sampling error inflates the spread of
+the estimates above the spread of the truth, and it inflates an absolute
+value most where the true effect is near zero. If that error were larger at
+\texttt{low} effort than at \texttt{high}, the spread would fall with effort
+even if nothing about the model's bias had changed. The analysis in
+\texttt{analysis/robustness.py} tests this three ways. None of it is
+pre-registered.
+
+\paragraph{Removing the measurement error.} The variance of the nine
+estimates is the variance of the truth plus the mean sampling variance of an
+estimate, so the second can be subtracted. Two floors bracket the answer.
+The narrow floor counts only the trial resampling variance of each pair's own
+difference, which is unambiguously measurement error; subtracting it leaves
+the spread almost unchanged and the fall survives in all six combinations,
+for instance Haiku's continuous spread at \texttt{low} moving from 12.91 to
+12.54 and its categorical spread from 0.215 to 0.206. The wide floor instead
+counts the whole standard error of the family mean across its twelve pairs,
+which also removes the genuine item to item variation within a family; it is
+too harsh, because a cue whose effect differs across items is a fact about
+the model rather than a measurement fault. Under that floor the fall survives
+in three of six: Haiku on both measures and Sonnet on the continuous measure.
+The other three cells have no between-family spread left to compress at any
+effort level, which is itself worth stating plainly. In Opus and in Sonnet on
+the categorical measure the nine families are indistinguishable from one
+another once item variation is charged against the estimate, so for those
+cells the design can establish that the raw spread falls but not that a real
+between-family spread existed to begin with.
+
+\paragraph{The noise runs against the finding in two models.} The trial-level
+noise floor is not constant across effort, and its direction matters. In
+Haiku it rises from 0.062 to 0.073 on the categorical measure and from 3.10
+to 3.53 on the continuous one, and in Sonnet from 0.023 to 0.056, so in those
+models the \texttt{high} effort estimate is the noisier one. Noise inflates a
+spread, so this biases the comparison against the result, and the spread
+falls anyway. In Opus the floor falls with effort, from 0.039 to 0.024 and
+from 1.49 to 1.16, which is the direction that would help the result; Opus is
+therefore the model whose compression rests most on the correction, and it is
+also the one where the wide floor leaves nothing.
+
+\paragraph{A placebo.} Shuffling the effort label among the responses to the
+same item within a model destroys any real effect of effort and leaves
+everything else intact. Over 2{,}000 shuffles the spread falls in all six
+combinations 6.25\% of the time, so the \textit{count} of six out of six is
+not on its own strong evidence and should not be reported as though it were.
+The magnitudes are a different matter. Every one of the six observed changes
+is more negative than almost every shuffle: $p < 0.0005$ for Haiku on both
+measures, where no shuffle in 2{,}000 reached the observed change, $p =
+0.0065$ and $p = 0.0010$ for Sonnet, and $p = 0.0080$ and $p = 0.0100$ for
+Opus. The reason the count is weak while each magnitude is strong is that the
+six cells are positively correlated under the placebo, so a shuffle that
+makes one fall tends to make several fall.
+
+\paragraph{Leaving a family out.} Dropping each family in turn and recounting
+leaves six of six intact in eight of the nine cases and five of six when
+framing is dropped, so the result is not carried by any single cue.
+
+Taken together: the compression is real in Haiku, where it is large and
+survives every correction; real in Sonnet on the continuous measure; and in
+Opus and Sonnet's categorical measure it is a fall in a spread that was never
+established to exceed measurement error. The claim in the title of this
+section is answered no for Haiku and not fully excluded for Opus. The paper
+states the mechanism as a finding about the weakest model and a conjecture
+about the others, and the remedy is more items per family rather than more
+trials per item, since the limiting quantity is the twelve pairs.
 
 \subsection{The continuous measure}
 Amendment 3 added the continuous measure because the categorical scale was at
@@ -825,12 +899,19 @@ clearly generates rather than as something we have measured.
 \paragraph{Reasoning effort reduces bias where there is bias to reduce, and
 it works by compression.} H10 holds in all ten families that qualified for
 it, on both measures. But the mechanism is narrower than the hypothesis
-implies. What effort reliably reduces is the spread of bias magnitudes across
+implies. What effort reduces is the spread of bias magnitudes across
 families, not their mean: the largest effects collapse, the small ones do not
 move or drift slightly upward, and the nine families converge on a common
 small magnitude. Haiku's largest family effect falls from 44.17 to 10.42
 while its smallest falls from 0.72 to 0.25, and its pooled slope is
-indistinguishable from zero because those two movements cancel.
+indistinguishable from zero because those two movements cancel. The strength
+of this claim is uneven across models, and
+Section~\ref{sec:rtm} is where that is set out: in Haiku the compression is
+large and survives both a correction for sampling error and a placebo in
+which no shuffle of the effort labels reached it, while in Opus the nine
+families are not separable from one another once item to item variation is
+charged against the estimate, so there the falling spread is consistent with
+compression without establishing it.
 
 Read as a claim about deployment, this is better news than a null and worse
 news than it first appears. Raising the effort budget is a real intervention
@@ -923,7 +1004,12 @@ these numbers are tied to the model IDs and run dates in Section~3.4, not to
 the model families in general. The human baselines come from field studies of
 brokerage accounts, a different instrument from this battery, so the
 comparison is indicative rather than like for like. The brand salience and
-price path families are exploratory. Nothing here is investment advice and
+price path families are exploratory. Twelve pairs per family is the binding
+resolution limit of the design: it is what puts study-wide Holm correction out
+of arithmetic reach (Section~\ref{sec:results}) and what leaves the
+between-family spread in two of six cells indistinguishable from sampling
+error (Section~\ref{sec:rtm}). An extension should add items per family
+rather than trials per item. Nothing here is investment advice and
 the author is not a licensed adviser.
 
 \section{Conclusion}
@@ -936,7 +1022,11 @@ pre-registered prediction was negative; reasoning effort reduces the absolute
 effect in all ten families that qualified for the registered test; and it
 does so by compressing the spread of bias magnitudes rather than lowering
 their mean, so the worst-behaved cue improves most and the well-behaved ones
-barely move. The within-cell association between generated length and bias is
+barely move. That mechanism is established in the weakest model, where it is
+large and survives both a correction for sampling error and a label-shuffling
+placebo, and left as a conjecture in the strongest, where the nine families
+are not separable from one another once item to item variation is charged
+against the estimate. The within-cell association between generated length and bias is
 positive while the between-cell association with the effort budget is
 negative, which means a design that infers deliberation from the model's own
 output is not measuring the quantity an experimenter can set. The obvious

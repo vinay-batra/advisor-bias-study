@@ -1,0 +1,102 @@
+  5 duplicate custom_ids resolved, usable row preferred
+9,720 usable responses
+
+==============================================================================
+1. Noise corrected spread of the nine family effects.
+   raw sd, the sampling noise floor under it, and the sd that
+   remains once the floor is removed.
+==============================================================================
+
+  cat
+    opus       low     raw   0.083  trial floor   0.039 ->   0.073  harsh floor   0.111 ->   0.000
+    opus       medium  raw   0.039  trial floor   0.024 ->   0.031  harsh floor   0.040 ->   0.000
+    opus       high    raw   0.036  trial floor   0.024 ->   0.027  harsh floor   0.041 ->   0.000
+    opus       low to high: raw falls, trial corrected falls, harsh corrected does not fall
+
+    sonnet     low     raw   0.105  trial floor   0.023 ->   0.102  harsh floor   0.107 ->   0.000
+    sonnet     medium  raw   0.132  trial floor   0.023 ->   0.130  harsh floor   0.110 ->   0.074
+    sonnet     high    raw   0.035  trial floor   0.056 ->   0.000  harsh floor   0.074 ->   0.000
+    sonnet     low to high: raw falls, trial corrected falls, harsh corrected does not fall
+
+    haiku      low     raw   0.215  trial floor   0.062 ->   0.206  harsh floor   0.105 ->   0.188
+    haiku      medium  raw   0.045  trial floor   0.073 ->   0.000  harsh floor   0.083 ->   0.000
+    haiku      high    raw   0.055  trial floor   0.073 ->   0.000  harsh floor   0.094 ->   0.000
+    haiku      low to high: raw falls, trial corrected falls, harsh corrected falls
+
+
+  pct
+    opus       low     raw   3.825  trial floor   1.486 ->   3.524  harsh floor   4.525 ->   0.000
+    opus       medium  raw   2.451  trial floor   1.247 ->   2.110  harsh floor   2.270 ->   0.925
+    opus       high    raw   2.405  trial floor   1.156 ->   2.110  harsh floor   2.055 ->   1.251
+    opus       low to high: raw falls, trial corrected falls, harsh corrected does not fall
+
+    sonnet     low     raw   5.059  trial floor   1.062 ->   4.947  harsh floor   5.054 ->   0.225
+    sonnet     medium  raw   6.581  trial floor   1.084 ->   6.491  harsh floor   5.302 ->   3.899
+    sonnet     high    raw   1.561  trial floor   2.029 ->   0.000  harsh floor   3.065 ->   0.000
+    sonnet     low to high: raw falls, trial corrected falls, harsh corrected falls
+
+    haiku      low     raw  12.913  trial floor   3.103 ->  12.535  harsh floor   5.259 ->  11.793
+    haiku      medium  raw   2.719  trial floor   3.459 ->   0.000  harsh floor   4.095 ->   0.000
+    haiku      high    raw   2.911  trial floor   3.529 ->   0.000  harsh floor   4.627 ->   0.000
+    haiku      low to high: raw falls, trial corrected falls, harsh corrected falls
+
+  spread falls low to high in 6/6 raw, 6/6 after removing trial noise only,
+  3/6 after also removing item to item variation within a family.
+
+==============================================================================
+2. Permutation placebo. The effort label is shuffled among the
+   responses to the same item within a model, which destroys any
+   real effect of effort and keeps everything else. How often
+   does the spread then fall in all six combinations?
+==============================================================================
+
+  observed: spread falls in 6/6
+    cat  haiku      change  -0.1603
+    cat  opus       change  -0.0466
+    cat  sonnet     change  -0.0701
+    pct  haiku      change -10.0018
+    pct  opus       change  -1.4196
+    pct  sonnet     change  -3.4986
+
+  under the placebo, 2,000 shuffles:
+    spread fell in 0/6:   124 ( 6.20%)
+    spread fell in 1/6:   209 (10.45%)
+    spread fell in 2/6:   446 (22.30%)
+    spread fell in 3/6:   417 (20.85%)
+    spread fell in 4/6:   469 (23.45%)
+    spread fell in 5/6:   210 (10.50%)
+    spread fell in 6/6:   125 ( 6.25%)
+
+  p(all six fall by chance) = 0.0625 (125/2000)
+
+  per cell, p(placebo change this negative or more):
+    cat  haiku      p < 0.0005  (0/2000 shuffles at least this negative)
+    cat  opus       p = 0.0080  (16/2000 shuffles at least this negative)
+    cat  sonnet     p = 0.0065  (13/2000 shuffles at least this negative)
+    pct  haiku      p < 0.0005  (0/2000 shuffles at least this negative)
+    pct  opus       p = 0.0100  (20/2000 shuffles at least this negative)
+    pct  sonnet     p = 0.0010  (2/2000 shuffles at least this negative)
+
+==============================================================================
+3. Leave one family out. Drop each family and recount how many
+   of the six combinations still show a falling spread.
+==============================================================================
+    all nine                     6/6
+    without disposition          6/6
+    without framing              5/6
+    without anchoring            6/6
+    without home_bias            6/6
+    without action_bias          6/6
+    without mental_accounting    6/6
+    without advisor_attribution  6/6
+    without price_path           6/6
+    without brand_salience       6/6
+
+==============================================================================
+Read this as follows. The compression claim survives only if the
+corrected spread still falls, the placebo p is small, and the
+count does not collapse when one family is dropped. If the
+corrected spread does not fall, the honest conclusion is that
+the design cannot separate compression from regression to the
+mean, and the claim has to be stated as a conjecture.
+==============================================================================
