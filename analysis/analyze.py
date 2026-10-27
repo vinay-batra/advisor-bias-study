@@ -157,8 +157,16 @@ def entropy(counts):
     return h
 
 
-def load_rows():
+def load_rows(waves=None):
     """Rows on disk, one per custom_id.
+
+    waves selects which collected waves to read, as a sequence of wave
+    numbers keyed into config.WAVES. The default reads the wave 1 file
+    directly rather than going through that table, so the no argument call
+    every other module makes is the call that produced the committed
+    outputs, byte for byte. A pooled read concatenates the files and lets
+    the deduplication below run across both; custom_ids cannot collide
+    between waves because each wave carries its own id_offset.
 
     Responses can reach the file by two routes, the batch collector and the
     live fallback runner, and a cancelled batch can deposit a placeholder row
@@ -170,9 +178,11 @@ def load_rows():
     The count is printed, because a duplicate is worth knowing about even when
     it is harmless.
     """
+    paths = ([config.RESPONSES_PATH] if waves is None
+             else [config.WAVES[w]["responses"] for w in waves])
     best, loose, dupes = {}, [], 0
-    with open(config.RESPONSES_PATH) as f:
-        for line in f:
+    for path in paths:
+        for line in open(path):
             r = json.loads(line)
             cid = r.get("custom_id")
             if cid is None:
@@ -226,8 +236,11 @@ def print_gradient(results, measure):
             print(f"    {bias:20s} {shown}   -> {arrow} ({delta:+.2f})")
 
 
-def main():
-    rows = load_rows()
+def main(waves=None, results_path="data/results.json"):
+    rows = load_rows(waves)
+    if waves is not None:
+        print(f"waves {', '.join(str(w) for w in waves)}, "
+              f"writing {results_path}")
     ok = [r for r in rows if r.get("status") == "ok"]
     print(f"{len(rows):,} responses on disk, {len(ok):,} usable "
           f"({100 * len(ok) / max(len(rows), 1):.1f}%)")
@@ -357,7 +370,7 @@ def main():
             g["n_family"] = len(group)
             g["significant_holm"] = a < 0.05
 
-    with open("data/results.json", "w") as f:
+    with open(results_path, "w") as f:
         json.dump(dict(results=results, rationale=RATIONALE), f, indent=2)
 
     for mname in MEASURES:
@@ -398,8 +411,18 @@ def main():
     for mname in MEASURES:
         print_gradient(results, mname)
 
-    print(f"\nwrote data/results.json")
+    print(f"\nwrote {results_path}")
 
 
 if __name__ == "__main__":
-    main()
+    # No argument is the registered run: wave 1 only, into data/results.json.
+    # --waves names the waves to read, and the output path follows from it so
+    # a pooled run cannot overwrite the registered results by accident.
+    argv = sys.argv[1:]
+    sel, out = None, "data/results.json"
+    if argv and argv[0] == "--waves":
+        sel = tuple(int(x) for x in argv[1].split(","))
+        out = ("data/results.json" if sel == (1,)
+               else f"data/results_{'_'.join(str(w) for w in sel)}.json"
+               if len(sel) > 1 else f"data/results_wave{sel[0]}.json")
+    main(sel, out)
