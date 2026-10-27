@@ -63,12 +63,11 @@ indicator is the model's own characterisation of its reasoning, emitted in
 the same response as the answer it describes, so a model that answers well
 and then calls its own reasoning analytical produces the association with no
 causal path from deliberation to accuracy. A budget set before the model sees
-the item is independent of what it goes on to say.
-
-That distinction can be measured here rather than argued, because the data
-holds both variables: the budget the experimenter set and the tokens the
-model chose to spend. Section~\ref{sec:mediator} substitutes the second for
-the first on the same responses and the answer changes sign.
+the item is independent of what it goes on to say, and the distinction can be
+measured here rather than argued, because the data holds both variables.
+Section~\ref{sec:mediator} substitutes the tokens the model chose for the
+budget the experimenter set, on the same responses, and the answer changes
+sign.
 \else
 The identification problem in prior work is worth stating precisely.
 \citet{bini2026behavioral} report that an indicator for self-reported
@@ -131,8 +130,8 @@ loss aversion \citep{benartzi1995myopic} and home bias
 \citep{french1991homebias}. \citet{barber2000hazardous} supply the reason to
 measure them in an advisor at all: they cost realised returns.
 Appendix~\ref{app:humaninvestors} maps each finding to the family built from
-it and supplies the human baselines of Appendix~\ref{app:humanbaselines}, a
-comparison that is indicative rather than like for like.
+it, and the human baselines of Appendix~\ref{app:humanbaselines} are
+indicative rather than like for like.
 \else
 \input{sec_humaninvestors}
 \fi
@@ -149,7 +148,7 @@ audits set the state of the art: thirty biases across twenty models
 across twelve models \citep{bini2026behavioral}, and eight behavioural
 parameters over 24{,}000 agent-scenario pairs \citep{yee2026calibrating}.
 Closest to this setting, \citet{lee2025yourai} measure sector, size and
-momentum preferences and show them escalating into confirmation bias.
+momentum preferences escalating into confirmation bias.
 \else
 That language models exhibit behavioural biases is established, and this
 paper does not re-establish it. Models have been used as experimental
@@ -179,9 +178,8 @@ accounting, advisor attribution, price path or brand salience.
 \citet{malberg2025comprehensive} do test the disposition effect, as a
 relative preference between two owned assets on a 7-point scale. In neither
 is a cost basis attached to a single position, and in neither is the model
-asked for a recommendation. That decision, whether to sell a position whose
-purchase price is stated, is the one the human field studies score, and it is
-absent from the model-side literature.
+asked for a recommendation. That decision is the one the human field studies
+score, and it is absent from the model-side literature.
 \else
 What none of these do is ask a model whether to act on a position it already
 holds. The sixteen questions of \citet{bini2026behavioral} are abstract
@@ -207,10 +205,10 @@ and the papers on each side are not testing the same thing.
 \citet{takenami2025anchoring} find reasoning models less prone to anchoring
 than non-reasoning models in price negotiations, and attribute it to longer
 chains of thought. \citet{kim2025biasmedqa} find that reasoning does not
-reliably protect against bias in clinical vignettes and that in one model it
+reliably protect against bias in clinical vignettes and in one model
 increased vulnerability. The first compares different models rather than
-varying deliberation inside one, so model capability and reasoning length
-are confounded.
+varying deliberation inside one, so capability and reasoning length are
+confounded.
 \else
 On one side, \citet{takenami2025anchoring} find reasoning models less prone
 to anchoring than non-reasoning models in price negotiations, and attribute
@@ -233,12 +231,10 @@ Section~\ref{sec:intro} enters. Their one exogenous lever, role priming,
 moves that same indicator by 11.4 percentage points, so the large number
 belongs to the correlational mediator rather than to anything the
 experimenter set. Their treatments are prompt level throughout, and their own
-summary is that debiasing remains a challenging task;
-Appendix~\ref{app:deliberation} gives those results in full.
-
-The budget removes that problem: the treatment is assigned rather than
-reported, graded rather than binary, and invisible to the model's own account
-of itself.
+summary is that debiasing remains a challenging task
+(Appendix~\ref{app:deliberation}). The budget removes the problem: the
+treatment is assigned rather than reported, graded rather than binary, and
+invisible to the model's own account of itself.
 \else
 \citet{bini2026behavioral} come closest to an answer and are the paper this
 design is built against. Their mediation analysis reports that an indicator
@@ -270,8 +266,8 @@ the null. Their outcome is the alignment between generation length and human
 reaction times, not whether a decision changes, so it is pre-registered here
 as the competing hypothesis H10-null rather than treated as contradicted.
 \citet{piya2026overthinking} report instead that accuracy falls at medium
-effort, a reason to report the full profile and not only \texttt{low}
-against \texttt{high}.
+effort, a reason to report the full profile rather than \texttt{low} against
+\texttt{high} alone.
 \else
 Two papers manipulate the effort setting itself, and neither measures a
 financial decision. \citet{hu2026effort} run three effort levels on
@@ -538,11 +534,10 @@ hypothesis turns on.
 \ifsubmission
 One cell is an exception several later results depend on. Sonnet's
 \texttt{medium} cell is not a distinct treatment level: it generates 163.4
-mean output tokens against 160.1 at \texttt{low}, a standardised difference
-of $d = 0.06$ where every other adjacent contrast in every model is near or
-above $d = 1$, and its within-item entropy and share of variance agree. On
-three independent measures it is a second copy of its \texttt{low} cell
-(\movedref{app:sonnetmedium}).
+mean output tokens against 160.1 at \texttt{low}, $d = 0.06$ where every
+other adjacent contrast in every model is near or above $d = 1$, and entropy
+and variance share agree. On three measures it is a second copy of its
+\texttt{low} cell (\movedref{app:sonnetmedium}).
 \else
 \input{sec_sonnetmedium}
 \fi
@@ -599,11 +594,10 @@ effort rises (\movedref{app:disposition}).
 \ifsubmission
 The sign is also reversed against the human field estimates. Investors in
 brokerage data realise their winners about half again as often as their
-losers \citep{odean1998losses}; these models do the opposite. The comparison
-is indicative rather than like for like, since a field study of accounts and
-a prompt battery are different instruments;
-Appendix~\ref{app:humanbaselines} sets out each family's human anchor and
-what it can support.
+losers \citep{odean1998losses}; these models do the opposite. A field study
+of accounts and a prompt battery are different instruments, so the comparison
+is indicative; Appendix~\ref{app:humanbaselines} sets out each family's human
+anchor and what it can support.
 \else
 \input{sec_humanbaselines}
 \fi
@@ -735,18 +729,29 @@ A falling spread has an innocent explanation that would account for the whole
 result: sampling error inflates a spread, and inflates an absolute value most
 near zero, so if the error were larger at \texttt{low} than at \texttt{high}
 the spread would fall with no change in the model's bias.
-Appendix~\ref{app:rtm} tests that three ways. Subtracting the trial level
-sampling variance, the part unambiguously measurement error, leaves the fall
-intact in all six combinations, and trial noise rises with effort in Haiku
-and Sonnet, so there the comparison is biased against the result and the
-spread falls anyway. No shuffle of the effort labels in 2{,}000 reproduces
-Haiku's compression on either measure, $p < 0.0005$, and the pattern survives
-dropping any one family. Under a harsher floor that charges item to item
-variation to error the fall survives in three of six. We therefore state the
-mechanism as a finding about the weakest model and a conjecture about the
-strongest; the remedy is more items per family, not more trials per item.
+Appendix~\ref{app:rtm} tests that three ways within wave 1. Subtracting the
+trial level sampling variance, the part unambiguously measurement error,
+leaves the fall intact in all six combinations, and no shuffle of the effort
+labels in 2{,}000 reproduces Haiku's compression on either measure,
+$p < 0.0005$. Under a harsher floor that charges item to item variation to
+error the fall survives in three of six. We therefore state the mechanism as
+a finding about the weakest model and a conjecture about the strongest. None
+of those tests can estimate the error from anything but the pairs carrying
+the effect; the remedy they point to is more items per family.
 \else
 \input{sec_rtm}
+\fi
+
+\ifsubmission
+That remedy was taken. A replication wave of
+9{,}720 responses, twelve further pairs per family on Haiku and Sonnet,
+reproduces the pattern, per cell effects correlating $+0.467$ and $+0.484$
+over 54 cells at $p$ below 0.001. The magnitudes attenuate, and the cause is
+measurable out of sample: none of the shrinkage is design wide, and all of it
+sits in the largest cells, where the top quartile loses half its magnitude
+and the other three do not move (Appendix~\ref{app:replication}).
+\else
+\input{sec_replication}
 \fi
 
 \subsection{The continuous measure}
@@ -993,6 +998,9 @@ in Appendix~\ref{app:repro}.
 
 \section{Is the compression regression to the mean?}
 \input{sec_rtm}
+
+\section{Does any of this replicate?}
+\input{sec_replication}
 
 \section{Response variability}
 \input{sec_variability}

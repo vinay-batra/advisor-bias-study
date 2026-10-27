@@ -4,9 +4,9 @@
 wave 1: 9,720 responses, 9,720 usable
 wave 2: 9,720 responses, 8,389 usable, 1,331 errored
   wave 2: 54 cells excluded under Amendment 6, fewer than 12 complete pairs
-    opus-5-5       high    18 cells, 2 to 7 pairs
-    opus-5-5       low     18 cells, 2 to 7 pairs
-    opus-5-5       medium  18 cells, 2 to 7 pairs
+    opus-5-5       high    18 cells, 2 to 7 pairs, 37 of 108 pairs held both conditions
+    opus-5-5       low     18 cells, 2 to 7 pairs, 37 of 108 pairs held both conditions
+    opus-5-5       medium  18 cells, 2 to 7 pairs, 37 of 108 pairs held both conditions
 
   wave 2 covers 6 of 9 model by effort cells. Not covered: opus-5-5/high, opus-5-5/low, opus-5-5/medium
   every comparison below is restricted to the cells both waves cover, so it is a comparison between item sets rather than between models. The models a wave does not cover are absent from it, not estimated from part of it.
@@ -52,6 +52,14 @@ Agreement between the waves
     heterogeneity         2/54 cells differ between waves by more than the pairs explain (3.7%, near 5% under a true replication)
     wave 1 significant    9 cells, of which 8 keep the sign in wave 2 and 1 are significant again
       the second figure is bounded by wave 2's own power, which is wave 1's: twelve pairs, the same floor. The sign is what a wave this size can replicate.
+
+==============================================================================
+What the study consumed
+==============================================================================
+  wave 1   9,720 requests   input    7,491,870   output   3,600,895   (5 retried)
+  wave 2   9,720 requests   input    6,469,128   output   3,153,718   (0 retried)
+  total  19,440 requests   input   13,960,998   output   6,754,613
+  as the ethics statement quotes them: 14.0 million input tokens and 6.8 million output tokens
 
 ==============================================================================
 Is the difference between the waves regression to the mean?

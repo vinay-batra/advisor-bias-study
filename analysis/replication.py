@@ -137,9 +137,16 @@ def report_dropped(dropped, pairs_expected, label):
         by_cell[(model, effort)].append(n)
     print(f"  {label}: {len(dropped)} cells excluded under Amendment 6, "
           f"fewer than {pairs_expected} complete pairs")
+    n_families = len(DIRECTIONS)
     for (model, effort), ns in sorted(by_cell.items()):
+        # The pair total is what the exclusion rests on, so it is printed
+        # rather than left to be summed from the range. Both measures drop
+        # the same cells, so the per measure total is half the list.
+        held = sum(ns) // len(MEASURES)
         print(f"    {model.replace('claude-', ''):<14} {effort:<7} "
-              f"{len(ns):>2} cells, {min(ns)} to {max(ns)} pairs")
+              f"{len(ns):>2} cells, {min(ns)} to {max(ns)} pairs, "
+              f"{held} of {pairs_expected * n_families} pairs held both "
+              f"conditions")
 
 
 def cell_rows(diffs, label):
@@ -204,6 +211,42 @@ def diff_ci(a, b, n=N_BOOT, alpha=0.05):
             for _ in range(n))
         k = max(0, min(n - 1, int(round(alpha / 2 * (n - 1)))))
         return draws[k], draws[n - 1 - k]
+
+
+def inference_cost(waves):
+    """What the whole study consumed, for the ethics statement.
+
+    The statement used to carry a dollar figure taken from a billing page,
+    which no script reproduced and which stopped being true when the second
+    wave ran. Tokens are in the released data, so they are reported instead
+    and a reader can price them at whatever the list rates are when they
+    read this.
+    """
+    print()
+    print("=" * 78)
+    print("What the study consumed")
+    print("=" * 78)
+    # Distinct custom_ids, not lines. Five requests were retried, so the
+    # file holds five more rows than the design has items; the paper counts
+    # items and the token totals count what was actually billed, which
+    # includes the retries.
+    n = tin = tout = 0
+    for w in sorted(waves):
+        rows = [json.loads(l) for l in open(config.WAVES[w]["responses"])]
+        ids = {r.get("custom_id") for r in rows if r.get("custom_id")}
+        i = sum(r["input_tokens"] for r in rows
+                if isinstance(r.get("input_tokens"), int))
+        o = sum(r["output_tokens"] for r in rows
+                if isinstance(r.get("output_tokens"), int))
+        print(f"  wave {w}  {len(ids):>6,} requests   "
+              f"input {i:>12,}   output {o:>11,}"
+              f"   ({len(rows) - len(ids)} retried)")
+        n += len(ids); tin += i; tout += o
+    print(f"  total  {n:>6,} requests   input {tin:>12,}   "
+          f"output {tout:>11,}")
+    print(f"  as the ethics statement quotes them: {tin / 1e6:.1f} million "
+          f"input tokens and {tout / 1e6:.1f} million output tokens")
+    return dict(requests=n, input_tokens=tin, output_tokens=tout)
 
 
 def regression_to_mean(agree):
@@ -509,6 +552,7 @@ def main():
             w1_significant_same_sign=directional,
             w1_significant_replicated=strict)
 
+    spent = inference_cost(config.WAVES)
     rtm = regression_to_mean(agree)
     spreads = compression(per_wave, shared)
 
@@ -624,7 +668,8 @@ def main():
                readings={str(k): v for k, v in readings.items()},
                agreement=agree, summary=summary, power=gain,
                disposition_aggregate=head,
-               regression_to_mean=rtm, compression=spreads)
+               regression_to_mean=rtm, compression=spreads,
+               consumed=spent)
     with open(OUT_JSON, "w") as f:
         json.dump(out, f, indent=2)
     print(f"\nwrote {OUT_JSON}")

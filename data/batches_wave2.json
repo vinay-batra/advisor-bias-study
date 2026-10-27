@@ -5,7 +5,8 @@
     "effort": "low",
     "trials": 5,
     "n_requests": 1080,
-    "wave": 2
+    "wave": 2,
+    "collected": true
   },
   "claude-opus-5-5|medium": {
     "batch_id": "msgbatch_01MbBxpEnqJnx73cWXdjwt6W",
@@ -13,7 +14,8 @@
     "effort": "medium",
     "trials": 5,
     "n_requests": 1080,
-    "wave": 2
+    "wave": 2,
+    "collected": true
   },
   "claude-opus-5-5|high": {
     "batch_id": "msgbatch_013GxCtQQLD8MDvjd3f8yX9C",
@@ -21,7 +23,8 @@
     "effort": "high",
     "trials": 5,
     "n_requests": 1080,
-    "wave": 2
+    "wave": 2,
+    "collected": true
   },
   "claude-sonnet-5-5|low": {
     "batch_id": "msgbatch_01JSL27kkLfqVgydrzs8Xcqm",

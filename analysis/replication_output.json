@@ -11313,5 +11313,10 @@
       "low_to_high": -0.03880467990311409,
       "falls": true
     }
-  ]
+  ],
+  "consumed": {
+    "requests": 19440,
+    "input_tokens": 13960998,
+    "output_tokens": 6754613
+  }
 }
