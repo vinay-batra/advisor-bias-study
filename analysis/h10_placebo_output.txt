@@ -1,0 +1,66 @@
+  5 duplicate custom_ids resolved, usable row preferred
+9,720 usable responses
+
+==============================================================================
+Observed, from data/results.json, the pre-registered output
+==============================================================================
+  pct_to_sell   haiku      disposition          low  +44.167 -> high   +8.500  smaller     confirmatory
+  pct_to_sell   haiku      home_bias            low  +11.617 -> high   +4.000  smaller     confirmatory
+  pct_to_sell   opus       anchoring            low   +7.833 -> high   +5.583  smaller     confirmatory
+  pct_to_sell   opus       framing              low  +15.167 -> high   +1.750  smaller     confirmatory
+  pct_to_sell   sonnet     disposition          low  +18.500 -> high   +4.167  smaller     confirmatory
+  sell_tendency haiku      disposition          low   +0.750 -> high   +0.167  smaller     confirmatory
+  sell_tendency haiku      price_path           low   -0.083 -> high   -0.100  NOT SMALLER exploratory
+  sell_tendency opus       anchoring            low   +0.233 -> high   +0.050  smaller     confirmatory
+  sell_tendency opus       brand_salience       low   -0.233 -> high   -0.067  smaller     exploratory
+  sell_tendency opus       framing              low   +0.300 -> high   +0.017  smaller     confirmatory
+  sell_tendency sonnet     disposition          low   +0.383 -> high   +0.117  smaller     confirmatory
+
+  confirmatory families only, which is the registered reading: 9 of 9 shrink
+  including the two exploratory families:          10 of 11 shrink
+  the case that fails: sell_tendency haiku price_path, -0.083 to -0.100
+
+  recomputed here with an independent bootstrap: 9 of 10 (see observed_from_registered)
+
+==============================================================================
+Placebo: 400 shuffles of the effort label among the
+responses to the same item within a model. The rule, the sample
+sizes and the item set are untouched; only the labels move.
+==============================================================================
+  confirmatory only: 100/400, running shrink rate 0.653
+  confirmatory only: 200/400, running shrink rate 0.657
+  confirmatory only: 300/400, running shrink rate 0.659
+  confirmatory only: 400/400, running shrink rate 0.654
+
+  all nine families: 100/400, running shrink rate 0.707
+  all nine families: 200/400, running shrink rate 0.700
+  all nine families: 300/400, running shrink rate 0.707
+  all nine families: 400/400, running shrink rate 0.706
+
+==============================================================================
+The null for H10
+==============================================================================
+
+  confirmatory only
+    qualifying cases per shuffle: mean 11.48, range 6 to 20
+    a single qualifying case shrinks with probability 0.6545
+    p(every qualifying case shrinks) = 0.0125
+    the coin flip null would say 0.0005 for 11 cases, which is wrong by 26x
+
+  all nine families
+    qualifying cases per shuffle: mean 13.76, range 7 to 22
+    a single qualifying case shrinks with probability 0.7059
+    p(every qualifying case shrinks) = 0.0200
+    the coin flip null would say 0.0001 for 14 cases, which is wrong by 328x
+
+==============================================================================
+What this does to the paper's claim
+==============================================================================
+  Selecting families on a non-zero effect at low effort and then
+  asking whether a second measurement is smaller shrinks on its
+  own: the cells that clear the filter are the ones whose noise
+  pointed away from zero. The null probability of a single case
+  shrinking is about 0.69, not 0.5, so 2^-n overstates the
+  evidence by more than an order of magnitude. The pattern is
+  still unlikely under the null, and that is what the paper
+  should claim, with this number rather than the coin flip.

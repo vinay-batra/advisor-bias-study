@@ -41,11 +41,16 @@ run/submit.py             submits one Batch API job per model x effort cell
 run/collect.py            polls, then joins results by custom_id
 analysis/directions.py    pre-registered condition order and predicted signs
 analysis/analyze.py       bootstrap CIs, permutation tests, effort trends
-analysis/figures.py       the three paper figures
+analysis/exploratory.py   seven questions the prereg does not cover
+analysis/robustness.py    is the compression regression to the mean?
+analysis/h10_placebo.py   is H10's ten of ten evidence, or the selection rule?
+analysis/figures.py       the five paper figures
 scripts/selftest.py       proves the analysis recovers a planted effect
 scripts/pilot.py          a few live pairs, printed side by side
 scripts/estimate.py       prices the full study using real token counts
 paper/main.tex            the paper
+paper/render_items.py     generates the example pair and the appendix
+paper/Makefile            builds the paper, and `make check` gates it
 ```
 
 ## Running it
@@ -64,6 +69,10 @@ python run/submit.py          # the real run, batch pricing
 python run/collect.py
 python analysis/analyze.py
 python analysis/figures.py
+python analysis/exploratory.py     # not pre-registered, labelled as such
+python analysis/robustness.py      # does the mechanism survive?
+python analysis/h10_placebo.py     # does the headline survive? a few minutes
+make -C paper check                # builds the PDF, fails on a loose end
 ```
 
 Do the first three steps before spending anything. `selftest.py` plants a
@@ -112,35 +121,77 @@ looks exactly like a model that is never biased.
 | Screening run, all nine families at low effort | done, $1.53 |
 | Cost re-estimated from measured tokens | done, $23.56 batch, not $56 |
 | Confirmatory batch submitted, 9,720 requests | done, 9 batches |
-| Collect, analyse, figures | running |
+| Collect, analyse, figures | done, 9,720 of 9,720 usable, nothing excluded |
+| Pre-registered analysis | done, `analysis/analyze.py` |
+| Exploratory analysis, labelled as not registered | done |
+| Robustness: compression against regression to the mean | done |
+| Robustness: H10 against its own selection rule | done |
+| Paper written, compiles clean | done, `make -C paper check` |
 | Four follow-up reads listed at the end of `LITERATURE.md` | not started |
-| Rotate the API key | **do this when the run is finished** |
+| Repository URL for the reproducibility section | **needs a remote** |
+| Replace the preamble with the venue style files | not started |
 
-### What the pilot and the screen found
+### What the confirmatory run found, and where the pilot was wrong
 
-The dependent variable had to be rebuilt before anything could be measured.
-With decision pressure in place, one family of nine shows a substantial
-effect, and it has the opposite sign to the human literature: the model is
-markedly more willing to sell at a loss, not less. On that family the effect
-shrinks as reasoning effort rises, steeply in the weakest model and not at
-all in the strongest, which is the paper's headline.
+All 9,720 requests returned usable responses. Nothing was excluded.
 
-| disposition, continuous measure | low | medium | high |
-|---|---|---|---|
-| `claude-opus-5-5` | -1.2 | +1.5 | +0.6 |
-| `claude-sonnet-5-5` | +15.8 | +17.9 | +9.2 |
-| `claude-haiku-5-5` | +39.2 | +19.8 | +7.1 |
+**The disposition effect is reversed and that is the registered sign
+failing.** Pooled, $+0.239$ [$+0.148$, $+0.331$] on the four point scale and
+$+13.4$ [$+8.8$, $+18.1$] percentage points. The models are more willing to
+sell at a loss than at a gain, where H1 predicted the human direction.
+`analysis/directions.py` was deliberately not edited.
 
-These are pilot numbers on 24 items at 2 trials. They are held in
-`data/pilot/` and are never pooled with the confirmatory run.
+**H10 holds in all ten qualifying cases.** Five families qualify on each
+measure and in all ten the absolute effect at `high` is smaller than at
+`low`. How much that is worth is the subject of `analysis/h10_placebo.py`,
+because the hypothesis selects families on a noisy baseline and then asks
+whether a second measurement is smaller, which shrinks on its own.
+
+**Effort compresses rather than removes.** The spread of the nine family
+effects falls with effort in all six model by measure combinations while the
+mean does not. `analysis/robustness.py` tests that against regression to the
+mean: it is large and survives every correction in Haiku, survives on the
+continuous measure in Sonnet, and in Opus the nine families are not
+separable from one another once item to item variation is charged against the
+estimate, so there it is a conjecture.
+
+**Two pilot readings were wrong, and the write-up says so.**
+
+- *"Deliberation substitutes for capability"* is refuted. On the full data
+  Opus has the **steepest** pooled effort slope and the only one whose
+  interval excludes zero. The pilot's Opus row read as flat because 24 items
+  at 2 trials could not resolve it.
+- *"Longer answers carry less bias"* is refuted within a fixed effort cell,
+  where the correlation is **positive**: $+0.190$ categorical and $+0.154$
+  continuous over 972 pairs. The budget an experimenter sets and the
+  deliberation a model displays are not the same variable, which is the
+  paper's sharpest result against mediator designs.
+
+Pilot numbers are in `data/pilot/` and are never pooled with the
+confirmatory run.
 
 ## Building the paper
 
-No LaTeX is installed on this machine, and installing MacTeX is a 5 GB
-download that needs an administrator password. Put `paper/` into Overleaf
-instead, which is free and is what the target venues expect anyway. Replace
-the preamble with the venue's own style files before submitting; the comment
-at the top of `main.tex` says which ones.
+```bash
+brew install tectonic
+make -C paper check
+```
+
+`tectonic` is a single binary that fetches the packages it needs on first
+run, so it does not want an administrator password and it is not the 5 GB
+MacTeX download. `make check` builds the PDF and then **fails** if there is
+an unresolved citation, a dangling cross reference or a line past the
+margin; a clean build prints one line saying so. Run it before sending the
+paper anywhere.
+
+`paper/example_pair.tex` and `paper/items_appendix.tex` are generated from
+`data/items.jsonl` by `paper/render_items.py`, and `make` regenerates them.
+Editing either by hand is pointless because the next build overwrites it.
+
+Replace the preamble with the venue's own style files before submitting; the
+comment at the top of `main.tex` says which ones. The body is about 8,200
+words in the article class, which is well over a workshop limit, so expect
+to cut once the two-column style is in place.
 
 ## Reproducing a published result
 
@@ -148,4 +199,10 @@ Everything needed is in this repository: the generator seed, the exact model
 IDs with no date suffixes, the effort levels, the trial count, the prompts,
 the raw responses and the analysis. Model behaviour changes over time, so
 record the run date alongside the model ID. Appendix A of the paper is
-`data/items.jsonl`.
+generated from `data/items.jsonl`: it prints one matched pair in full from
+each family and the manipulated cue in all 108, so a reader can check that
+no pair differs in anything but its cue.
+
+The repository has no git remote, so the paper's reproducibility section
+prints a visible placeholder rather than a URL that does not resolve. It is
+a single macro, `\repourl`, set once at the top of `main.tex`.

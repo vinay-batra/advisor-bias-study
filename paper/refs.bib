@@ -5,7 +5,9 @@
 %
 % Two errors were caught in verification and are noted at the entries:
 % horton2023homosilicus has three authors, not one, and the Hagendorff title
-% is longer than commonly quoted.
+% is longer than commonly quoted. One entry, barnett2005regression, is sourced
+% from PubMed instead, because the Crossref record for its DOI carries only the
+% first of its three authors.
 % ============================================================================
 
 % ---------------------------------------------------------------- prospect
@@ -332,4 +334,23 @@
                   design is weak for reasoning models. Previously duplicated
                   in this file as lee2025aiview, which asserted a sixth ICAIF
                   and a venue DOI that the record does not support.},
+}
+
+% ---------------------------------------------------------- regression artefact
+% Cited for the selection-on-a-noisy-baseline artefact behind H10's conditional
+% rule, not for anything epidemiological. Verified against PubMed 15333621
+% 2026-10-26, which gives all three authors, print issue 2005 Feb, 34(1):215-20,
+% electronic publication 2004-08-27. The Crossref record for the same DOI lists
+% only the first author and dates the work 2004-08-27, so the author list and
+% the year here follow PubMed and the publisher's own issue rather than
+% Crossref. This is the one entry in the file where Crossref is not the source.
+@article{barnett2005regression,
+  author  = {Barnett, Adrian G. and van der Pols, Jolieke C. and Dobson, Annette J.},
+  title   = {Regression to the Mean: What It Is and How to Deal with It},
+  journal = {International Journal of Epidemiology},
+  volume  = {34},
+  number  = {1},
+  pages   = {215--220},
+  year    = {2005},
+  doi     = {10.1093/ije/dyh299},
 }

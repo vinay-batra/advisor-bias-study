@@ -642,18 +642,39 @@ pressure.
 \subsection{Reasoning effort}
 H10 is registered conditionally: for any family where a non-zero effect is
 found at \texttt{low}, the absolute effect at \texttt{high} will be smaller.
-Five families qualify on the categorical measure and five on the continuous
-measure, and in all ten the absolute effect at \texttt{high} is smaller than
-at \texttt{low}. On the categorical measure these are Haiku and Sonnet on
-disposition, falling from $+0.750$ to $+0.167$ and from $+0.383$ to $+0.117$,
-and Opus on framing, anchoring and brand salience, falling from $+0.300$ to
-$+0.017$, from $+0.233$ to $+0.050$, and from $-0.233$ to $-0.067$. On the
+H10 is a confirmatory hypothesis and the pre-registration keeps the two
+exploratory families out of every pooled confirmatory statement, so the
+registered reading uses the seven confirmatory families. Four qualify on the
+categorical measure and five on the continuous measure, and in all nine the
+absolute effect at \texttt{high} is smaller than at \texttt{low}. On the
+categorical measure they are Haiku and Sonnet on disposition, falling from
+$+0.750$ to $+0.167$ and from $+0.383$ to $+0.117$, and Opus on framing and
+anchoring, from $+0.300$ to $+0.017$ and from $+0.233$ to $+0.050$. On the
 continuous measure they are Haiku on disposition and home bias, from
 $+44.167$ to $+8.500$ and from $+11.617$ to $+4.000$, Sonnet on disposition,
 from $+18.500$ to $+4.167$, and Opus on framing and anchoring, from $+15.167$
-to $+1.750$ and from $+7.833$ to $+5.583$. Ten of ten in the predicted
-direction has probability $2^{-10}$, or 0.001, under a null that assigns each
-case an independent coin flip.
+to $+1.750$ and from $+7.833$ to $+5.583$.
+
+Adding the two exploratory families adds two qualifying cases on the
+categorical measure and the count becomes ten of eleven. Opus on brand
+salience shrinks, from $-0.233$ to $-0.067$. Haiku on price path does not: it
+is $-0.083$ at \texttt{low} and $-0.100$ at \texttt{high}, so the absolute
+effect grows by 0.017 on a three-point scale. That is the only qualifying
+case anywhere in the study that moves against H10, and it is reported here
+rather than left out because its family is exploratory. Its magnitude is
+inside the resolution of the instrument, which is one scale point divided by
+the trial count, and nothing in the paper turns on it; but a count of ten of
+ten that reaches ten by dropping the one case that fails is not a count worth
+reporting.
+
+The probability of this pattern under the null is \textit{not} $2^{-9}$.
+H10 selects families on having a non-zero effect at \texttt{low} and then
+asks whether a second measurement of the same quantity is smaller, and
+selection on a noisy baseline shrinks on re-measurement even when nothing has
+changed, because the cells that clear the filter are disproportionately those
+whose noise pointed away from zero. Section~\ref{sec:h10null} measures the
+real null by running the registered rule on data whose effort labels have
+been shuffled.
 
 H10-null, the competing hypothesis, is not supported on its own terms. The
 effort parameter raised generation by a factor of 2.33 to 2.91 and the
@@ -693,6 +714,54 @@ falls only from 0.72 to 0.25.
   \caption{Absolute effect against reasoning effort.}
   \label{fig:effort}
 \end{figure}
+
+\subsection{What the null for H10 actually is}
+\label{sec:h10null}
+H10 is a conditional hypothesis, and the condition does work that a naive
+count ignores. The rule selects a family on having a non-zero effect at
+\texttt{low} and then asks whether a second, independent measurement of the
+same quantity is smaller. A family qualifies partly because its true effect
+is large and partly because its noise at \texttt{low} happened to point away
+from zero, and the second measurement does not inherit that luck. So the
+qualifying cases shrink on re-measurement at a rate above one half even when
+effort does nothing at all, which is the standard regression artefact of
+selecting on a noisy baseline \citep{barnett2005regression}. Reporting
+$2^{-n}$ against a count of $n$ successes treats the rate as one half and
+overstates the evidence.
+
+The rate can be measured rather than assumed. In
+\texttt{analysis/h10\us placebo.py} the effort label is shuffled among the
+responses to the same item within a model, over 400 shuffles, and the
+registered H10 rule including its bootstrap filter is run on each shuffled
+replicate. The rule, the sample sizes and the item set are untouched; only
+the labels move, so no real effect of effort can survive and whatever the
+rule still finds is the artefact alone. Using the seven confirmatory
+families, a qualifying case shrinks with probability 0.654, not 0.500, and
+the running estimate is stable from the first hundred shuffles. Across all
+nine families the rate is 0.706. The rate is further from one half in the
+inclusive set because the two exploratory families have the smallest true
+effects, so a larger share of what qualifies them is noise.
+
+The matched null event is the one H10 asserts: every qualifying case shrinks.
+Its measured probability is 0.0125 on the confirmatory families and 0.0200
+across all nine, against $2^{-9} = 0.0020$ and $2^{-14} = 0.0001$ from the
+coin flip, which is wrong by a factor of 26 and of 328 respectively. The
+observed result is therefore unlikely under the null, but by about one and a
+half orders of magnitude less than a count alone suggests, and the paper
+claims the measured figure.
+
+Two features of the measurement are worth stating because they cut in
+opposite directions. The shuffled replicates qualify more cases than the real
+data does, 11.48 on average with a range of 6 to 20 against the observed 9,
+so the joint event is being evaluated over a longer run of cases than the one
+actually reported; that makes 0.0125 smaller than the figure a nine-case
+comparison would give. Raising the measured per-case rate to the ninth power
+gives 0.022, which is the matched figure if qualifying cases were
+independent. They are not, since cases within a model share the same
+responses, so the truth is above the directly measured 0.0125 and the paper
+uses that bound rather than the smaller number. Either way the conclusion is
+the same: the pattern is unlikely under the null by roughly one part in fifty
+to one part in eighty, and not one part in five hundred.
 
 \subsection{Is the compression regression to the mean?}
 \label{sec:rtm}

@@ -310,3 +310,61 @@ when the scenario carries no decision pressure, and that this floors any
 matched-pair bias measurement, is original rather than a replication. It
 belongs in the paper as a methodological result, not as a footnote. The search
 is recorded here so the claim of novelty is auditable.
+
+## What the confirmatory run added to the novelty claim
+
+Closed 2026-10-26, after all 9,720 responses were in.
+
+The hold ceiling result above was measured on a 108-response pilot. The
+confirmatory run makes a stronger version of the same point, on three
+models, three effort levels and nine families:
+
+- `BUY_MORE` was returned **zero times** in 9,720 responses. Not rarely:
+  never, by any model, at any effort level. The registered four-point action
+  scale is three-point in practice.
+- Each model collapses onto one category, and not the same one.
+  `SELL_PARTIAL` on 80.8% of Opus responses, `HOLD` on 63.2% of Sonnet's,
+  and a near-even split between those two in Haiku. The pilot reading that
+  the models are uniformly hold-prone was wrong: Opus is the least
+  hold-prone of the three at 17.7%.
+- The categorical scale therefore has almost no room in the strongest model,
+  which is why the continuous co-primary measure added in Amendment 3 finds
+  22 non-zero cells against the categorical measure's 10.
+
+The search above found no prior work reporting the distribution of buy, hold
+and sell recommendations at all. A model that never once recommends adding to
+a position, across nearly ten thousand advisory responses spanning three
+capability tiers, is a stronger and more specific claim than the hold ceiling,
+and the same search covers it. It belongs in the paper as a measurement
+result about the instrument, which is where it now sits.
+
+### Two readings from the pilot that the full data refuted
+
+Recorded here because both were written into earlier drafts and a reader of
+this file should not be able to find the refuted version without the
+correction attached.
+
+- *"Deliberation substitutes for model capability in debiasing, and Opus has
+  no bias left for effort to remove."* Refuted. On the full data Opus has the
+  **steepest** pooled effort slope and the only one whose interval excludes
+  zero, on both measures. The pilot's flat Opus row was 24 items at 2 trials.
+- *"Longer answers carry less bias."* Refuted within a fixed effort cell,
+  where the correlation is **positive**, $+0.190$ categorical and $+0.154$
+  continuous over 972 pairs, with cell means removed from both variables. The
+  between-cell relationship with the effort budget is negative. That sign
+  reversal is the paper's sharpest argument against inferring deliberation
+  from a model's own output, which is what `bini2026behavioral` does, and it
+  was not visible in the pilot.
+
+### A reference that is still needed
+
+Nothing in the literature read so far states the null probability for a
+hypothesis of H10's shape: select cells on a statistically non-zero effect at
+one level, then ask whether a second measurement at another level is smaller.
+That is a regression-to-the-mean problem with a long history in medicine and
+in education research, and the paper currently handles it empirically, with a
+label-shuffling placebo in `analysis/h10_placebo.py`. A citation to the
+standard treatment would be better than inventing the argument from scratch.
+Look for Barnett, van der Pols and Dobson on regression to the mean, and for
+the shrinkage literature on selecting on a noisy baseline. Not yet read, and
+the placebo stands on its own in the meantime.
