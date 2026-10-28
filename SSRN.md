@@ -86,11 +86,67 @@ filled repository URL, which is what SSRN wants.
 **Not `paper/main_acl.pdf`.** That one is anonymised for review, so it has no
 author on it and its repository URL is still a placeholder.
 
-## What only you can do
+## AI disclosure. Required, and you have to paste it in
 
-1. Create the SSRN account, if there is not one already.
-2. Upload, paste the fields above, submit. SSRN moderates before the paper
-   goes public, usually within a few business days.
-3. Decide whether to post at all. The only argument against is that it fixes
-   a public version of a paper that a third wave would change, and the credit
-   to fund that wave is spent.
+SSRN's submission guidelines list an AI disclosure statement as a required
+item when AI was used, and say it "must be included with the abstract and
+display on the PDF." The PDF half is already done: the Ethics Statement and
+the Acknowledgments both carry it. The abstract half is not, because SSRN
+means the abstract field on their form, not the abstract in the paper. Paste
+this at the end of the abstract box, after the last line of the abstract
+itself:
+
+> During the preparation of this work the author used Claude (Anthropic) to
+> write the analysis code, draft the prose, and label the sample of model
+> reason text reported in the appendix. The author reviewed, edited and
+> verified all of it and takes full responsibility for the content. The
+> measurements themselves were produced by the Anthropic batch API under the
+> seeds and model identifiers recorded in the paper, and no part of the
+> measurement passed through the assistant. The paper's Ethics Statement and
+> Acknowledgments set this out in full.
+
+SSRN's own example wording is "During the preparation of this work, the
+author(s) used [NAME OF TOOL] in order to [REASON]", so the first sentence
+is deliberately in their format. Their policy asks the disclosure to name
+the tool, say how it was used, and say how much it contributed, which is
+what the three sentences do.
+
+Do not shorten this to "AI was used for editing." That is the disclosure for
+a paper that had a model fix its grammar, and it would be false here.
+
+## Fields the form will ask for that are not in this file
+
+- **Affiliation.** Required for every author, and you do not have an
+  institutional one. Independent Researcher is a normal, accepted answer and
+  is what to use unless you want the high school on it. Organizations cannot
+  be listed as authors.
+- **Date written.** October 2026.
+- **Paper series.** Leave it blank. Series are for papers submitted through a
+  sponsoring institution, which this is not.
+- **References.** The form has a step for them. They are already in the PDF's
+  bibliography, so there is nothing to retype.
+
+## How to post, in order
+
+1. **Make the account** at ssrn.com, free, and finish the author profile.
+   SSRN requires a completed profile before it will take a submission.
+2. **Submit a paper** from the top navigation once you are logged in.
+3. **Accept the copyright notice.** It is a popup saying SSRN does not take
+   copyright in your paper. It does not.
+4. **Upload `paper/main.pdf` first.** SSRN pulls the title and abstract out of
+   the PDF, which saves retyping, but it pulls the paper's abstract, not the
+   one in this file. Replace what it extracts with the long version above,
+   then add the AI disclosure after it.
+5. **Fill the rest.** Title, authors, affiliation, abstract, keywords, JEL
+   codes, all from this file. Required fields you have missed get flagged in
+   red, and Save leaves a draft on your My Papers page if you want to stop.
+6. **Submit.** SSRN moderates before it goes public, usually a few business
+   days, and emails you when it posts. There is no private option any more,
+   so submitting means publishing once it clears.
+
+## What is still only yours to decide
+
+Whether to post at all. The only argument against is that posting fixes a
+public version of a paper that a third wave would change, and the credit to
+fund that wave is spent. The argument for is that it timestamps the work
+before the January ARR deadline and costs nothing.
