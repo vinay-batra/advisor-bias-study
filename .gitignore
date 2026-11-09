@@ -13,3 +13,6 @@ paper/*.xdv
 # paper/main.pdf is committed on purpose from here on. The paper makes a
 # reproducibility claim, and the repo should be readable by someone who has
 # no TeX install. Rebuild it with `make -C paper`.
+
+# macOS
+.DS_Store
