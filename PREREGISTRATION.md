@@ -520,3 +520,57 @@ The partial Opus responses stay in `data/responses_wave2.jsonl`. They are
 data, and deleting them would make the exclusion unverifiable. The rule is
 enforced in `analysis/replication.py`, which reports which cells it dropped
 and why.
+
+## Amendment 7, 2026-11-08 UTC: the superseded Opus rows move out of the analysed file
+
+Written before any Opus cell was resubmitted and before any recollected
+response existed, so that the handling is fixed in advance rather than chosen
+once the numbers are visible.
+
+The three Opus wave 2 cells failed on an exhausted credit balance and were
+excluded whole under Amendment 6. The balance has since been funded, so the
+cells can be collected on the terms Amendment 6 already set. That amendment's
+rule is a completeness rule and it is not touched here:
+
+> A wave 2 cell enters any reading only if it is complete: every one of the
+> twelve matched pairs present with both conditions. A cell short of that is
+> excluded whole, not analysed on what survived.
+
+A recollected cell enters a reading if it is complete and stays out if it is
+not, judged the same way as every other cell and by the same code in
+`analysis/replication.py`. Nothing about the rule, the measures, the families
+or the bootstrap changes.
+
+What changes is where the failed rows live. `run/collect.py` skips any
+`custom_id` it has already written, which is what makes a batch safe to
+re-poll. All 3,240 Opus wave 2 `custom_id`s are already in
+`data/responses_wave2.jsonl`, 1,909 as `ok` and 1,331 as `errored`, so a
+resubmission collected against that file would record none of its results.
+The failed rows therefore move to
+`data/responses_wave2_opus_superseded.jsonl`, by
+`scripts/resubmit_opus_wave2.py`, which also archives the three dead batch
+ids under a `_superseded` key in `data/batches_wave2.json` and takes a
+timestamped backup of the responses file before touching it.
+
+They move rather than go. Amendment 6 said deleting them would make the
+exclusion unverifiable and that still holds: every row is kept verbatim, no
+analysis reads the superseded file, and a reader can diff it against what
+replaces it to see that the 1,909 successes were discarded rather than
+quietly pooled with the new collection. Partial inclusion is the thing
+Amendment 6 exists to prevent, and it would be no more acceptable now that
+more data is available than it was when less was.
+
+The consequences, to be reported rather than smoothed over:
+
+- Wave 2's Opus responses come from a collection run twelve days after the
+  Haiku and Sonnet responses, against the same model id. Any drift in the
+  served model over those twelve days is confounded with the wave for Opus
+  and not for the other two, and the paper has to say so wherever the three
+  models are compared across waves. Wave 1 is unaffected.
+- If the recollected cells are complete, the replication covers all three
+  models and the shrinkage slope is fitted over more shared cells than the
+  54 it now uses. The slope reported in the paper today was fitted before
+  these cells existed and the new figure replaces it rather than being chosen
+  against it.
+- If they fail again, Amendment 6 stands untouched and so does every number
+  in the paper.
